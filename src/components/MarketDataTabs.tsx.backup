@@ -1,0 +1,2026 @@
+import { useState } from 'react';import { useState } from 'react';import { useState } from 'react';import { useState } from 'react';import { useState } from 'react';import React, { useState } from 'react';import React, { useState } from 'react';
+
+import { TrendingUp, TrendingDown, BarChart3, Activity, Zap, Coins, DollarSign, Star, Shield, Globe, Award } from 'lucide-react';
+
+import { TrendingUp, TrendingDown, BarChart3, Activity, Zap, Coins, DollarSign, Star, Shield, Globe, Award } from 'lucide-react';
+
+interface StockData {
+
+  symbol: string;import { TrendingUp, TrendingDown, BarChart3 } from 'lucide-react';
+
+  name: string;
+
+  price: string;interface StockData {
+
+  change: string;
+
+  positive: boolean;  symbol: string;import { TrendingUp, TrendingDown, BarChart3, Activity, Zap, Coins, DollarSign } from 'lucide-react';
+
+  volume: string;
+
+}  name: string;
+
+
+
+interface CryptoData {  price: string;interface StockData {
+
+  symbol: string;
+
+  name: string;  change: string;
+
+  price: string;
+
+  change: string;  positive: boolean;  symbol: string;import { TrendingUp, TrendingDown, Star, Shield, Globe, Award, DollarSign, Coins, BarChart3, Activity, Zap } from 'lucide-react';
+
+  positive: boolean;
+
+  marketCap: string;  volume: string;
+
+}
+
+}  name: string;
+
+const MarketDataTabs = () => {
+
+  const [activeAssetTab, setActiveAssetTab] = useState('stocks');
+
+
+
+  const stocksData: StockData[] = [interface CryptoData {  price: string;interface StockData {
+
+    { symbol: 'AAPL', name: 'Apple Inc.', price: '$182.31', change: '+1.24%', positive: true, volume: '45.2M' },
+
+    { symbol: 'GOOGL', name: 'Alphabet Inc.', price: '$2,847.42', change: '-0.85%', positive: false, volume: '28.1M' },  symbol: string;
+
+    { symbol: 'MSFT', name: 'Microsoft Corp.', price: '$378.85', change: '+2.10%', positive: true, volume: '32.8M' },
+
+  ];  name: string;  change: string;
+
+
+
+  const cryptoData: CryptoData[] = [  price: string;
+
+    { symbol: 'BTC', name: 'Bitcoin', price: '$43,250.00', change: '+2.45%', positive: true, marketCap: '$847B' },
+
+    { symbol: 'ETH', name: 'Ethereum', price: '$2,485.50', change: '+1.85%', positive: true, marketCap: '$298B' },  change: string;  positive: boolean;  symbol: string;import { TrendingUp, TrendingDown, Star, Shield, Globe, Award, DollarSign, Coins, BarChart3, Activity, Zap } from 'lucide-react';import { TrendingUp, TrendingDown, Star, Shield, Globe, Award, DollarSign, Coins, BarChart3, Activity, Zap } from 'lucide-react';
+
+    { symbol: 'BNB', name: 'Binance Coin', price: '$315.20', change: '-0.75%', positive: false, marketCap: '$48B' },
+
+  ];  positive: boolean;
+
+
+
+  const getAssetData = () => {  marketCap: string;  volume: string;
+
+    switch (activeAssetTab) {
+
+      case 'stocks': return stocksData;}
+
+      case 'crypto': return cryptoData;
+
+      default: return stocksData;}  name: string;
+
+    }
+
+  };interface BloombergData {
+
+
+
+  const getAssetIcon = (tab: string) => {  symbol: string;
+
+    switch (tab) {
+
+      case 'stocks': return <BarChart3 className="w-4 h-4" />;  name: string;
+
+      case 'crypto': return <Coins className="w-4 h-4" />;
+
+      case 'spreads': return <Activity className="w-4 h-4" />;  price: string;const MarketDataTabs = () => {  price: string;interface BaseAssetData {
+
+      case 'float': return <Zap className="w-4 h-4" />;
+
+      case 'futures': return <DollarSign className="w-4 h-4" />;  change: string;
+
+      default: return <BarChart3 className="w-4 h-4" />;
+
+    }  positive: boolean;  const [activeTab] = useState('stocks');
+
+  };
+
+  source: string;
+
+  return (
+
+    <div className="bg-gray-900 p-8 border-t-4 border-purple-500">}  change: string;
+
+      <div className="mb-8">
+
+        <h2 className="text-pink-400 text-2xl font-bold mb-6 flex items-center">
+
+          <Zap className="w-6 h-6 mr-2" />
+
+          QUANTUM MARKET ASSETSinterface BrokerData {  const stocksData: StockData[] = [
+
+        </h2>
+
+        <div className="flex space-x-2 mb-8 bg-black/50 rounded-xl p-2 border-2 border-blue-400">  name: string;
+
+          {['stocks', 'crypto'].map((tab, index) => (
+
+            <button  rating: string;    { symbol: 'AAPL', name: 'Apple Inc.', price: '$182.31', change: '+1.24%', positive: true, volume: '45.2M' },  positive: boolean;  symbol: string;
+
+              key={tab}
+
+              onClick={() => setActiveAssetTab(tab)}  features: string;
+
+              className={`flex-1 px-6 py-3 rounded-lg text-sm font-bold transition-all duration-300 flex items-center justify-center space-x-2 border-2 ${
+
+                activeAssetTab === tab  bonus?: string;    { symbol: 'GOOGL', name: 'Alphabet Inc.', price: '$2,847.42', change: '-0.85%', positive: false, volume: '28.1M' },
+
+                  ? 'bg-gradient-to-r from-pink-500 to-purple-500 text-black border-pink-400'
+
+                  : `text-${index % 2 === 0 ? 'pink-400' : 'blue-400'} hover:text-white border-${index % 2 === 0 ? 'pink-400' : 'blue-400'} hover:bg-gray-800`  regulation?: string;
+
+              }`}
+
+            >}    { symbol: 'MSFT', name: 'Microsoft Corp.', price: '$378.85', change: '+2.10%', positive: true, volume: '32.8M' },  volume: string;
+
+              {getAssetIcon(tab)}
+
+              <span className="uppercase">{tab}</span>
+
+            </button>
+
+          ))}const MarketDataTabs = () => {  ];
+
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">  const [activeMainTab, setActiveMainTab] = useState('bloomberg');
+
+          {getAssetData().map((item, index) => (
+
+            <div key={index} className="bg-black/70 rounded-xl p-6 hover:bg-gray-800/50 transition-all duration-300 border-2 border-pink-400 shadow-lg cursor-pointer">  const [activeAssetTab, setActiveAssetTab] = useState('stocks');  color: string;  name: string;
+
+              <div className="flex items-center justify-between mb-3">
+
+                <div>
+
+                  <div className="text-pink-400 font-bold text-lg">{item.symbol}</div>
+
+                  <div className="text-gray-300 text-sm">{item.name}</div>  const stocksData: StockData[] = [  return (
+
+                </div>
+
+                <div className="text-right">    { symbol: 'AAPL', name: 'Apple Inc.', price: '$182.31', change: '+1.24%', positive: true, volume: '45.2M' },
+
+                  <div className="text-pink-400 font-bold text-lg">
+
+                    {activeAssetTab === 'stocks' ? (item as StockData).price : (item as CryptoData).price}    { symbol: 'GOOGL', name: 'Alphabet Inc.', price: '$2,847.42', change: '-0.85%', positive: false, volume: '28.1M' },    <div className="bg-gray-900 p-8">}
+
+                  </div>
+
+                  <div className={`text-sm flex items-center justify-end font-bold ${item.positive ? 'text-green-400' : 'text-red-400'}`}>    { symbol: 'MSFT', name: 'Microsoft Corp.', price: '$378.85', change: '+2.10%', positive: true, volume: '32.8M' },
+
+                    {item.positive ? <TrendingUp className="w-3 h-3 mr-1" /> : <TrendingDown className="w-3 h-3 mr-1" />}
+
+                    {item.change}  ];      <div className="mb-8">
+
+                  </div>
+
+                  <div className="text-gray-400 text-xs">
+
+                    {activeAssetTab === 'stocks' ? `Vol: ${(item as StockData).volume}` : (item as CryptoData).marketCap}
+
+                  </div>  const cryptoData: CryptoData[] = [        <h2 className="text-white text-2xl font-bold mb-6 flex items-center">  color: string;interface BaseAssetData {interface BaseAssetData {
+
+                </div>
+
+              </div>    { symbol: 'BTC', name: 'Bitcoin', price: '$43,250.00', change: '+2.45%', positive: true, marketCap: '$847B' },
+
+            </div>
+
+          ))}    { symbol: 'ETH', name: 'Ethereum', price: '$2,485.50', change: '+1.85%', positive: true, marketCap: '$298B' },          <BarChart3 className="w-6 h-6 mr-2" />
+
+        </div>
+
+      </div>    { symbol: 'BNB', name: 'Binance Coin', price: '$315.20', change: '-0.75%', positive: false, marketCap: '$48B' },
+
+
+
+      {/* Bloomberg & Reuters Data Section */}  ];          Market Dataconst MarketDataTabs = () => {
+
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+
+        <div>
+
+          <h3 className="text-pink-400 font-bold text-xl mb-6 flex items-center">
+
+            <Globe className="w-6 h-6 mr-2" />  const bloombergData: BloombergData[] = [        </h2>
+
+            BLOOMBERG TERMINAL DATA
+
+          </h3>    { symbol: 'EURUSD', name: 'Euro/USD', price: '1.0842', change: '+0.0012', positive: true, source: 'Bloomberg' },
+
+          <div className="space-y-4">
+
+            {[    { symbol: 'GBPUSD', name: 'Pound/USD', price: '1.2654', change: '-0.0023', positive: false, source: 'Bloomberg' },        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">  const [activeAssetTab, setActiveAssetTab] = useState('stocks');}
+
+              { symbol: 'EURUSD', price: '1.0842', change: '+0.0012', positive: true },
+
+              { symbol: 'GBPUSD', price: '1.2654', change: '-0.0023', positive: false },    { symbol: 'USDJPY', name: 'USD/Yen', price: '149.85', change: '+0.45', positive: true, source: 'Bloomberg' },
+
+              { symbol: 'USDJPY', price: '149.85', change: '+0.45', positive: true },
+
+            ].map((item, index) => (  ];          {stocksData.map((item, index) => (
+
+              <div key={index} className="bg-black/70 rounded-xl p-6 hover:bg-gray-800/50 transition-all border-2 border-pink-400">
+
+                <div className="flex items-center justify-between">
+
+                  <div>
+
+                    <div className="text-pink-400 font-bold text-lg">{item.symbol}</div>  const reutersData: BloombergData[] = [            <div key={index} className="bg-gray-800 rounded-xl p-6 border border-gray-700">
+
+                    <div className="text-gray-400 text-sm">Bloomberg</div>
+
+                  </div>    { symbol: 'BTCUSD', name: 'Bitcoin/USD', price: '43,250', change: '+850', positive: true, source: 'Reuters' },
+
+                  <div className="text-right">
+
+                    <div className="text-pink-400 font-bold text-lg">{item.price}</div>    { symbol: 'ETHUSD', name: 'Ethereum/USD', price: '2,485', change: '+45', positive: true, source: 'Reuters' },              <div className="flex items-center justify-between mb-3">
+
+                    <div className={`text-sm flex items-center justify-end font-bold ${item.positive ? 'text-green-400' : 'text-red-400'}`}>
+
+                      {item.positive ? <TrendingUp className="w-3 h-3 mr-1" /> : <TrendingDown className="w-3 h-3 mr-1" />}    { symbol: 'SPX', name: 'S&P 500', price: '4,785', change: '-15', positive: false, source: 'Reuters' },
+
+                      {item.change}
+
+                    </div>  ];                <div>  const stocksData: StockData[] = [  symbol: string;  symbol: string;
+
+                  </div>
+
+                </div>
+
+              </div>
+
+            ))}  const topBrokers: BrokerData[] = [                  <div className="text-white font-bold text-lg">{item.symbol}</div>
+
+          </div>
+
+        </div>    { name: 'Charles Schwab', rating: '4.8/5', features: 'Zero commissions, Advanced tools', bonus: 'Up to $3,000 bonus' },
+
+
+
+        <div>    { name: 'Fidelity', rating: '4.7/5', features: 'Research excellence, Mobile app', bonus: 'Up to $2,500 bonus' },                  <div className="text-gray-300 text-sm">{item.name}</div>    { symbol: 'AAPL', name: 'Apple Inc.', price: '$182.31', change: '+1.24%', positive: true, volume: '45.2M', color: 'fluorescent-pink' },
+
+          <h3 className="text-blue-400 font-bold text-xl mb-6 flex items-center">
+
+            <Globe className="w-6 h-6 mr-2" />    { name: 'Interactive Brokers', rating: '4.6/5', features: 'Global markets, Low costs', bonus: 'Up to $1,000 bonus' },
+
+            REUTERS FINANCIAL DATA
+
+          </h3>  ];                </div>
+
+          <div className="space-y-4">
+
+            {[
+
+              { symbol: 'BTCUSD', price: '43,250', change: '+850', positive: true },
+
+              { symbol: 'ETHUSD', price: '2,485', change: '+45', positive: true },  const offshoreBrokers: BrokerData[] = [                <div className="text-right">    { symbol: 'GOOGL', name: 'Alphabet Inc.', price: '$2,847.42', change: '-0.85%', positive: false, volume: '28.1M', color: 'fluorescent-blue' },interface StockData extends BaseAssetData {
+
+              { symbol: 'SPX', price: '4,785', change: '-15', positive: false },
+
+            ].map((item, index) => (    { name: 'IC Markets', rating: '4.9/5', features: 'ECN trading, Low spreads', regulation: 'ASIC, CySEC' },
+
+              <div key={index} className="bg-black/70 rounded-xl p-6 hover:bg-gray-800/50 transition-all border-2 border-blue-400">
+
+                <div className="flex items-center justify-between">    { name: 'Pepperstone', rating: '4.8/5', features: 'MT4/MT5, Fast execution', regulation: 'ASIC, FCA' },                  <div className="text-white font-bold text-lg">{item.price}</div>
+
+                  <div>
+
+                    <div className="text-blue-400 font-bold text-lg">{item.symbol}</div>    { name: 'XM Group', rating: '4.7/5', features: 'No deposit fees, 24/7 support', regulation: 'CySEC, IFSC' },
+
+                    <div className="text-gray-400 text-sm">Reuters</div>
+
+                  </div>  ];                  <div className={`text-sm flex items-center justify-end font-bold ${item.positive ? 'text-green-400' : 'text-red-400'}`}>    { symbol: 'MSFT', name: 'Microsoft Corp.', price: '$378.85', change: '+2.10%', positive: true, volume: '32.8M', color: 'electric-orange' },
+
+                  <div className="text-right">
+
+                    <div className="text-blue-400 font-bold text-lg">{item.price}</div>
+
+                    <div className={`text-sm flex items-center justify-end font-bold ${item.positive ? 'text-green-400' : 'text-red-400'}`}>
+
+                      {item.positive ? <TrendingUp className="w-3 h-3 mr-1" /> : <TrendingDown className="w-3 h-3 mr-1" />}  const getAssetData = () => {                    {item.positive ? <TrendingUp className="w-3 h-3 mr-1" /> : <TrendingDown className="w-3 h-3 mr-1" />}
+
+                      {item.change}
+
+                    </div>    switch (activeAssetTab) {
+
+                  </div>
+
+                </div>      case 'stocks': return stocksData;                    {item.change}  ];  price: string;  name: string;  name: string;
+
+              </div>
+
+            ))}      case 'crypto': return cryptoData;
+
+          </div>
+
+        </div>      default: return stocksData;                  </div>
+
+      </div>
+
+    }
+
+      {/* Brokers Section */}
+
+      <div className="mb-8">  };                  <div className="text-gray-400 text-xs">Vol: {item.volume}</div>
+
+        <h3 className="text-pink-400 font-bold text-xl mb-6 flex items-center">
+
+          <Star className="w-6 h-6 mr-2" />
+
+          TOP RATED US BROKERS
+
+        </h3>  const getAssetIcon = (tab: string) => {                </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+
+          {[    switch (tab) {
+
+            { name: 'Charles Schwab', rating: '4.8/5', features: 'Zero commissions, Advanced tools', bonus: 'Up to $3,000 bonus' },
+
+            { name: 'Fidelity', rating: '4.7/5', features: 'Research excellence, Mobile app', bonus: 'Up to $2,500 bonus' },      case 'stocks': return <BarChart3 className="w-4 h-4" />;              </div>  const getAssetIcon = (tab: string) => {  change: string;
+
+            { name: 'Interactive Brokers', rating: '4.6/5', features: 'Global markets, Low costs', bonus: 'Up to $1,000 bonus' },
+
+          ].map((item, index) => (      case 'spreads': return <Activity className="w-4 h-4" />;
+
+            <div key={index} className="bg-black/70 rounded-xl p-6 hover:bg-gray-800/50 transition-all border-2 border-pink-400 cursor-pointer">
+
+              <div className="flex items-center justify-between mb-4">      case 'float': return <Zap className="w-4 h-4" />;            </div>
+
+                <div>
+
+                  <div className="text-pink-400 font-bold text-lg flex items-center">      case 'crypto': return <Coins className="w-4 h-4" />;
+
+                    <Star className="w-4 h-4 mr-2 text-yellow-400" />
+
+                    {item.name}      case 'futures': return <DollarSign className="w-4 h-4" />;          ))}    switch (tab) {
+
+                  </div>
+
+                  <div className="text-yellow-400 text-sm font-bold">{item.rating}</div>      default: return <BarChart3 className="w-4 h-4" />;
+
+                </div>
+
+                <div className="text-right">    }        </div>
+
+                  <div className="text-gray-300 text-sm">{item.features}</div>
+
+                  <div className="text-green-400 text-xs font-bold">{item.bonus}</div>  };
+
+                </div>
+
+              </div>      </div>      case 'stocks': return <BarChart3 className="w-4 h-4" />;  positive: boolean;  color: string;  color: string;
+
+            </div>
+
+          ))}  return (
+
+        </div>
+
+      </div>    <div className="bg-charcoal-gradient p-8 border-t-4 border-electric-purple shadow-neon-blue">    </div>
+
+
+
+      {/* Offshore Brokers Section */}      {/* Asset Category Tabs */}
+
+      <div className="mb-8">
+
+        <h3 className="text-orange-400 font-bold text-xl mb-6 flex items-center">      <div className="mb-8">  );      case 'spreads': return <Activity className="w-4 h-4" />;
+
+          <Shield className="w-6 h-6 mr-2" />
+
+          TRUSTED OFFSHORE BROKERS        <h2 className="text-fluorescent-pink text-2xl font-bold mb-6 flex items-center drop-shadow-lg">
+
+        </h3>
+
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">          <Zap className="w-6 h-6 mr-2 animate-bounce" />};
+
+          {[
+
+            { name: 'IC Markets', rating: '4.9/5', features: 'ECN trading, Low spreads', regulation: 'ASIC, CySEC' },          QUANTUM MARKET ASSETS
+
+            { name: 'Pepperstone', rating: '4.8/5', features: 'MT4/MT5, Fast execution', regulation: 'ASIC, FCA' },
+
+            { name: 'XM Group', rating: '4.7/5', features: 'No deposit fees, 24/7 support', regulation: 'CySEC, IFSC' },        </h2>      case 'float': return <Zap className="w-4 h-4" />;  volume: string;
+
+          ].map((item, index) => (
+
+            <div key={index} className="bg-black/70 rounded-xl p-6 hover:bg-gray-800/50 transition-all border-2 border-orange-400 cursor-pointer">        <div className="flex space-x-2 mb-8 bg-deep-black/50 rounded-xl p-2 border-2 border-fluorescent-blue shadow-neon-blue">
+
+              <div className="flex items-center justify-between mb-4">
+
+                <div>          {['stocks', 'crypto'].map((tab, index) => (export default MarketDataTabs;
+
+                  <div className="text-orange-400 font-bold text-lg flex items-center">
+
+                    <Star className="w-4 h-4 mr-2 text-yellow-400" />            <button      case 'crypto': return <Coins className="w-4 h-4" />;
+
+                    {item.name}
+
+                  </div>              key={tab}
+
+                  <div className="text-yellow-400 text-sm font-bold">{item.rating}</div>
+
+                </div>              onClick={() => setActiveAssetTab(tab)}      case 'futures': return <DollarSign className="w-4 h-4" />;}}}
+
+                <div className="text-right">
+
+                  <div className="text-gray-300 text-sm">{item.features}</div>              className={`flex-1 px-6 py-3 rounded-lg text-sm font-bold transition-all duration-300 flex items-center justify-center space-x-2 border-2 ${
+
+                  <div className="text-cyan-400 text-xs">{item.regulation}</div>
+
+                </div>                activeAssetTab === tab      default: return <BarChart3 className="w-4 h-4" />;
+
+              </div>
+
+            </div>                  ? 'bg-fluorescent-gradient text-deep-black border-fluorescent-pink shadow-neon-pink animate-pulse-glow'
+
+          ))}
+
+        </div>                  : `text-${index % 2 === 0 ? 'fluorescent-pink' : 'fluorescent-blue'} hover:text-white border-${index % 2 === 0 ? 'fluorescent-pink' : 'fluorescent-blue'} hover:bg-charcoal/50 hover:shadow-neon-cyan`    }
+
+      </div>
+
+              }`}
+
+      {/* Investor Portal */}
+
+      <div>            >  };
+
+        <h3 className="text-purple-400 font-bold text-xl mb-6 flex items-center">
+
+          <Award className="w-6 h-6 mr-2" />              {getAssetIcon(tab)}
+
+          INVESTOR PORTAL - COMING SOON
+
+        </h3>              <span className="uppercase">{tab}</span>interface SpreadData extends BaseAssetData {
+
+        <div className="bg-black/70 rounded-xl p-8 border-2 border-purple-400">
+
+          <div className="text-center">            </button>
+
+            <div className="text-purple-400 text-2xl font-bold mb-4">🚀 QUANTUM INVESTOR PORTAL</div>
+
+            <div className="text-gray-300 text-lg mb-6">Advanced portfolio management and institutional-grade analytics</div>          ))}  const renderStockCard = (item: StockData, index: number) => (
+
+            <div className="text-pink-400 font-bold">LAUNCHING Q2 2024</div>
+
+          </div>        </div>
+
+        </div>
+
+      </div>        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">    <div key={index} className="bg-deep-black/70 rounded-xl p-6 hover:bg-charcoal/50 transition-all duration-300 border-2 border-fluorescent-pink shadow-neon-blue cursor-pointer">  spread: string;
+
+    </div>
+
+  );          {getAssetData().map((item, index) => (
+
+};
+
+            <div key={index} className="bg-deep-black/70 rounded-xl p-6 hover:bg-charcoal/50 transition-all duration-300 border-2 border-fluorescent-pink shadow-neon-blue hover:shadow-neon-pink hover:animate-pulse-glow cursor-pointer">      <div className="flex items-center justify-between mb-3">
+
+export default MarketDataTabs;
+              <div className="flex items-center justify-between mb-3">
+
+                <div>        <div>  change: string;interface StockData extends BaseAssetData {interface StockData extends BaseAssetData {
+
+                  <div className="text-fluorescent-pink font-bold text-lg drop-shadow-lg">{item.symbol}</div>
+
+                  <div className="text-gray-300 text-sm">{item.name}</div>          <div className="text-fluorescent-pink font-bold text-lg">{item.symbol}</div>
+
+                </div>
+
+                <div className="text-right">          <div className="text-gray-300 text-sm">{item.name}</div>  positive: boolean;
+
+                  <div className="text-fluorescent-pink font-bold text-lg drop-shadow-lg">
+
+                    {activeAssetTab === 'stocks' ? (item as StockData).price : (item as CryptoData).price}        </div>
+
+                  </div>
+
+                  <div className={`text-sm flex items-center justify-end font-bold ${item.positive ? 'text-neon-green' : 'text-fluorescent-pink'}`}>        <div className="text-right">  type: string;  price: string;  price: string;
+
+                    {item.positive ? <TrendingUp className="w-3 h-3 mr-1 animate-bounce" /> : <TrendingDown className="w-3 h-3 mr-1 animate-bounce" />}
+
+                    {item.change}          <div className="text-fluorescent-pink font-bold text-lg">{item.price}</div>
+
+                  </div>
+
+                  <div className="text-gray-400 text-xs">          <div className={`text-sm flex items-center justify-end font-bold ${item.positive ? 'text-neon-green' : 'text-fluorescent-pink'}`}>}
+
+                    {activeAssetTab === 'stocks' ? `Vol: ${(item as StockData).volume}` : (item as CryptoData).marketCap}
+
+                  </div>            {item.positive ? <TrendingUp className="w-3 h-3 mr-1" /> : <TrendingDown className="w-3 h-3 mr-1" />}
+
+                </div>
+
+              </div>            {item.change}  change: string;  change: string;
+
+            </div>
+
+          ))}          </div>
+
+        </div>
+
+      </div>          <div className="text-gray-400 text-xs">Vol: {item.volume}</div>interface FloatData extends BaseAssetData {
+
+
+
+      {/* Main Tab Navigation */}        </div>
+
+      <div className="flex space-x-2 mb-8 bg-deep-black/50 rounded-xl p-2 border-2 border-electric-orange shadow-neon-orange">
+
+        <button      </div>  float: string;  positive: boolean;  positive: boolean;
+
+          onClick={() => setActiveMainTab('bloomberg')}
+
+          className={`flex-1 px-6 py-4 rounded-lg text-sm font-bold transition-all duration-300 border-2 ${    </div>
+
+            activeMainTab === 'bloomberg'
+
+              ? 'bg-cyber-gradient text-deep-black border-pulsing-cyan shadow-neon-cyan animate-pulse-glow'  );  locked: string;
+
+              : 'text-pulsing-cyan hover:text-white border-pulsing-cyan hover:bg-charcoal/50 hover:shadow-neon-blue'
+
+          }`}
+
+        >
+
+          LIVE MARKET DATA - BLOOMBERG & REUTERS  return (  available: string;  volume: string;  volume: string;
+
+        </button>
+
+        <button    <div className="bg-charcoal-gradient p-8 border-t-4 border-electric-purple shadow-neon-blue">
+
+          onClick={() => setActiveMainTab('topbrokers')}
+
+          className={`flex-1 px-6 py-4 rounded-lg text-sm font-bold transition-all duration-300 border-2 ${      <div className="mb-8">  sentiment: string;
+
+            activeMainTab === 'topbrokers'
+
+              ? 'bg-fluorescent-gradient text-deep-black border-fluorescent-pink shadow-neon-pink animate-pulse-glow'        <h2 className="text-fluorescent-pink text-2xl font-bold mb-6 flex items-center">
+
+              : 'text-fluorescent-pink hover:text-white border-fluorescent-pink hover:bg-charcoal/50 hover:shadow-neon-pink'
+
+          }`}          <Zap className="w-6 h-6 mr-2" />}}}
+
+        >
+
+          TOP US BROKERS          QUANTUM MARKET ASSETS
+
+        </button>
+
+        <button        </h2>
+
+          onClick={() => setActiveMainTab('offshore')}
+
+          className={`flex-1 px-6 py-4 rounded-lg text-sm font-bold transition-all duration-300 border-2 ${        <div className="flex space-x-2 mb-8 bg-deep-black/50 rounded-xl p-2 border-2 border-fluorescent-blue">
+
+            activeMainTab === 'offshore'
+
+              ? 'bg-electric-orange text-deep-black border-electric-orange shadow-neon-orange animate-pulse-glow'          {['stocks', 'spreads', 'float', 'crypto', 'futures'].map((tab, index) => (interface CryptoData extends BaseAssetData {
+
+              : 'text-electric-orange hover:text-white border-electric-orange hover:bg-charcoal/50 hover:shadow-neon-orange'
+
+          }`}            <button
+
+        >
+
+          TRUSTED OFFSHORE BROKERS              key={tab}  price: string;
+
+        </button>
+
+        <button              onClick={() => setActiveAssetTab(tab)}
+
+          onClick={() => setActiveMainTab('investors')}
+
+          className={`flex-1 px-6 py-4 rounded-lg text-sm font-bold transition-all duration-300 border-2 ${              className={`flex-1 px-6 py-3 rounded-lg text-sm font-bold transition-all duration-300 flex items-center justify-center space-x-2 border-2 ${  change: string;interface SpreadData extends BaseAssetData {interface SpreadData extends BaseAssetData {
+
+            activeMainTab === 'investors'
+
+              ? 'bg-electric-purple text-deep-black border-electric-purple shadow-neon-purple animate-pulse-glow'                activeAssetTab === tab
+
+              : 'text-electric-purple hover:text-white border-electric-purple hover:bg-charcoal/50 hover:shadow-neon-purple'
+
+          }`}                  ? 'bg-fluorescent-gradient text-deep-black border-fluorescent-pink shadow-neon-pink'  positive: boolean;
+
+        >
+
+          INVESTOR PORTAL                  : 'text-fluorescent-pink hover:text-white border-fluorescent-pink hover:bg-charcoal/50'
+
+        </button>
+
+      </div>              }`}  marketCap: string;  spread: string;  spread: string;
+
+
+
+      {/* Main Tab Content */}            >
+
+      {activeMainTab === 'bloomberg' && (
+
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">              {getAssetIcon(tab)}}
+
+          <div>
+
+            <h3 className="text-fluorescent-pink font-bold text-xl mb-6 flex items-center drop-shadow-lg">              <span className="uppercase">{tab}</span>
+
+              <Globe className="w-6 h-6 mr-2 animate-pulse" />
+
+              BLOOMBERG TERMINAL DATA            </button>  change: string;  change: string;
+
+            </h3>
+
+            <div className="space-y-4">          ))}
+
+              {bloombergData.map((item, index) => (
+
+                <div key={index} className="bg-deep-black/70 rounded-xl p-6 hover:bg-charcoal/50 transition-all duration-300 border-2 border-fluorescent-pink shadow-neon-blue hover:shadow-neon-pink cursor-pointer">        </div>interface FuturesData extends BaseAssetData {
+
+                  <div className="flex items-center justify-between">
+
+                    <div>        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+                      <div className="text-fluorescent-pink font-bold text-lg drop-shadow-lg">{item.symbol}</div>
+
+                      <div className="text-gray-400 text-sm">{item.source}</div>          {stocksData.map((item, index) => renderStockCard(item, index))}  price: string;  positive: boolean;  positive: boolean;
+
+                    </div>
+
+                    <div className="text-right">        </div>
+
+                      <div className="text-fluorescent-pink font-bold text-lg drop-shadow-lg">{item.price}</div>
+
+                      <div className={`text-sm flex items-center justify-end font-bold ${item.positive ? 'text-neon-green' : 'text-fluorescent-pink'}`}>      </div>  change: string;
+
+                        {item.positive ? <TrendingUp className="w-3 h-3 mr-1 animate-bounce" /> : <TrendingDown className="w-3 h-3 mr-1 animate-bounce" />}
+
+                        {item.change}    </div>
+
+                      </div>
+
+                    </div>  );  positive: boolean;  type: string;  type: string;
+
+                  </div>
+
+                </div>};
+
+              ))}
+
+            </div>  expiry: string;
+
+          </div>
+
+          <div>export default MarketDataTabs;
+
+            <h3 className="text-fluorescent-blue font-bold text-xl mb-6 flex items-center drop-shadow-lg">}}}
+
+              <Globe className="w-6 h-6 mr-2 animate-pulse" />
+
+              REUTERS FINANCIAL DATA
+
+            </h3>
+
+            <div className="space-y-4">interface BloombergData extends BaseAssetData {
+
+              {reutersData.map((item, index) => (
+
+                <div key={index} className="bg-deep-black/70 rounded-xl p-6 hover:bg-charcoal/50 transition-all duration-300 border-2 border-fluorescent-blue shadow-neon-blue hover:shadow-neon-pink cursor-pointer">  price: string;
+
+                  <div className="flex items-center justify-between">
+
+                    <div>  change: string;interface FloatData extends BaseAssetData {interface FloatData extends BaseAssetData {
+
+                      <div className="text-fluorescent-blue font-bold text-lg drop-shadow-lg">{item.symbol}</div>
+
+                      <div className="text-gray-400 text-sm">{item.source}</div>  positive: boolean;
+
+                    </div>
+
+                    <div className="text-right">  source: string;  float: string;  float: string;
+
+                      <div className="text-fluorescent-blue font-bold text-lg drop-shadow-lg">{item.price}</div>
+
+                      <div className={`text-sm flex items-center justify-end font-bold ${item.positive ? 'text-neon-green' : 'text-fluorescent-pink'}`}>}
+
+                        {item.positive ? <TrendingUp className="w-3 h-3 mr-1 animate-bounce" /> : <TrendingDown className="w-3 h-3 mr-1 animate-bounce" />}
+
+                        {item.change}  locked: string;  locked: string;
+
+                      </div>
+
+                    </div>interface BrokerData {
+
+                  </div>
+
+                </div>  name: string;  available: string;  available: string;
+
+              ))}
+
+            </div>  rating: string;
+
+          </div>
+
+        </div>  features: string;  sentiment: string;  sentiment: string;
+
+      )}
+
+  bonus?: string;
+
+      {activeMainTab === 'topbrokers' && (
+
+        <div>  regulation?: string;}}
+
+          <h3 className="text-fluorescent-pink font-bold text-xl mb-6 flex items-center drop-shadow-lg">
+
+            <Star className="w-6 h-6 mr-2 animate-pulse" />  color: string;
+
+            TOP RATED US BROKERS
+
+          </h3>}
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+
+            {topBrokers.map((item, index) => (
+
+              <div key={index} className="bg-deep-black/70 rounded-xl p-6 hover:bg-charcoal/50 transition-all duration-300 border-2 border-fluorescent-pink shadow-neon-blue hover:shadow-neon-pink hover:animate-pulse-glow cursor-pointer">
+
+                <div className="flex items-center justify-between mb-4">const MarketDataTabs = () => {interface CryptoData extends BaseAssetData {interface CryptoData extends BaseAssetData {
+
+                  <div>
+
+                    <div className="text-fluorescent-pink font-bold text-lg drop-shadow-lg flex items-center">  const [activeMainTab, setActiveMainTab] = useState('bloomberg');
+
+                      <Star className="w-4 h-4 mr-2 text-electric-yellow" />
+
+                      {item.name}  const [activeAssetTab, setActiveAssetTab] = useState('stocks');  price: string;  price: string;
+
+                    </div>
+
+                    <div className="text-electric-yellow text-sm font-bold">{item.rating}</div>
+
+                  </div>
+
+                  <div className="text-right">  const stocksData: StockData[] = [  change: string;  change: string;
+
+                    <div className="text-gray-300 text-sm">{item.features}</div>
+
+                    {item.bonus && <div className="text-neon-green text-xs font-bold">{item.bonus}</div>}    { symbol: 'AAPL', name: 'Apple Inc.', price: '$182.31', change: '+1.24%', positive: true, volume: '45.2M', color: 'fluorescent-pink' },
+
+                  </div>
+
+                </div>    { symbol: 'GOOGL', name: 'Alphabet Inc.', price: '$2,847.42', change: '-0.85%', positive: false, volume: '28.1M', color: 'fluorescent-blue' },  positive: boolean;  positive: boolean;
+
+              </div>
+
+            ))}    { symbol: 'MSFT', name: 'Microsoft Corp.', price: '$378.85', change: '+2.10%', positive: true, volume: '32.8M', color: 'electric-orange' },
+
+          </div>
+
+        </div>    { symbol: 'TSLA', name: 'Tesla Inc.', price: '$248.50', change: '-3.42%', positive: false, volume: '89.5M', color: 'pulsing-cyan' },  marketCap: string;  marketCap: string;
+
+      )}
+
+    { symbol: 'AMZN', name: 'Amazon.com Inc.', price: '$3,127.78', change: '+0.67%', positive: true, volume: '25.3M', color: 'neon-green' },
+
+      {activeMainTab === 'offshore' && (
+
+        <div>  ];}}
+
+          <h3 className="text-electric-orange font-bold text-xl mb-6 flex items-center drop-shadow-lg">
+
+            <Shield className="w-6 h-6 mr-2 animate-pulse" />
+
+            TRUSTED OFFSHORE BROKERS
+
+          </h3>  const spreadsData: SpreadData[] = [
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+
+            {offshoreBrokers.map((item, index) => (    { symbol: 'SPY/QQQ', name: 'S&P 500 vs Nasdaq', spread: '2.45', change: '+0.12', positive: true, type: 'ETF Spread', color: 'fluorescent-pink' },
+
+              <div key={index} className="bg-deep-black/70 rounded-xl p-6 hover:bg-charcoal/50 transition-all duration-300 border-2 border-electric-orange shadow-neon-blue hover:shadow-neon-pink hover:animate-pulse-glow cursor-pointer">
+
+                <div className="flex items-center justify-between mb-4">    { symbol: 'GLD/SLV', name: 'Gold vs Silver', spread: '78.32', change: '-1.25', positive: false, type: 'Commodity Spread', color: 'fluorescent-blue' },interface FuturesData extends BaseAssetData {interface FuturesData extends BaseAssetData {
+
+                  <div>
+
+                    <div className="text-electric-orange font-bold text-lg drop-shadow-lg flex items-center">    { symbol: 'TLT/IEF', name: 'Long vs Mid Treasury', spread: '1.85', change: '+0.08', positive: true, type: 'Bond Spread', color: 'electric-orange' },
+
+                      <Star className="w-4 h-4 mr-2 text-electric-yellow" />
+
+                      {item.name}    { symbol: 'XLE/XLF', name: 'Energy vs Financial', spread: '0.92', change: '-0.03', positive: false, type: 'Sector Spread', color: 'pulsing-cyan' },  price: string;  price: string;
+
+                    </div>
+
+                    <div className="text-electric-yellow text-sm font-bold">{item.rating}</div>    { symbol: 'VIX/VXN', name: 'S&P vs Nasdaq Vol', spread: '2.15', change: '+0.45', positive: true, type: 'Volatility Spread', color: 'electric-purple' },
+
+                  </div>
+
+                  <div className="text-right">  ];  change: string;  change: string;
+
+                    <div className="text-gray-300 text-sm">{item.features}</div>
+
+                    {item.regulation && <div className="text-pulsing-cyan text-xs">{item.regulation}</div>}
+
+                  </div>
+
+                </div>  const floatData: FloatData[] = [  positive: boolean;  positive: boolean;
+
+              </div>
+
+            ))}    { symbol: 'GME', name: 'GameStop Corp.', float: '304.5M', locked: '68%', available: '97.4M', sentiment: 'Bullish', color: 'fluorescent-pink' },
+
+          </div>
+
+        </div>    { symbol: 'AMC', name: 'AMC Entertainment', float: '516.8M', locked: '45%', available: '284.2M', sentiment: 'Neutral', color: 'fluorescent-blue' },  expiry: string;  expiry: string;
+
+      )}
+
+    { symbol: 'BBBY', name: 'Bed Bath & Beyond', float: '79.9M', locked: '72%', available: '22.4M', sentiment: 'Bearish', color: 'electric-orange' },
+
+      {activeMainTab === 'investors' && (
+
+        <div>    { symbol: 'KOSS', name: 'Koss Corporation', float: '9.2M', locked: '85%', available: '1.4M', sentiment: 'Bullish', color: 'pulsing-cyan' },}}
+
+          <h3 className="text-electric-purple font-bold text-xl mb-6 flex items-center drop-shadow-lg">
+
+            <Award className="w-6 h-6 mr-2 animate-pulse" />    { symbol: 'NOK', name: 'Nokia Corporation', float: '5.6B', locked: '23%', available: '4.3B', sentiment: 'Neutral', color: 'neon-green' },
+
+            INVESTOR PORTAL - COMING SOON
+
+          </h3>  ];
+
+          <div className="bg-deep-black/70 rounded-xl p-8 border-2 border-electric-purple shadow-neon-purple">
+
+            <div className="text-center">
+
+              <div className="text-electric-purple text-2xl font-bold mb-4">🚀 QUANTUM INVESTOR PORTAL</div>
+
+              <div className="text-gray-300 text-lg mb-6">Advanced portfolio management and institutional-grade analytics</div>  const cryptoData: CryptoData[] = [interface BloombergData extends BaseAssetData {interface BloombergData extends BaseAssetData {
+
+              <div className="text-fluorescent-pink font-bold">LAUNCHING Q2 2024</div>
+
+            </div>    { symbol: 'BTC', name: 'Bitcoin', price: '$43,250.00', change: '+2.45%', positive: true, marketCap: '$847B', color: 'fluorescent-pink' },
+
+          </div>
+
+        </div>    { symbol: 'ETH', name: 'Ethereum', price: '$2,485.50', change: '+1.85%', positive: true, marketCap: '$298B', color: 'fluorescent-blue' },  price: string;  price: string;
+
+      )}
+
+    </div>    { symbol: 'BNB', name: 'Binance Coin', price: '$315.20', change: '-0.75%', positive: false, marketCap: '$48B', color: 'electric-orange' },
+
+  );
+
+};    { symbol: 'SOL', name: 'Solana', price: '$98.45', change: '+5.25%', positive: true, marketCap: '$42B', color: 'pulsing-cyan' },  change: string;  change: string;
+
+
+
+export default MarketDataTabs;    { symbol: 'ADA', name: 'Cardano', price: '$0.485', change: '-1.25%', positive: false, marketCap: '$17B', color: 'electric-purple' },
+
+  ];  positive: boolean;  positive: boolean;
+
+
+
+  const futuresData: FuturesData[] = [  source: string;  source: string;
+
+    { symbol: 'ES', name: 'E-mini S&P 500', price: '4,785.25', change: '+12.50', positive: true, expiry: 'Mar 2024', color: 'fluorescent-pink' },
+
+    { symbol: 'NQ', name: 'E-mini Nasdaq', price: '16,850.75', change: '-25.25', positive: false, expiry: 'Mar 2024', color: 'fluorescent-blue' },}}
+
+    { symbol: 'CL', name: 'Crude Oil WTI', price: '78.42', change: '+1.25', positive: true, expiry: 'Feb 2024', color: 'electric-orange' },
+
+    { symbol: 'GC', name: 'Gold Futures', price: '2,018.50', change: '+8.30', positive: true, expiry: 'Apr 2024', color: 'pulsing-cyan' },
+
+    { symbol: 'ZB', name: '30-Year Treasury', price: '115.25', change: '-0.15', positive: false, expiry: 'Mar 2024', color: 'neon-green' },
+
+  ];interface BrokerData {type AssetData = StockData | SpreadData | FloatData | CryptoData | FuturesData | BloombergData;
+
+
+
+  const bloombergData: BloombergData[] = [  name: string;
+
+    { symbol: 'EURUSD', name: 'Euro/USD', price: '1.0842', change: '+0.0012', positive: true, source: 'Bloomberg', color: 'fluorescent-pink' },
+
+    { symbol: 'GBPUSD', name: 'Pound/USD', price: '1.2654', change: '-0.0023', positive: false, source: 'Bloomberg', color: 'fluorescent-blue' },  rating: string;const MarketDataTabs = () => {
+
+    { symbol: 'USDJPY', name: 'USD/Yen', price: '149.85', change: '+0.45', positive: true, source: 'Bloomberg', color: 'electric-orange' },
+
+    { symbol: 'GOLD', name: 'Gold Spot', price: '2,018.50', change: '+12.30', positive: true, source: 'Bloomberg', color: 'pulsing-cyan' },  features: string;  const [activeMainTab, setActiveMainTab] = useState('bloomberg');
+
+    { symbol: 'CRUDE', name: 'Crude Oil', price: '78.42', change: '-1.25', positive: false, source: 'Bloomberg', color: 'electric-purple' },
+
+  ];  bonus?: string;  const [activeAssetTab, setActiveAssetTab] = useState('stocks');
+
+
+
+  const reutersData: BloombergData[] = [  regulation?: string;
+
+    { symbol: 'BTCUSD', name: 'Bitcoin/USD', price: '43,250', change: '+850', positive: true, source: 'Reuters', color: 'fluorescent-pink' },
+
+    { symbol: 'ETHUSD', name: 'Ethereum/USD', price: '2,485', change: '+45', positive: true, source: 'Reuters', color: 'fluorescent-blue' },  color: string;  // Asset category data with fluorescent colors
+
+    { symbol: 'SPX', name: 'S&P 500', price: '4,785', change: '-15', positive: false, source: 'Reuters', color: 'electric-orange' },
+
+    { symbol: 'NDX', name: 'Nasdaq 100', price: '16,850', change: '-85', positive: false, source: 'Reuters', color: 'pulsing-cyan' },}  const stocksData = [
+
+    { symbol: 'VIX', name: 'Volatility Index', price: '18.45', change: '+2.15', positive: true, source: 'Reuters', color: 'neon-green' },
+
+  ];    { symbol: 'AAPL', name: 'Apple Inc.', price: '$182.31', change: '+1.24%', positive: true, volume: '45.2M', color: 'fluorescent-pink' },
+
+
+
+  const topBrokers: BrokerData[] = [const MarketDataTabs: React.FC = () => {    { symbol: 'GOOGL', name: 'Alphabet Inc.', price: '$2,847.42', change: '-0.85%', positive: false, volume: '28.1M', color: 'fluorescent-blue' },
+
+    { name: 'Charles Schwab', rating: '4.8/5', features: 'Zero commissions, Advanced tools', bonus: 'Up to $3,000 bonus', color: 'fluorescent-pink' },
+
+    { name: 'Fidelity', rating: '4.7/5', features: 'Research excellence, Mobile app', bonus: 'Up to $2,500 bonus', color: 'fluorescent-blue' },  const [activeMainTab, setActiveMainTab] = useState<string>('bloomberg');    { symbol: 'MSFT', name: 'Microsoft Corp.', price: '$378.85', change: '+2.10%', positive: true, volume: '32.8M', color: 'electric-orange' },
+
+    { name: 'Interactive Brokers', rating: '4.6/5', features: 'Global markets, Low costs', bonus: 'Up to $1,000 bonus', color: 'electric-orange' },
+
+    { name: 'TD Ameritrade', rating: '4.5/5', features: 'Education, Platform variety', bonus: 'Up to $2,000 bonus', color: 'pulsing-cyan' },  const [activeAssetTab, setActiveAssetTab] = useState<string>('stocks');    { symbol: 'TSLA', name: 'Tesla Inc.', price: '$248.50', change: '-3.42%', positive: false, volume: '89.5M', color: 'pulsing-cyan' },
+
+    { name: 'E*TRADE', rating: '4.4/5', features: 'User-friendly, Options trading', bonus: 'Up to $1,500 bonus', color: 'neon-green' },
+
+  ];    { symbol: 'AMZN', name: 'Amazon.com Inc.', price: '$3,127.78', change: '+0.67%', positive: true, volume: '25.3M', color: 'neon-green' },
+
+
+
+  const offshoreBrokers: BrokerData[] = [  // Asset category data with fluorescent colors  ];
+
+    { name: 'IC Markets', rating: '4.9/5', features: 'ECN trading, Low spreads', regulation: 'ASIC, CySEC', color: 'fluorescent-pink' },
+
+    { name: 'Pepperstone', rating: '4.8/5', features: 'MT4/MT5, Fast execution', regulation: 'ASIC, FCA', color: 'fluorescent-blue' },  const stocksData: StockData[] = [
+
+    { name: 'XM Group', rating: '4.7/5', features: 'No deposit fees, 24/7 support', regulation: 'CySEC, IFSC', color: 'electric-orange' },
+
+    { name: 'FXTM', rating: '4.6/5', features: 'Copy trading, Education', regulation: 'CySEC, FCA', color: 'pulsing-cyan' },    { symbol: 'AAPL', name: 'Apple Inc.', price: '$182.31', change: '+1.24%', positive: true, volume: '45.2M', color: 'fluorescent-pink' },  const spreadsData = [
+
+    { name: 'AvaTrade', rating: '4.5/5', features: 'Social trading, Multi-asset', regulation: 'Central Bank of Ireland', color: 'electric-purple' },
+
+  ];    { symbol: 'GOOGL', name: 'Alphabet Inc.', price: '$2,847.42', change: '-0.85%', positive: false, volume: '28.1M', color: 'fluorescent-blue' },    { symbol: 'SPY/QQQ', name: 'S&P 500 vs Nasdaq', spread: '2.45', change: '+0.12', positive: true, type: 'ETF Spread', color: 'fluorescent-pink' },
+
+
+
+  const getAssetData = () => {    { symbol: 'MSFT', name: 'Microsoft Corp.', price: '$378.85', change: '+2.10%', positive: true, volume: '32.8M', color: 'electric-orange' },    { symbol: 'GLD/SLV', name: 'Gold vs Silver', spread: '78.32', change: '-1.25', positive: false, type: 'Commodity Spread', color: 'fluorescent-blue' },
+
+    switch (activeAssetTab) {
+
+      case 'stocks': return stocksData;    { symbol: 'TSLA', name: 'Tesla Inc.', price: '$248.50', change: '-3.42%', positive: false, volume: '89.5M', color: 'pulsing-cyan' },    { symbol: 'TLT/IEF', name: 'Long vs Mid Treasury', spread: '1.85', change: '+0.08', positive: true, type: 'Bond Spread', color: 'electric-orange' },
+
+      case 'spreads': return spreadsData;
+
+      case 'float': return floatData;    { symbol: 'AMZN', name: 'Amazon.com Inc.', price: '$3,127.78', change: '+0.67%', positive: true, volume: '25.3M', color: 'neon-green' },    { symbol: 'XLE/XLF', name: 'Energy vs Financial', spread: '0.92', change: '-0.03', positive: false, type: 'Sector Spread', color: 'pulsing-cyan' },
+
+      case 'crypto': return cryptoData;
+
+      case 'futures': return futuresData;  ];    { symbol: 'VIX/VXN', name: 'S&P vs Nasdaq Vol', spread: '2.15', change: '+0.45', positive: true, type: 'Volatility Spread', color: 'electric-purple' },
+
+      default: return stocksData;
+
+    }  ];
+
+  };
+
+  const spreadsData: SpreadData[] = [
+
+  const getAssetIcon = (tab: string) => {
+
+    switch (tab) {    { symbol: 'SPY/QQQ', name: 'S&P 500 vs Nasdaq', spread: '2.45', change: '+0.12', positive: true, type: 'ETF Spread', color: 'fluorescent-pink' },  const floatData = [
+
+      case 'stocks': return <BarChart3 className="w-4 h-4" />;
+
+      case 'spreads': return <Activity className="w-4 h-4" />;    { symbol: 'GLD/SLV', name: 'Gold vs Silver', spread: '78.32', change: '-1.25', positive: false, type: 'Commodity Spread', color: 'fluorescent-blue' },    { symbol: 'GME', name: 'GameStop Corp.', float: '304.5M', locked: '68%', available: '97.4M', sentiment: 'Bullish', color: 'fluorescent-pink' },
+
+      case 'float': return <Zap className="w-4 h-4" />;
+
+      case 'crypto': return <Coins className="w-4 h-4" />;    { symbol: 'TLT/IEF', name: 'Long vs Mid Treasury', spread: '1.85', change: '+0.08', positive: true, type: 'Bond Spread', color: 'electric-orange' },    { symbol: 'AMC', name: 'AMC Entertainment', float: '516.8M', locked: '45%', available: '284.2M', sentiment: 'Neutral', color: 'fluorescent-blue' },
+
+      case 'futures': return <DollarSign className="w-4 h-4" />;
+
+      default: return <BarChart3 className="w-4 h-4" />;    { symbol: 'XLE/XLF', name: 'Energy vs Financial', spread: '0.92', change: '-0.03', positive: false, type: 'Sector Spread', color: 'pulsing-cyan' },    { symbol: 'BBBY', name: 'Bed Bath & Beyond', float: '79.9M', locked: '72%', available: '22.4M', sentiment: 'Bearish', color: 'electric-orange' },
+
+    }
+
+  };    { symbol: 'VIX/VXN', name: 'S&P vs Nasdaq Vol', spread: '2.15', change: '+0.45', positive: true, type: 'Volatility Spread', color: 'electric-purple' },    { symbol: 'KOSS', name: 'Koss Corporation', float: '9.2M', locked: '85%', available: '1.4M', sentiment: 'Bullish', color: 'pulsing-cyan' },
+
+
+
+  const renderStockCard = (item: StockData, index: number) => (  ];    { symbol: 'NOK', name: 'Nokia Corporation', float: '5.6B', locked: '23%', available: '4.3B', sentiment: 'Neutral', color: 'neon-green' },
+
+    <div key={index} className={`bg-deep-black/70 rounded-xl p-6 hover:bg-charcoal/50 transition-all duration-300 border-2 border-${item.color} shadow-neon-blue hover:shadow-neon-pink hover:animate-pulse-glow cursor-pointer`}>
+
+      <div className="flex items-center justify-between mb-3">  ];
+
+        <div>
+
+          <div className={`text-${item.color} font-bold text-lg drop-shadow-lg`}>{item.symbol}</div>  const floatData: FloatData[] = [
+
+          <div className="text-gray-300 text-sm">{item.name}</div>
+
+        </div>    { symbol: 'GME', name: 'GameStop Corp.', float: '304.5M', locked: '68%', available: '97.4M', sentiment: 'Bullish', color: 'fluorescent-pink' },  const cryptoData = [
+
+        <div className="text-right">
+
+          <div className={`text-${item.color} font-bold text-lg drop-shadow-lg`}>{item.price}</div>    { symbol: 'AMC', name: 'AMC Entertainment', float: '516.8M', locked: '45%', available: '284.2M', sentiment: 'Neutral', color: 'fluorescent-blue' },    { symbol: 'BTC', name: 'Bitcoin', price: '$43,250.00', change: '+2.45%', positive: true, marketCap: '$847B', color: 'fluorescent-pink' },
+
+          <div className={`text-sm flex items-center justify-end font-bold ${item.positive ? 'text-neon-green' : 'text-fluorescent-pink'}`}>
+
+            {item.positive ? <TrendingUp className="w-3 h-3 mr-1 animate-bounce" /> : <TrendingDown className="w-3 h-3 mr-1 animate-bounce" />}    { symbol: 'BBBY', name: 'Bed Bath & Beyond', float: '79.9M', locked: '72%', available: '22.4M', sentiment: 'Bearish', color: 'electric-orange' },    { symbol: 'ETH', name: 'Ethereum', price: '$2,485.50', change: '+1.85%', positive: true, marketCap: '$298B', color: 'fluorescent-blue' },
+
+            {item.change}
+
+          </div>    { symbol: 'KOSS', name: 'Koss Corporation', float: '9.2M', locked: '85%', available: '1.4M', sentiment: 'Bullish', color: 'pulsing-cyan' },    { symbol: 'BNB', name: 'Binance Coin', price: '$315.20', change: '-0.75%', positive: false, marketCap: '$48B', color: 'electric-orange' },
+
+          <div className="text-gray-400 text-xs">Vol: {item.volume}</div>
+
+        </div>    { symbol: 'NOK', name: 'Nokia Corporation', float: '5.6B', locked: '23%', available: '4.3B', sentiment: 'Neutral', color: 'neon-green' },    { symbol: 'SOL', name: 'Solana', price: '$98.45', change: '+5.25%', positive: true, marketCap: '$42B', color: 'pulsing-cyan' },
+
+      </div>
+
+    </div>  ];    { symbol: 'ADA', name: 'Cardano', price: '$0.485', change: '-1.25%', positive: false, marketCap: '$17B', color: 'electric-purple' },
+
+  );
+
+  ];
+
+  const renderSpreadCard = (item: SpreadData, index: number) => (
+
+    <div key={index} className={`bg-deep-black/70 rounded-xl p-6 hover:bg-charcoal/50 transition-all duration-300 border-2 border-${item.color} shadow-neon-blue hover:shadow-neon-pink hover:animate-pulse-glow cursor-pointer`}>  const cryptoData: CryptoData[] = [
+
+      <div className="flex items-center justify-between mb-3">
+
+        <div>    { symbol: 'BTC', name: 'Bitcoin', price: '$43,250.00', change: '+2.45%', positive: true, marketCap: '$847B', color: 'fluorescent-pink' },  const futuresData = [
+
+          <div className={`text-${item.color} font-bold text-lg drop-shadow-lg`}>{item.symbol}</div>
+
+          <div className="text-gray-300 text-sm">{item.name}</div>    { symbol: 'ETH', name: 'Ethereum', price: '$2,485.50', change: '+1.85%', positive: true, marketCap: '$298B', color: 'fluorescent-blue' },    { symbol: 'ES', name: 'E-mini S&P 500', price: '4,785.25', change: '+12.50', positive: true, expiry: 'Mar 2024', color: 'fluorescent-pink' },
+
+        </div>
+
+        <div className="text-right">    { symbol: 'BNB', name: 'Binance Coin', price: '$315.20', change: '-0.75%', positive: false, marketCap: '$48B', color: 'electric-orange' },    { symbol: 'NQ', name: 'E-mini Nasdaq', price: '16,850.75', change: '-25.25', positive: false, expiry: 'Mar 2024', color: 'fluorescent-blue' },
+
+          <div className={`text-${item.color} font-bold text-lg drop-shadow-lg`}>{item.spread}</div>
+
+          <div className={`text-sm flex items-center justify-end font-bold ${item.positive ? 'text-neon-green' : 'text-fluorescent-pink'}`}>    { symbol: 'SOL', name: 'Solana', price: '$98.45', change: '+5.25%', positive: true, marketCap: '$42B', color: 'pulsing-cyan' },    { symbol: 'CL', name: 'Crude Oil WTI', price: '78.42', change: '+1.25', positive: true, expiry: 'Feb 2024', color: 'electric-orange' },
+
+            {item.positive ? <TrendingUp className="w-3 h-3 mr-1 animate-bounce" /> : <TrendingDown className="w-3 h-3 mr-1 animate-bounce" />}
+
+            {item.change}    { symbol: 'ADA', name: 'Cardano', price: '$0.485', change: '-1.25%', positive: false, marketCap: '$17B', color: 'electric-purple' },    { symbol: 'GC', name: 'Gold Futures', price: '2,018.50', change: '+8.30', positive: true, expiry: 'Apr 2024', color: 'pulsing-cyan' },
+
+          </div>
+
+          <div className="text-gray-400 text-xs">{item.type}</div>  ];    { symbol: 'ZB', name: '30-Year Treasury', price: '115.25', change: '-0.15', positive: false, expiry: 'Mar 2024', color: 'neon-green' },
+
+        </div>
+
+      </div>  ];
+
+    </div>
+
+  );  const futuresData: FuturesData[] = [
+
+
+
+  const renderFloatCard = (item: FloatData, index: number) => (    { symbol: 'ES', name: 'E-mini S&P 500', price: '4,785.25', change: '+12.50', positive: true, expiry: 'Mar 2024', color: 'fluorescent-pink' },  const bloombergData = [
+
+    <div key={index} className={`bg-deep-black/70 rounded-xl p-6 hover:bg-charcoal/50 transition-all duration-300 border-2 border-${item.color} shadow-neon-blue hover:shadow-neon-pink hover:animate-pulse-glow cursor-pointer`}>
+
+      <div className="flex items-center justify-between mb-3">    { symbol: 'NQ', name: 'E-mini Nasdaq', price: '16,850.75', change: '-25.25', positive: false, expiry: 'Mar 2024', color: 'fluorescent-blue' },    { symbol: 'EURUSD', price: '1.0842', change: '+0.0012', positive: true, source: 'Bloomberg', color: 'fluorescent-pink' },
+
+        <div>
+
+          <div className={`text-${item.color} font-bold text-lg drop-shadow-lg`}>{item.symbol}</div>    { symbol: 'CL', name: 'Crude Oil WTI', price: '78.42', change: '+1.25', positive: true, expiry: 'Feb 2024', color: 'electric-orange' },    { symbol: 'GBPUSD', price: '1.2654', change: '-0.0023', positive: false, source: 'Bloomberg', color: 'fluorescent-blue' },
+
+          <div className="text-gray-300 text-sm">{item.name}</div>
+
+        </div>    { symbol: 'GC', name: 'Gold Futures', price: '2,018.50', change: '+8.30', positive: true, expiry: 'Apr 2024', color: 'pulsing-cyan' },    { symbol: 'USDJPY', price: '149.85', change: '+0.45', positive: true, source: 'Bloomberg', color: 'electric-orange' },
+
+        <div className="text-right">
+
+          <div className={`text-${item.color} font-bold text-lg drop-shadow-lg`}>{item.float}</div>    { symbol: 'ZB', name: '30-Year Treasury', price: '115.25', change: '-0.15', positive: false, expiry: 'Mar 2024', color: 'neon-green' },    { symbol: 'GOLD', price: '2,018.50', change: '+12.30', positive: true, source: 'Bloomberg', color: 'pulsing-cyan' },
+
+          <div className="text-gray-400 text-xs">Locked: {item.locked}</div>
+
+          <div className="text-gray-400 text-xs">Available: {item.available}</div>  ];    { symbol: 'CRUDE', price: '78.42', change: '-1.25', positive: false, source: 'Bloomberg', color: 'electric-purple' },
+
+          <div className={`text-xs font-bold ${item.sentiment === 'Bullish' ? 'text-neon-green' : item.sentiment === 'Bearish' ? 'text-fluorescent-pink' : 'text-electric-yellow'}`}>
+
+            {item.sentiment}  ];
+
+          </div>
+
+        </div>  const bloombergData: BloombergData[] = [
+
+      </div>
+
+    </div>    { symbol: 'EURUSD', name: 'Euro/USD', price: '1.0842', change: '+0.0012', positive: true, source: 'Bloomberg', color: 'fluorescent-pink' },  const reutersData = [
+
+  );
+
+    { symbol: 'GBPUSD', name: 'Pound/USD', price: '1.2654', change: '-0.0023', positive: false, source: 'Bloomberg', color: 'fluorescent-blue' },    { symbol: 'BTCUSD', price: '43,250', change: '+850', positive: true, source: 'Reuters', color: 'fluorescent-pink' },
+
+  const renderCryptoCard = (item: CryptoData, index: number) => (
+
+    <div key={index} className={`bg-deep-black/70 rounded-xl p-6 hover:bg-charcoal/50 transition-all duration-300 border-2 border-${item.color} shadow-neon-blue hover:shadow-neon-pink hover:animate-pulse-glow cursor-pointer`}>    { symbol: 'USDJPY', name: 'USD/Yen', price: '149.85', change: '+0.45', positive: true, source: 'Bloomberg', color: 'electric-orange' },    { symbol: 'ETHUSD', price: '2,485', change: '+45', positive: true, source: 'Reuters', color: 'fluorescent-blue' },
+
+      <div className="flex items-center justify-between mb-3">
+
+        <div>    { symbol: 'GOLD', name: 'Gold Spot', price: '2,018.50', change: '+12.30', positive: true, source: 'Bloomberg', color: 'pulsing-cyan' },    { symbol: 'SPX', price: '4,785', change: '-15', positive: false, source: 'Reuters', color: 'electric-orange' },
+
+          <div className={`text-${item.color} font-bold text-lg drop-shadow-lg`}>{item.symbol}</div>
+
+          <div className="text-gray-300 text-sm">{item.name}</div>    { symbol: 'CRUDE', name: 'Crude Oil', price: '78.42', change: '-1.25', positive: false, source: 'Bloomberg', color: 'electric-purple' },    { symbol: 'NDX', price: '16,850', change: '-85', positive: false, source: 'Reuters', color: 'pulsing-cyan' },
+
+        </div>
+
+        <div className="text-right">  ];    { symbol: 'VIX', price: '18.45', change: '+2.15', positive: true, source: 'Reuters', color: 'neon-green' },
+
+          <div className={`text-${item.color} font-bold text-lg drop-shadow-lg`}>{item.price}</div>
+
+          <div className={`text-sm flex items-center justify-end font-bold ${item.positive ? 'text-neon-green' : 'text-fluorescent-pink'}`}>  ];
+
+            {item.positive ? <TrendingUp className="w-3 h-3 mr-1 animate-bounce" /> : <TrendingDown className="w-3 h-3 mr-1 animate-bounce" />}
+
+            {item.change}  const reutersData: BloombergData[] = [
+
+          </div>
+
+          <div className="text-gray-400 text-xs">{item.marketCap}</div>    { symbol: 'BTCUSD', name: 'Bitcoin/USD', price: '43,250', change: '+850', positive: true, source: 'Reuters', color: 'fluorescent-pink' },  const topBrokers = [
+
+        </div>
+
+      </div>    { symbol: 'ETHUSD', name: 'Ethereum/USD', price: '2,485', change: '+45', positive: true, source: 'Reuters', color: 'fluorescent-blue' },    { name: 'Charles Schwab', rating: '4.8/5', features: 'Zero commissions, Advanced tools', bonus: 'Up to $3,000 bonus', color: 'fluorescent-pink' },
+
+    </div>
+
+  );    { symbol: 'SPX', name: 'S&P 500', price: '4,785', change: '-15', positive: false, source: 'Reuters', color: 'electric-orange' },    { name: 'Fidelity', rating: '4.7/5', features: 'Research excellence, Mobile app', bonus: 'Up to $2,500 bonus', color: 'fluorescent-blue' },
+
+
+
+  const renderFuturesCard = (item: FuturesData, index: number) => (    { symbol: 'NDX', name: 'Nasdaq 100', price: '16,850', change: '-85', positive: false, source: 'Reuters', color: 'pulsing-cyan' },    { name: 'Interactive Brokers', rating: '4.6/5', features: 'Global markets, Low costs', bonus: 'Up to $1,000 bonus', color: 'electric-orange' },
+
+    <div key={index} className={`bg-deep-black/70 rounded-xl p-6 hover:bg-charcoal/50 transition-all duration-300 border-2 border-${item.color} shadow-neon-blue hover:shadow-neon-pink hover:animate-pulse-glow cursor-pointer`}>
+
+      <div className="flex items-center justify-between mb-3">    { symbol: 'VIX', name: 'Volatility Index', price: '18.45', change: '+2.15', positive: true, source: 'Reuters', color: 'neon-green' },    { name: 'TD Ameritrade', rating: '4.5/5', features: 'Education, Platform variety', bonus: 'Up to $2,000 bonus', color: 'pulsing-cyan' },
+
+        <div>
+
+          <div className={`text-${item.color} font-bold text-lg drop-shadow-lg`}>{item.symbol}</div>  ];    { name: 'E*TRADE', rating: '4.4/5', features: 'User-friendly, Options trading', bonus: 'Up to $1,500 bonus', color: 'neon-green' },
+
+          <div className="text-gray-300 text-sm">{item.name}</div>
+
+        </div>  ];
+
+        <div className="text-right">
+
+          <div className={`text-${item.color} font-bold text-lg drop-shadow-lg`}>{item.price}</div>  const topBrokers: BrokerData[] = [
+
+          <div className={`text-sm flex items-center justify-end font-bold ${item.positive ? 'text-neon-green' : 'text-fluorescent-pink'}`}>
+
+            {item.positive ? <TrendingUp className="w-3 h-3 mr-1 animate-bounce" /> : <TrendingDown className="w-3 h-3 mr-1 animate-bounce" />}    { name: 'Charles Schwab', rating: '4.8/5', features: 'Zero commissions, Advanced tools', bonus: 'Up to $3,000 bonus', color: 'fluorescent-pink' },  const offshoreBrokers = [
+
+            {item.change}
+
+          </div>    { name: 'Fidelity', rating: '4.7/5', features: 'Research excellence, Mobile app', bonus: 'Up to $2,500 bonus', color: 'fluorescent-blue' },    { name: 'IC Markets', rating: '4.9/5', features: 'ECN trading, Low spreads', regulation: 'ASIC, CySEC', color: 'fluorescent-pink' },
+
+          <div className="text-gray-400 text-xs">{item.expiry}</div>
+
+        </div>    { name: 'Interactive Brokers', rating: '4.6/5', features: 'Global markets, Low costs', bonus: 'Up to $1,000 bonus', color: 'electric-orange' },    { name: 'Pepperstone', rating: '4.8/5', features: 'MT4/MT5, Fast execution', regulation: 'ASIC, FCA', color: 'fluorescent-blue' },
+
+      </div>
+
+    </div>    { name: 'TD Ameritrade', rating: '4.5/5', features: 'Education, Platform variety', bonus: 'Up to $2,000 bonus', color: 'pulsing-cyan' },    { name: 'XM Group', rating: '4.7/5', features: 'No deposit fees, 24/7 support', regulation: 'CySEC, IFSC', color: 'electric-orange' },
+
+  );
+
+    { name: 'E*TRADE', rating: '4.4/5', features: 'User-friendly, Options trading', bonus: 'Up to $1,500 bonus', color: 'neon-green' },    { name: 'FXTM', rating: '4.6/5', features: 'Copy trading, Education', regulation: 'CySEC, FCA', color: 'pulsing-cyan' },
+
+  const renderAssetContent = () => {
+
+    const data = getAssetData();  ];    { name: 'AvaTrade', rating: '4.5/5', features: 'Social trading, Multi-asset', regulation: 'Central Bank of Ireland', color: 'electric-purple' },
+
+    
+
+    return (  ];
+
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+        {data.map((item, index) => {  const offshoreBrokers: BrokerData[] = [
+
+          switch (activeAssetTab) {
+
+            case 'stocks':    { name: 'IC Markets', rating: '4.9/5', features: 'ECN trading, Low spreads', regulation: 'ASIC, CySEC', color: 'fluorescent-pink' },  const getAssetData = () => {
+
+              return renderStockCard(item as StockData, index);
+
+            case 'spreads':    { name: 'Pepperstone', rating: '4.8/5', features: 'MT4/MT5, Fast execution', regulation: 'ASIC, FCA', color: 'fluorescent-blue' },    switch (activeAssetTab) {
+
+              return renderSpreadCard(item as SpreadData, index);
+
+            case 'float':    { name: 'XM Group', rating: '4.7/5', features: 'No deposit fees, 24/7 support', regulation: 'CySEC, IFSC', color: 'electric-orange' },      case 'stocks': return stocksData;
+
+              return renderFloatCard(item as FloatData, index);
+
+            case 'crypto':    { name: 'FXTM', rating: '4.6/5', features: 'Copy trading, Education', regulation: 'CySEC, FCA', color: 'pulsing-cyan' },      case 'spreads': return spreadsData;
+
+              return renderCryptoCard(item as CryptoData, index);
+
+            case 'futures':    { name: 'AvaTrade', rating: '4.5/5', features: 'Social trading, Multi-asset', regulation: 'Central Bank of Ireland', color: 'electric-purple' },      case 'float': return floatData;
+
+              return renderFuturesCard(item as FuturesData, index);
+
+            default:  ];      case 'crypto': return cryptoData;
+
+              return renderStockCard(item as StockData, index);
+
+          }      case 'futures': return futuresData;
+
+        })}
+
+      </div>  const getAssetData = (): (StockData | SpreadData | FloatData | CryptoData | FuturesData)[] => {      default: return stocksData;
+
+    );
+
+  };    switch (activeAssetTab) {    }
+
+
+
+  const renderBloombergCard = (item: BloombergData, index: number) => (      case 'stocks': return stocksData;  };
+
+    <div key={index} className={`bg-deep-black/70 rounded-xl p-6 hover:bg-charcoal/50 transition-all duration-300 border-2 border-${item.color} shadow-neon-blue hover:shadow-neon-pink cursor-pointer`}>
+
+      <div className="flex items-center justify-between">      case 'spreads': return spreadsData;
+
+        <div>
+
+          <div className={`text-${item.color} font-bold text-lg drop-shadow-lg`}>{item.symbol}</div>      case 'float': return floatData;  const getAssetIcon = (tab: string) => {
+
+          <div className="text-gray-400 text-sm">{item.source}</div>
+
+        </div>      case 'crypto': return cryptoData;    switch (tab) {
+
+        <div className="text-right">
+
+          <div className={`text-${item.color} font-bold text-lg drop-shadow-lg`}>{item.price}</div>      case 'futures': return futuresData;      case 'stocks': return <BarChart3 className="w-4 h-4" />;
+
+          <div className={`text-sm flex items-center justify-end font-bold ${item.positive ? 'text-neon-green' : 'text-fluorescent-pink'}`}>
+
+            {item.positive ? <TrendingUp className="w-3 h-3 mr-1 animate-bounce" /> : <TrendingDown className="w-3 h-3 mr-1 animate-bounce" />}      default: return stocksData;      case 'spreads': return <Activity className="w-4 h-4" />;
+
+            {item.change}
+
+          </div>    }      case 'float': return <Zap className="w-4 h-4" />;
+
+        </div>
+
+      </div>  };      case 'crypto': return <Coins className="w-4 h-4" />;
+
+    </div>
+
+  );      case 'futures': return <DollarSign className="w-4 h-4" />;
+
+
+
+  const renderBrokerCard = (item: BrokerData, index: number) => (  const getAssetIcon = (tab: string): JSX.Element => {      default: return <BarChart3 className="w-4 h-4" />;
+
+    <div key={index} className={`bg-deep-black/70 rounded-xl p-6 hover:bg-charcoal/50 transition-all duration-300 border-2 border-${item.color} shadow-neon-blue hover:shadow-neon-pink hover:animate-pulse-glow cursor-pointer`}>
+
+      <div className="flex items-center justify-between mb-4">    switch (tab) {    }
+
+        <div>
+
+          <div className={`text-${item.color} font-bold text-lg drop-shadow-lg flex items-center`}>      case 'stocks': return <BarChart3 className="w-4 h-4" />;  };
+
+            <Star className="w-4 h-4 mr-2 text-electric-yellow" />
+
+            {item.name}      case 'spreads': return <Activity className="w-4 h-4" />;
+
+          </div>
+
+          <div className="text-electric-yellow text-sm font-bold">{item.rating}</div>      case 'float': return <Zap className="w-4 h-4" />;  const renderAssetContent = () => {
+
+        </div>
+
+        <div className="text-right">      case 'crypto': return <Coins className="w-4 h-4" />;    const data = getAssetData();
+
+          <div className="text-gray-300 text-sm">{item.features}</div>
+
+          {item.bonus && <div className="text-neon-green text-xs font-bold">{item.bonus}</div>}      case 'futures': return <DollarSign className="w-4 h-4" />;    
+
+          {item.regulation && <div className="text-pulsing-cyan text-xs">{item.regulation}</div>}
+
+        </div>      default: return <BarChart3 className="w-4 h-4" />;    return (
+
+      </div>
+
+    </div>    }      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+  );
+
+  };        {data.map((item, index) => renderAssetCard(item, index))}
+
+  return (
+
+    <div className="bg-charcoal-gradient p-8 border-t-4 border-electric-purple shadow-neon-blue">      </div>
+
+      {/* Asset Category Tabs */}
+
+      <div className="mb-8">  const renderStockCard = (item: StockData, index: number): JSX.Element => (    );
+
+        <h2 className="text-fluorescent-pink text-2xl font-bold mb-6 flex items-center drop-shadow-lg">
+
+          <Zap className="w-6 h-6 mr-2 animate-bounce" />    <div key={index} className={`bg-deep-black/70 rounded-xl p-6 hover:bg-charcoal/50 transition-all duration-300 border-2 border-${item.color} shadow-neon-blue hover:shadow-neon-pink hover:animate-pulse-glow cursor-pointer`}>  };
+
+          QUANTUM MARKET ASSETS
+
+        </h2>      <div className="flex items-center justify-between mb-3">  };
+
+        <div className="flex space-x-2 mb-8 bg-deep-black/50 rounded-xl p-2 border-2 border-fluorescent-blue shadow-neon-blue">
+
+          {['stocks', 'spreads', 'float', 'crypto', 'futures'].map((tab, index) => (        <div>
+
+            <button
+
+              key={tab}          <div className={`text-${item.color} font-bold text-lg drop-shadow-lg`}>{item.symbol}</div>  return (
+
+              onClick={() => setActiveAssetTab(tab)}
+
+              className={`flex-1 px-6 py-3 rounded-lg text-sm font-bold transition-all duration-300 flex items-center justify-center space-x-2 border-2 ${          <div className="text-gray-300 text-sm">{item.name}</div>    <div className="bg-charcoal-gradient p-8 border-t-4 border-electric-purple shadow-neon-blue">
+
+                activeAssetTab === tab
+
+                  ? 'bg-fluorescent-gradient text-deep-black border-fluorescent-pink shadow-neon-pink animate-pulse-glow'        </div>      {/* Asset Category Tabs */}
+
+                  : `text-${index % 2 === 0 ? 'fluorescent-pink' : 'fluorescent-blue'} hover:text-white border-${index % 2 === 0 ? 'fluorescent-pink' : 'fluorescent-blue'} hover:bg-charcoal/50 hover:shadow-neon-cyan`
+
+              }`}        <div className="text-right">      <div className="mb-8">
+
+            >
+
+              {getAssetIcon(tab)}          <div className={`text-${item.color} font-bold text-lg drop-shadow-lg`}>{item.price}</div>        <h2 className="text-fluorescent-pink text-2xl font-bold mb-6 flex items-center drop-shadow-lg">
+
+              <span className="uppercase">{tab}</span>
+
+            </button>          <div className={`text-sm flex items-center justify-end font-bold ${item.positive ? 'text-neon-green' : 'text-fluorescent-pink'}`}>          <Zap className="w-6 h-6 mr-2 animate-bounce" />
+
+          ))}
+
+        </div>            {item.positive ? <TrendingUp className="w-3 h-3 mr-1 animate-bounce" /> : <TrendingDown className="w-3 h-3 mr-1 animate-bounce" />}          QUANTUM MARKET ASSETS
+
+        {renderAssetContent()}
+
+      </div>            {item.change}        </h2>
+
+
+
+      {/* Main Tab Navigation */}          </div>        <div className="flex space-x-2 mb-8 bg-deep-black/50 rounded-xl p-2 border-2 border-fluorescent-blue shadow-neon-blue">
+
+      <div className="flex space-x-2 mb-8 bg-deep-black/50 rounded-xl p-2 border-2 border-electric-orange shadow-neon-orange">
+
+        <button          <div className="text-gray-400 text-xs">Vol: {item.volume}</div>          {['stocks', 'spreads', 'float', 'crypto', 'futures'].map((tab, index) => (
+
+          onClick={() => setActiveMainTab('bloomberg')}
+
+          className={`flex-1 px-6 py-4 rounded-lg text-sm font-bold transition-all duration-300 border-2 ${        </div>            <button
+
+            activeMainTab === 'bloomberg'
+
+              ? 'bg-cyber-gradient text-deep-black border-pulsing-cyan shadow-neon-cyan animate-pulse-glow'      </div>              key={tab}
+
+              : 'text-pulsing-cyan hover:text-white border-pulsing-cyan hover:bg-charcoal/50 hover:shadow-neon-blue'
+
+          }`}    </div>              onClick={() => setActiveAssetTab(tab)}
+
+        >
+
+          LIVE MARKET DATA - BLOOMBERG & REUTERS  );              className={`flex-1 px-6 py-3 rounded-lg text-sm font-bold transition-all duration-300 flex items-center justify-center space-x-2 border-2 ${
+
+        </button>
+
+        <button                activeAssetTab === tab
+
+          onClick={() => setActiveMainTab('topbrokers')}
+
+          className={`flex-1 px-6 py-4 rounded-lg text-sm font-bold transition-all duration-300 border-2 ${  const renderSpreadCard = (item: SpreadData, index: number): JSX.Element => (                  ? `bg-fluorescent-gradient text-deep-black border-fluorescent-pink shadow-neon-pink animate-pulse-glow`
+
+            activeMainTab === 'topbrokers'
+
+              ? 'bg-fluorescent-gradient text-deep-black border-fluorescent-pink shadow-neon-pink animate-pulse-glow'    <div key={index} className={`bg-deep-black/70 rounded-xl p-6 hover:bg-charcoal/50 transition-all duration-300 border-2 border-${item.color} shadow-neon-blue hover:shadow-neon-pink hover:animate-pulse-glow cursor-pointer`}>                  : `text-${index % 2 === 0 ? 'fluorescent-pink' : 'fluorescent-blue'} hover:text-white border-${index % 2 === 0 ? 'fluorescent-pink' : 'fluorescent-blue'} hover:bg-charcoal/50 hover:shadow-neon-cyan`
+
+              : 'text-fluorescent-pink hover:text-white border-fluorescent-pink hover:bg-charcoal/50 hover:shadow-neon-pink'
+
+          }`}      <div className="flex items-center justify-between mb-3">              }`}
+
+        >
+
+          TOP US BROKERS        <div>            >
+
+        </button>
+
+        <button          <div className={`text-${item.color} font-bold text-lg drop-shadow-lg`}>{item.symbol}</div>              {getAssetIcon(tab)}
+
+          onClick={() => setActiveMainTab('offshore')}
+
+          className={`flex-1 px-6 py-4 rounded-lg text-sm font-bold transition-all duration-300 border-2 ${          <div className="text-gray-300 text-sm">{item.name}</div>              <span className="uppercase">{tab}</span>
+
+            activeMainTab === 'offshore'
+
+              ? 'bg-electric-orange text-deep-black border-electric-orange shadow-neon-orange animate-pulse-glow'        </div>            </button>
+
+              : 'text-electric-orange hover:text-white border-electric-orange hover:bg-charcoal/50 hover:shadow-neon-orange'
+
+          }`}        <div className="text-right">          ))}
+
+        >
+
+          TRUSTED OFFSHORE BROKERS          <div className={`text-${item.color} font-bold text-lg drop-shadow-lg`}>{item.spread}</div>        </div>
+
+        </button>
+
+        <button          <div className={`text-sm flex items-center justify-end font-bold ${item.positive ? 'text-neon-green' : 'text-fluorescent-pink'}`}>        {renderAssetContent()}
+
+          onClick={() => setActiveMainTab('investors')}
+
+          className={`flex-1 px-6 py-4 rounded-lg text-sm font-bold transition-all duration-300 border-2 ${            {item.positive ? <TrendingUp className="w-3 h-3 mr-1 animate-bounce" /> : <TrendingDown className="w-3 h-3 mr-1 animate-bounce" />}      </div>
+
+            activeMainTab === 'investors'
+
+              ? 'bg-electric-purple text-deep-black border-electric-purple shadow-neon-purple animate-pulse-glow'            {item.change}
+
+              : 'text-electric-purple hover:text-white border-electric-purple hover:bg-charcoal/50 hover:shadow-neon-purple'
+
+          }`}          </div>      {/* Main Tab Navigation */}
+
+        >
+
+          INVESTOR PORTAL          <div className="text-gray-400 text-xs">{item.type}</div>      <div className="flex space-x-2 mb-8 bg-deep-black/50 rounded-xl p-2 border-2 border-electric-orange shadow-neon-orange">
+
+        </button>
+
+      </div>        </div>        <button
+
+
+
+      {/* Main Tab Content */}      </div>          onClick={() => setActiveMainTab('bloomberg')}
+
+      {activeMainTab === 'bloomberg' && (
+
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">    </div>          className={`flex-1 px-6 py-4 rounded-lg text-sm font-bold transition-all duration-300 border-2 ${
+
+          <div>
+
+            <h3 className="text-fluorescent-pink font-bold text-xl mb-6 flex items-center drop-shadow-lg">  );            activeMainTab === 'bloomberg'
+
+              <Globe className="w-6 h-6 mr-2 animate-pulse" />
+
+              BLOOMBERG TERMINAL DATA              ? 'bg-cyber-gradient text-deep-black border-pulsing-cyan shadow-neon-cyan animate-pulse-glow'
+
+            </h3>
+
+            <div className="space-y-4">  const renderFloatCard = (item: FloatData, index: number): JSX.Element => (              : 'text-pulsing-cyan hover:text-white border-pulsing-cyan hover:bg-charcoal/50 hover:shadow-neon-blue'
+
+              {bloombergData.map((item, index) => renderBloombergCard(item, index))}
+
+            </div>    <div key={index} className={`bg-deep-black/70 rounded-xl p-6 hover:bg-charcoal/50 transition-all duration-300 border-2 border-${item.color} shadow-neon-blue hover:shadow-neon-pink hover:animate-pulse-glow cursor-pointer`}>          }`}
+
+          </div>
+
+          <div>      <div className="flex items-center justify-between mb-3">        >
+
+            <h3 className="text-fluorescent-blue font-bold text-xl mb-6 flex items-center drop-shadow-lg">
+
+              <Globe className="w-6 h-6 mr-2 animate-pulse" />        <div>          LIVE MARKET DATA - BLOOMBERG & REUTERS
+
+              REUTERS FINANCIAL DATA
+
+            </h3>          <div className={`text-${item.color} font-bold text-lg drop-shadow-lg`}>{item.symbol}</div>        </button>
+
+            <div className="space-y-4">
+
+              {reutersData.map((item, index) => renderBloombergCard(item, index))}          <div className="text-gray-300 text-sm">{item.name}</div>        <button
+
+            </div>
+
+          </div>        </div>          onClick={() => setActiveMainTab('topbrokers')}
+
+        </div>
+
+      )}        <div className="text-right">          className={`flex-1 px-6 py-4 rounded-lg text-sm font-bold transition-all duration-300 border-2 ${
+
+
+
+      {activeMainTab === 'topbrokers' && (          <div className={`text-${item.color} font-bold text-lg drop-shadow-lg`}>{item.float}</div>            activeMainTab === 'topbrokers'
+
+        <div>
+
+          <h3 className="text-fluorescent-pink font-bold text-xl mb-6 flex items-center drop-shadow-lg">          <div className="text-gray-400 text-xs">Locked: {item.locked}</div>              ? 'bg-fluorescent-gradient text-deep-black border-fluorescent-pink shadow-neon-pink animate-pulse-glow'
+
+            <Star className="w-6 h-6 mr-2 animate-pulse" />
+
+            TOP RATED US BROKERS          <div className="text-gray-400 text-xs">Available: {item.available}</div>              : 'text-fluorescent-pink hover:text-white border-fluorescent-pink hover:bg-charcoal/50 hover:shadow-neon-pink'
+
+          </h3>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">          <div className={`text-xs font-bold ${item.sentiment === 'Bullish' ? 'text-neon-green' : item.sentiment === 'Bearish' ? 'text-fluorescent-pink' : 'text-electric-yellow'}`}>          }`}
+
+            {topBrokers.map((item, index) => renderBrokerCard(item, index))}
+
+          </div>            {item.sentiment}        >
+
+        </div>
+
+      )}          </div>          TOP US BROKERS
+
+
+
+      {activeMainTab === 'offshore' && (        </div>        </button>
+
+        <div>
+
+          <h3 className="text-electric-orange font-bold text-xl mb-6 flex items-center drop-shadow-lg">      </div>        <button
+
+            <Shield className="w-6 h-6 mr-2 animate-pulse" />
+
+            TRUSTED OFFSHORE BROKERS    </div>          onClick={() => setActiveMainTab('offshore')}
+
+          </h3>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">  );          className={`flex-1 px-6 py-4 rounded-lg text-sm font-bold transition-all duration-300 border-2 ${
+
+            {offshoreBrokers.map((item, index) => renderBrokerCard(item, index))}
+
+          </div>            activeMainTab === 'offshore'
+
+        </div>
+
+      )}  const renderCryptoCard = (item: CryptoData, index: number): JSX.Element => (              ? 'bg-electric-orange text-deep-black border-electric-orange shadow-neon-orange animate-pulse-glow'
+
+
+
+      {activeMainTab === 'investors' && (    <div key={index} className={`bg-deep-black/70 rounded-xl p-6 hover:bg-charcoal/50 transition-all duration-300 border-2 border-${item.color} shadow-neon-blue hover:shadow-neon-pink hover:animate-pulse-glow cursor-pointer`}>              : 'text-electric-orange hover:text-white border-electric-orange hover:bg-charcoal/50 hover:shadow-neon-orange'
+
+        <div>
+
+          <h3 className="text-electric-purple font-bold text-xl mb-6 flex items-center drop-shadow-lg">      <div className="flex items-center justify-between mb-3">          }`}
+
+            <Award className="w-6 h-6 mr-2 animate-pulse" />
+
+            INVESTOR PORTAL - COMING SOON        <div>        >
+
+          </h3>
+
+          <div className="bg-deep-black/70 rounded-xl p-8 border-2 border-electric-purple shadow-neon-purple">          <div className={`text-${item.color} font-bold text-lg drop-shadow-lg`}>{item.symbol}</div>          TRUSTED OFFSHORE BROKERS
+
+            <div className="text-center">
+
+              <div className="text-electric-purple text-2xl font-bold mb-4">🚀 QUANTUM INVESTOR PORTAL</div>          <div className="text-gray-300 text-sm">{item.name}</div>        </button>
+
+              <div className="text-gray-300 text-lg mb-6">Advanced portfolio management and institutional-grade analytics</div>
+
+              <div className="text-fluorescent-pink font-bold">LAUNCHING Q2 2024</div>        </div>        <button
+
+            </div>
+
+          </div>        <div className="text-right">          onClick={() => setActiveMainTab('investors')}
+
+        </div>
+
+      )}          <div className={`text-${item.color} font-bold text-lg drop-shadow-lg`}>{item.price}</div>          className={`flex-1 px-6 py-4 rounded-lg text-sm font-bold transition-all duration-300 border-2 ${
+
+    </div>
+
+  );          <div className={`text-sm flex items-center justify-end font-bold ${item.positive ? 'text-neon-green' : 'text-fluorescent-pink'}`}>            activeMainTab === 'investors'
+
+};
+
+            {item.positive ? <TrendingUp className="w-3 h-3 mr-1 animate-bounce" /> : <TrendingDown className="w-3 h-3 mr-1 animate-bounce" />}              ? 'bg-electric-purple text-deep-black border-electric-purple shadow-neon-purple animate-pulse-glow'
+
+export default MarketDataTabs;
+            {item.change}              : 'text-electric-purple hover:text-white border-electric-purple hover:bg-charcoal/50 hover:shadow-neon-purple'
+
+          </div>          }`}
+
+          <div className="text-gray-400 text-xs">{item.marketCap}</div>        >
+
+        </div>          INVESTOR PORTAL
+
+      </div>        </button>
+
+    </div>      </div>
+
+  );
+
+      {/* Main Tab Content */}
+
+  const renderFuturesCard = (item: FuturesData, index: number): JSX.Element => (      {activeMainTab === 'bloomberg' && (
+
+    <div key={index} className={`bg-deep-black/70 rounded-xl p-6 hover:bg-charcoal/50 transition-all duration-300 border-2 border-${item.color} shadow-neon-blue hover:shadow-neon-pink hover:animate-pulse-glow cursor-pointer`}>        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+
+      <div className="flex items-center justify-between mb-3">          <div>
+
+        <div>            <h3 className="text-fluorescent-pink font-bold text-xl mb-6 flex items-center drop-shadow-lg">
+
+          <div className={`text-${item.color} font-bold text-lg drop-shadow-lg`}>{item.symbol}</div>              <Globe className="w-6 h-6 mr-2 animate-pulse" />
+
+          <div className="text-gray-300 text-sm">{item.name}</div>              BLOOMBERG TERMINAL DATA
+
+        </div>            </h3>
+
+        <div className="text-right">            <div className="space-y-4">
+
+          <div className={`text-${item.color} font-bold text-lg drop-shadow-lg`}>{item.price}</div>              {bloombergData.map((item, index) => (
+
+          <div className={`text-sm flex items-center justify-end font-bold ${item.positive ? 'text-neon-green' : 'text-fluorescent-pink'}`}>                <div key={index} className={`bg-deep-black/70 rounded-xl p-6 hover:bg-charcoal/50 transition-all duration-300 border-2 border-${item.color} shadow-neon-blue hover:shadow-neon-pink cursor-pointer`}>
+
+            {item.positive ? <TrendingUp className="w-3 h-3 mr-1 animate-bounce" /> : <TrendingDown className="w-3 h-3 mr-1 animate-bounce" />}                  <div className="flex items-center justify-between">
+
+            {item.change}                    <div>
+
+          </div>                      <div className={`text-${item.color} font-bold text-lg drop-shadow-lg`}>{item.symbol}</div>
+
+          <div className="text-gray-400 text-xs">{item.expiry}</div>                      <div className="text-gray-400 text-sm">{item.source}</div>
+
+        </div>                    </div>
+
+      </div>                    <div className="text-right">
+
+    </div>                      <div className={`text-${item.color} font-bold text-lg drop-shadow-lg`}>{item.price}</div>
+
+  );                      <div className={`text-sm flex items-center justify-end font-bold ${item.positive ? 'text-neon-green' : 'text-fluorescent-pink'}`}>
+
+                        {item.positive ? <TrendingUp className="w-3 h-3 mr-1 animate-bounce" /> : <TrendingDown className="w-3 h-3 mr-1 animate-bounce" />}
+
+  const renderAssetContent = (): JSX.Element => {                        {item.change}
+
+    const data = getAssetData();                      </div>
+
+                        </div>
+
+    return (                  </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">                </div>
+
+        {data.map((item, index) => {              ))}
+
+          switch (activeAssetTab) {            </div>
+
+            case 'stocks':          </div>
+
+              return renderStockCard(item as StockData, index);          <div>
+
+            case 'spreads':            <h3 className="text-fluorescent-blue font-bold text-xl mb-6 flex items-center drop-shadow-lg">
+
+              return renderSpreadCard(item as SpreadData, index);              <Globe className="w-6 h-6 mr-2 animate-pulse" />
+
+            case 'float':              REUTERS MARKET FEED
+
+              return renderFloatCard(item as FloatData, index);            </h3>
+
+            case 'crypto':            <div className="space-y-4">
+
+              return renderCryptoCard(item as CryptoData, index);              {reutersData.map((item, index) => (
+
+            case 'futures':                <div key={index} className={`bg-deep-black/70 rounded-xl p-6 hover:bg-charcoal/50 transition-all duration-300 border-2 border-${item.color} shadow-neon-blue hover:shadow-neon-cyan cursor-pointer`}>
+
+              return renderFuturesCard(item as FuturesData, index);                  <div className="flex items-center justify-between">
+
+            default:                    <div>
+
+              return renderStockCard(item as StockData, index);                      <div className={`text-${item.color} font-bold text-lg drop-shadow-lg`}>{item.symbol}</div>
+
+          }                      <div className="text-gray-400 text-sm">{item.source}</div>
+
+        })}                    </div>
+
+      </div>                    <div className="text-right">
+
+    );                      <div className={`text-${item.color} font-bold text-lg drop-shadow-lg`}>{item.price}</div>
+
+  };                      <div className={`text-sm flex items-center justify-end font-bold ${item.positive ? 'text-neon-green' : 'text-fluorescent-pink'}`}>
+
+                        {item.positive ? <TrendingUp className="w-3 h-3 mr-1 animate-bounce" /> : <TrendingDown className="w-3 h-3 mr-1 animate-bounce" />}
+
+  const renderBloombergCard = (item: BloombergData, index: number): JSX.Element => (                        {item.change}
+
+    <div key={index} className={`bg-deep-black/70 rounded-xl p-6 hover:bg-charcoal/50 transition-all duration-300 border-2 border-${item.color} shadow-neon-blue hover:shadow-neon-pink cursor-pointer`}>                      </div>
+
+      <div className="flex items-center justify-between">                    </div>
+
+        <div>                  </div>
+
+          <div className={`text-${item.color} font-bold text-lg drop-shadow-lg`}>{item.symbol}</div>                </div>
+
+          <div className="text-gray-400 text-sm">{item.source}</div>              ))}
+
+        </div>            </div>
+
+        <div className="text-right">          </div>
+
+          <div className={`text-${item.color} font-bold text-lg drop-shadow-lg`}>{item.price}</div>        </div>
+
+          <div className={`text-sm flex items-center justify-end font-bold ${item.positive ? 'text-neon-green' : 'text-fluorescent-pink'}`}>      )}
+
+            {item.positive ? <TrendingUp className="w-3 h-3 mr-1 animate-bounce" /> : <TrendingDown className="w-3 h-3 mr-1 animate-bounce" />}
+
+            {item.change}      {activeMainTab === 'topbrokers' && (
+
+          </div>        <div>
+
+        </div>          <h3 className="text-fluorescent-pink font-bold text-xl mb-6 flex items-center drop-shadow-lg">
+
+      </div>            <Award className="w-6 h-6 mr-2 animate-bounce" />
+
+    </div>            TOP RATED US BROKERS
+
+  );          </h3>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+  const renderBrokerCard = (item: BrokerData, index: number): JSX.Element => (            {topBrokers.map((broker, index) => (
+
+    <div key={index} className={`bg-deep-black/70 rounded-xl p-6 hover:bg-charcoal/50 transition-all duration-300 border-2 border-${item.color} shadow-neon-blue hover:shadow-neon-pink hover:animate-pulse-glow cursor-pointer`}>              <div key={index} className={`bg-deep-black/70 rounded-xl p-6 hover:bg-charcoal/50 transition-all duration-300 border-2 border-${broker.color} shadow-neon-blue hover:shadow-neon-pink cursor-pointer hover:animate-pulse-glow`}>
+
+      <div className="flex items-center justify-between mb-4">                <div className="flex items-center justify-between mb-3">
+
+        <div>                  <h4 className={`text-${broker.color} font-bold text-lg drop-shadow-lg`}>{broker.name}</h4>
+
+          <div className={`text-${item.color} font-bold text-lg drop-shadow-lg flex items-center`}>                  <div className="flex items-center">
+
+            <Star className="w-4 h-4 mr-2 text-electric-yellow" />                    <Star className="w-4 h-4 text-electric-yellow mr-1 animate-pulse" />
+
+            {item.name}                    <span className={`text-${broker.color} text-sm font-bold`}>{broker.rating}</span>
+
+          </div>                  </div>
+
+          <div className="text-electric-yellow text-sm font-bold">{item.rating}</div>                </div>
+
+        </div>                <p className="text-gray-300 text-sm mb-3 font-semibold">{broker.features}</p>
+
+        <div className="text-right">                <div className="text-neon-green text-sm font-bold">{broker.bonus}</div>
+
+          <div className="text-gray-300 text-sm">{item.features}</div>              </div>
+
+          {item.bonus && <div className="text-neon-green text-xs font-bold">{item.bonus}</div>}            ))}
+
+          {item.regulation && <div className="text-pulsing-cyan text-xs">{item.regulation}</div>}          </div>
+
+        </div>        </div>
+
+      </div>      )}
+
+    </div>
+
+  );      {activeMainTab === 'offshore' && (
+
+        <div>
+
+  return (          <h3 className="text-electric-orange font-bold text-xl mb-6 flex items-center drop-shadow-lg">
+
+    <div className="bg-charcoal-gradient p-8 border-t-4 border-electric-purple shadow-neon-blue">            <Shield className="w-6 h-6 mr-2 animate-bounce" />
+
+      {/* Asset Category Tabs */}            TRUSTED OFFSHORE BROKERS
+
+      <div className="mb-8">          </h3>
+
+        <h2 className="text-fluorescent-pink text-2xl font-bold mb-6 flex items-center drop-shadow-lg">          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+          <Zap className="w-6 h-6 mr-2 animate-bounce" />            {offshoreBrokers.map((broker, index) => (
+
+          QUANTUM MARKET ASSETS              <div key={index} className={`bg-deep-black/70 rounded-xl p-6 hover:bg-charcoal/50 transition-all duration-300 border-2 border-${broker.color} shadow-neon-blue hover:shadow-neon-orange cursor-pointer hover:animate-pulse-glow`}>
+
+        </h2>                <div className="flex items-center justify-between mb-3">
+
+        <div className="flex space-x-2 mb-8 bg-deep-black/50 rounded-xl p-2 border-2 border-fluorescent-blue shadow-neon-blue">                  <h4 className={`text-${broker.color} font-bold text-lg drop-shadow-lg`}>{broker.name}</h4>
+
+          {['stocks', 'spreads', 'float', 'crypto', 'futures'].map((tab, index) => (                  <div className="flex items-center">
+
+            <button                    <Star className="w-4 h-4 text-electric-yellow mr-1 animate-pulse" />
+
+              key={tab}                    <span className={`text-${broker.color} text-sm font-bold`}>{broker.rating}</span>
+
+              onClick={() => setActiveAssetTab(tab)}                  </div>
+
+              className={`flex-1 px-6 py-3 rounded-lg text-sm font-bold transition-all duration-300 flex items-center justify-center space-x-2 border-2 ${                </div>
+
+                activeAssetTab === tab                <p className="text-gray-300 text-sm mb-3 font-semibold">{broker.features}</p>
+
+                  ? 'bg-fluorescent-gradient text-deep-black border-fluorescent-pink shadow-neon-pink animate-pulse-glow'                <div className="text-pulsing-cyan text-sm flex items-center">
+
+                  : `text-${index % 2 === 0 ? 'fluorescent-pink' : 'fluorescent-blue'} hover:text-white border-${index % 2 === 0 ? 'fluorescent-pink' : 'fluorescent-blue'} hover:bg-charcoal/50 hover:shadow-neon-cyan`                  <Shield className="w-3 h-3 mr-1" />
+
+              }`}                  <span className="font-bold">{broker.regulation}</span>
+
+            >                </div>
+
+              {getAssetIcon(tab)}              </div>
+
+              <span className="uppercase">{tab}</span>            ))}
+
+            </button>          </div>
+
+          ))}        </div>
+
+        </div>      )}
+
+        {renderAssetContent()}
+
+      </div>      {activeMainTab === 'investors' && (
+
+        <div className="text-center py-16">
+
+      {/* Main Tab Navigation */}          {/* Coming Soon Header */}
+
+      <div className="flex space-x-2 mb-8 bg-deep-black/50 rounded-xl p-2 border-2 border-electric-orange shadow-neon-orange">          <div className="mb-12">
+
+        <button            <div className="text-6xl mb-4 animate-bounce">🚀</div>
+
+          onClick={() => setActiveMainTab('bloomberg')}            <h2 className="text-4xl font-bold text-fluorescent-pink mb-4 drop-shadow-lg animate-pulse-glow">
+
+          className={`flex-1 px-6 py-4 rounded-lg text-sm font-bold transition-all duration-300 border-2 ${              INVESTOR PORTAL
+
+            activeMainTab === 'bloomberg'            </h2>
+
+              ? 'bg-cyber-gradient text-deep-black border-pulsing-cyan shadow-neon-cyan animate-pulse-glow'            <h3 className="text-2xl font-bold text-electric-purple mb-6 drop-shadow-lg">
+
+              : 'text-pulsing-cyan hover:text-white border-pulsing-cyan hover:bg-charcoal/50 hover:shadow-neon-blue'              COMING SOON
+
+          }`}            </h3>
+
+        >            <div className="text-lg text-gray-300 max-w-2xl mx-auto">
+
+          LIVE MARKET DATA - BLOOMBERG & REUTERS              Advanced investor dashboard with portfolio analytics, research tools, and institutional-grade reporting.
+
+        </button>            </div>
+
+        <button          </div>
+
+          onClick={() => setActiveMainTab('topbrokers')}
+
+          className={`flex-1 px-6 py-4 rounded-lg text-sm font-bold transition-all duration-300 border-2 ${          {/* Feature Preview Grid */}
+
+            activeMainTab === 'topbrokers'          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+
+              ? 'bg-fluorescent-gradient text-deep-black border-fluorescent-pink shadow-neon-pink animate-pulse-glow'            <div className="bg-deep-black/70 rounded-xl p-6 border-2 border-fluorescent-pink shadow-neon-pink hover:animate-pulse-glow cursor-pointer">
+
+              : 'text-fluorescent-pink hover:text-white border-fluorescent-pink hover:bg-charcoal/50 hover:shadow-neon-pink'              <div className="text-3xl mb-4">📊</div>
+
+          }`}              <h4 className="text-fluorescent-pink font-bold text-lg mb-2">Portfolio Analytics</h4>
+
+        >              <p className="text-gray-400 text-sm">Advanced portfolio tracking with real-time P&L, risk metrics, and performance attribution.</p>
+
+          TOP US BROKERS            </div>
+
+        </button>            
+
+        <button            <div className="bg-deep-black/70 rounded-xl p-6 border-2 border-fluorescent-blue shadow-neon-blue hover:animate-pulse-glow cursor-pointer">
+
+          onClick={() => setActiveMainTab('offshore')}              <div className="text-3xl mb-4">🔍</div>
+
+          className={`flex-1 px-6 py-4 rounded-lg text-sm font-bold transition-all duration-300 border-2 ${              <h4 className="text-fluorescent-blue font-bold text-lg mb-2">Research Hub</h4>
+
+            activeMainTab === 'offshore'              <p className="text-gray-400 text-sm">Institutional-grade research, analyst reports, and market intelligence tools.</p>
+
+              ? 'bg-electric-orange text-deep-black border-electric-orange shadow-neon-orange animate-pulse-glow'            </div>
+
+              : 'text-electric-orange hover:text-white border-electric-orange hover:bg-charcoal/50 hover:shadow-neon-orange'            
+
+          }`}            <div className="bg-deep-black/70 rounded-xl p-6 border-2 border-electric-orange shadow-neon-orange hover:animate-pulse-glow cursor-pointer">
+
+        >              <div className="text-3xl mb-4">📈</div>
+
+          TRUSTED OFFSHORE BROKERS              <h4 className="text-electric-orange font-bold text-lg mb-2">Risk Management</h4>
+
+        </button>              <p className="text-gray-400 text-sm">Advanced risk analytics with VaR, stress testing, and correlation analysis.</p>
+
+        <button            </div>
+
+          onClick={() => setActiveMainTab('investors')}            
+
+          className={`flex-1 px-6 py-4 rounded-lg text-sm font-bold transition-all duration-300 border-2 ${            <div className="bg-deep-black/70 rounded-xl p-6 border-2 border-pulsing-cyan shadow-neon-cyan hover:animate-pulse-glow cursor-pointer">
+
+            activeMainTab === 'investors'              <div className="text-3xl mb-4">📋</div>
+
+              ? 'bg-electric-purple text-deep-black border-electric-purple shadow-neon-purple animate-pulse-glow'              <h4 className="text-pulsing-cyan font-bold text-lg mb-2">Custom Reports</h4>
+
+              : 'text-electric-purple hover:text-white border-electric-purple hover:bg-charcoal/50 hover:shadow-neon-purple'              <p className="text-gray-400 text-sm">Generate professional reports for clients, stakeholders, and regulatory compliance.</p>
+
+          }`}            </div>
+
+        >            
+
+          INVESTOR PORTAL            <div className="bg-deep-black/70 rounded-xl p-6 border-2 border-electric-purple shadow-neon-purple hover:animate-pulse-glow cursor-pointer">
+
+        </button>              <div className="text-3xl mb-4">🤖</div>
+
+      </div>              <h4 className="text-electric-purple font-bold text-lg mb-2">AI Insights</h4>
+
+              <p className="text-gray-400 text-sm">Machine learning powered investment insights and automated strategy recommendations.</p>
+
+      {/* Main Tab Content */}            </div>
+
+      {activeMainTab === 'bloomberg' && (            
+
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">            <div className="bg-deep-black/70 rounded-xl p-6 border-2 border-neon-green shadow-neon-green hover:animate-pulse-glow cursor-pointer">
+
+          <div>              <div className="text-3xl mb-4">🌐</div>
+
+            <h3 className="text-fluorescent-pink font-bold text-xl mb-6 flex items-center drop-shadow-lg">              <h4 className="text-neon-green font-bold text-lg mb-2">Global Markets</h4>
+
+              <Globe className="w-6 h-6 mr-2 animate-pulse" />              <p className="text-gray-400 text-sm">Multi-asset class trading across global markets with unified position management.</p>
+
+              BLOOMBERG TERMINAL DATA            </div>
+
+            </h3>          </div>
+
+            <div className="space-y-4">
+
+              {bloombergData.map((item, index) => renderBloombergCard(item, index))}          {/* 404 Style Message */}
+
+            </div>          <div className="bg-deep-black/50 rounded-xl p-8 border-2 border-electric-yellow shadow-neon-yellow max-w-md mx-auto">
+
+          </div>            <div className="text-6xl font-bold text-electric-yellow mb-4 animate-pulse">404</div>
+
+          <div>            <div className="text-xl font-bold text-fluorescent-pink mb-2">Page Under Construction</div>
+
+            <h3 className="text-fluorescent-blue font-bold text-xl mb-6 flex items-center drop-shadow-lg">            <div className="text-gray-400 text-sm mb-4">
+
+              <Globe className="w-6 h-6 mr-2 animate-pulse" />              Our quantum engineers are building the ultimate investor experience. Expected launch: Q2 2025.
+
+              REUTERS FINANCIAL DATA            </div>
+
+            </h3>            <div className="text-xs text-pulsing-cyan">
+
+            <div className="space-y-4">              ⚡ Powered by AI Quantum Algorithms ⚡
+
+              {reutersData.map((item, index) => renderBloombergCard(item, index))}            </div>
+
+            </div>          </div>
+
+          </div>        </div>
+
+        </div>      )}
+
+      )}    </div>
+
+  );
+
+      {activeMainTab === 'topbrokers' && (};
+
+        <div>
+
+          <h3 className="text-fluorescent-pink font-bold text-xl mb-6 flex items-center drop-shadow-lg">export default MarketDataTabs;
+            <Star className="w-6 h-6 mr-2 animate-pulse" />
+            TOP RATED US BROKERS
+          </h3>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            {topBrokers.map((item, index) => renderBrokerCard(item, index))}
+          </div>
+        </div>
+      )}
+
+      {activeMainTab === 'offshore' && (
+        <div>
+          <h3 className="text-electric-orange font-bold text-xl mb-6 flex items-center drop-shadow-lg">
+            <Shield className="w-6 h-6 mr-2 animate-pulse" />
+            TRUSTED OFFSHORE BROKERS
+          </h3>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            {offshoreBrokers.map((item, index) => renderBrokerCard(item, index))}
+          </div>
+        </div>
+      )}
+
+      {activeMainTab === 'investors' && (
+        <div>
+          <h3 className="text-electric-purple font-bold text-xl mb-6 flex items-center drop-shadow-lg">
+            <Award className="w-6 h-6 mr-2 animate-pulse" />
+            INVESTOR PORTAL - COMING SOON
+          </h3>
+          <div className="bg-deep-black/70 rounded-xl p-8 border-2 border-electric-purple shadow-neon-purple">
+            <div className="text-center">
+              <div className="text-electric-purple text-2xl font-bold mb-4">🚀 QUANTUM INVESTOR PORTAL</div>
+              <div className="text-gray-300 text-lg mb-6">Advanced portfolio management and institutional-grade analytics</div>
+              <div className="text-fluorescent-pink font-bold">LAUNCHING Q2 2024</div>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default MarketDataTabs;
