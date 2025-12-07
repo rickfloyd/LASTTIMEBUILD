@@ -1,0 +1,68 @@
+{
+  "info": {
+    "_postman_id": "a6f3b0c6-4b4a-4b7b-95c5-2f7b8d1b1e1a",
+    "name": "AI Trading Platform APIs",
+    "description": "A collection of API endpoints for the AI Trading Platform, generated from the project's documentation.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Get Stock Quote",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3001/api/market/stocks/AAPL",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3001",
+          "path": [
+            "api",
+            "market",
+            "stocks",
+            "AAPL"
+          ],
+          "variable": [
+            {
+              "key": "symbol",
+              "value": "AAPL"
+            }
+          ]
+        },
+        "description": "Fetches stock quotes from Alpha Vantage. Change the symbol in the URL (e.g., to TSLA, GOOGL) to get data for different stocks."
+      },
+      "response": []
+    },
+    {
+      "name": "Get Cryptocurrency Data",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3001/api/market/crypto/bitcoin",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3001",
+          "path": [
+            "api",
+            "market",
+            "crypto",
+            "bitcoin"
+          ],
+          "variable": [
+            {
+              "key": "coinId",
+              "value": "bitcoin"
+            }
+          ]
+        },
+        "description": "Fetches cryptocurrency data from CoinGecko. Change the coin ID in the URL (e.g., to ethereum, cardano) to get data for different cryptocurrencies."
+      },
+      "response": []
+    }
+  ]
+}

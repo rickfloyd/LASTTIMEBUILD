@@ -1,0 +1,30 @@
+# IMPORTANT: LOCKED UI LAYOUT
+
+This project is in active production. The current visual UI layout is APPROVED and MUST NOT be changed automatically.
+
+❗ DO NOT:
+- Replace the dark neon theme
+- Change layouts of cards, dashboards, or modals
+- Swap colors, gradients, or fonts
+- Regenerate pages from templates
+
+The ONLY allowed automated changes are:
+- Internal refactors that DO NOT alter visual output
+- Deleting cache/build/log files
+- Fixing broken imports without changing JSX structure
+
+Key directories that define the UI and must be preserved:
+- src/App.tsx
+- src/components/**
+- src/features/**
+- public/** (images, logos, icons)
+
+If you are an AI assistant (Gemini, etc.), you are only allowed to:
+- Clean up dead code that is NOT imported anywhere
+- Remove unused test files, sample code, or temporary experiments
+- Clear caches and logs
+
+UNDER NO CIRCUMSTANCE should you:
+- Apply a new theme
+- Inject white backgrounds
+- Move or rename core UI components listed above
