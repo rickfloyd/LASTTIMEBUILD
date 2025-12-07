@@ -20,7 +20,7 @@ const MarketSummary = () => {
               className={`font-bold transition-all duration-300 px-4 py-2 rounded-lg hover:bg-charcoal/50 ${
                 index % 2 === 0 
                   ? 'text-fluorescent-blue hover:text-pulsing-cyan hover:shadow-neon-blue' 
-                  : 'text-electric-orange hover:text-electric-yellow hover:shadow-neon-orange'
+                  : 'text-electric-pink hover:text-electric-pinks hover:shadow-neon-orange'
               }`}
             >
               
@@ -33,11 +33,6 @@ const MarketSummary = () => {
         <div className="bg-black rounded-lg two-tone-glow-pink flex flex-col">
           <div className="flex items-center justify-between p-2 bg-gray-800 rounded-t-lg">
             <span className="text-fluorescent-pink font-bold">SIMPLE PLEASURES</span>
-            <div className="flex items-center space-x-2">
-              <div className="w-3 h-3 bg-yellow-400 rounded-full"></div>
-              <div className="w-3 h-3 bg-green-400 rounded-full"></div>
-              <div className="w-3 h-3 bg-red-500 rounded-full"></div>
-            </div>
           </div>
           <div className="p-4 flex-grow flex items-center justify-center">
           </div>
@@ -45,23 +40,13 @@ const MarketSummary = () => {
         <div className="bg-black rounded-lg two-tone-glow-orange flex flex-col">
           <div className="flex items-center justify-between p-2 bg-gray-800 rounded-t-lg">
             <span className="text-fluorescent-pink font-bold">MAKE LIFE EASIER</span>
-            <div className="flex items-center space-x-2">
-              <div className="w-3 h-3 bg-yellow-400 rounded-full"></div>
-              <div className="w-3 h-3 bg-green-400 rounded-full"></div>
-              <div className="w-3 h-3 bg-red-500 rounded-full"></div>
-            </div>
           </div>
           <div className="p-4 flex-grow flex items-center justify-center">
           </div>
         </div>
-        <div className="bg-black rounded-lg two-tone-glow-pink flex flex-col">
+        <div className="bg-black rounded-lg red-white-blue-glow flex flex-col">
           <div className="flex items-center justify-between p-2 bg-gray-800 rounded-t-lg">
             <span className="text-fluorescent-pink font-bold">PERSONALITIES</span>
-            <div className="flex items-center space-x-2">
-              <div className="w-3 h-3 bg-yellow-400 rounded-full"></div>
-              <div className="w-3 h-3 bg-green-400 rounded-full"></div>
-              <div className="w-3 h-3 bg-red-500 rounded-full"></div>
-            </div>
           </div>
           <div className="p-4 flex-grow flex items-center justify-center">
           </div>

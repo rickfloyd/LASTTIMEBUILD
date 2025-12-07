@@ -4,9 +4,13 @@
 @tailwind utilities;
 
 .two-tone-glow-pink {
-  box-shadow: 0 0 5px #ff00ff, 0 0 10px #ff00ff, 0 0 15px #e600e6, 0 0 20px #e600e6;
+  box-shadow: 0 0 5px #00FFFF, 0 0 10px #00FFFF, 0 0 15px #8A2BE2, 0 0 20px #8A2BE2;
 }
 
 .two-tone-glow-orange {
-  box-shadow: 0 0 5px #ffA500, 0 0 10px #ffA500, 0 0 15px #ff4500, 0 0 20px #ff4500;
+  box-shadow: 0 0 5px #ff00a2, 0 0 10px #00f7ff, 0 0 15px #f50187, 0 0 20px #02a5fd;
+}
+
+.red-white-blue-glow {
+  box-shadow: 0 0 8px #ff0000, 0 0 12px #ff0000, 0 0 18px #ffffff, 0 0 25px #8A2BE2, 0 0 35px #8A2BE2;
 }
