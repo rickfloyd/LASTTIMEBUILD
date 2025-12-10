@@ -3,6 +3,12 @@
 @tailwind components;
 @tailwind utilities;
 
+body, html {
+  margin: 0;
+  padding: 0;
+  background-color: #000000;
+}
+
 .two-tone-glow-pink {
   box-shadow: 0 0 5px #00FFFF, 0 0 10px #00FFFF, 0 0 15px #8A2BE2, 0 0 20px #8A2BE2;
 }
@@ -13,4 +19,8 @@
 
 .red-white-blue-glow {
   box-shadow: 0 0 8px #ff0000, 0 0 12px #ff0000, 0 0 18px #ffffff, 0 0 25px #8A2BE2, 0 0 35px #8A2BE2;
+}
+
+.dark-gradient-background {
+  background: linear-gradient(to bottom, #000000, #1a001a, #000000);
 }

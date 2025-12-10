@@ -28,6 +28,7 @@ class RSSService {
     'market-data-prices': [
       'https://www.investing.com/rss/news_25.rss',
       'https://www.reuters.com/markets/feeds/rss',
+      'https://blog.tiingo.com/feed/',
     ],
     'trading-ideas-analysis': [
       'https://seekingalpha.com/market_currents.xml',

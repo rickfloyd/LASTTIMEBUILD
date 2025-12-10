@@ -1,4 +1,7 @@
+
+import React from 'react';
 import { TrendingUp, TrendingDown } from 'lucide-react';
+import PlaceholderCards from "./PlaceholderCards";
 
 const MarketDataTabs = () => {
   const stocksData = [
@@ -8,11 +11,11 @@ const MarketDataTabs = () => {
   ];
 
   return (
-    <div className="bg-gray-900 p-8">
+    <div className="p-8">
       <h2 className="text-white text-2xl font-bold mb-6">Market Data</h2>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {stocksData.map((item, index) => (
-          <div key={index} className="bg-gray-800 rounded-xl p-6 border border-gray-700">
+          <div key={index} className={`bg-black bg-opacity-20 backdrop-blur-lg rounded-xl p-6 border ${index % 2 === 0 ? 'border-outline-orange shadow-outline-orange' : 'border-outline-magenta shadow-outline-magenta'}`}>
             <div className="flex items-center justify-between">
               <div>
                 <div className="text-white font-bold text-lg">{item.symbol}</div>
@@ -29,6 +32,7 @@ const MarketDataTabs = () => {
           </div>
         ))}
       </div>
+      <PlaceholderCards />
     </div>
   );
 };

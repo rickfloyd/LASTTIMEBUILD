@@ -1,9 +1,20 @@
+
 /** @type {import('tailwindcss').Config} */
 export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
     extend: {
       colors: {
+        'crystal-top': '#5331B5',
+        'crystal-shadow': '#100227',
+        'crystal-glow': '#BF4DD4',
+        'crystal-highlight': '#EDABE1',
+        'crystal-deep': '#250B63',
+        'outline-orange': '#FF7124',
+        'outline-magenta': '#FF00A8',
+        'neon-lime': '#7FFF00',
+        'bright-cyan': '#00F7FF',
+
         'fluorescent-pink': '#FF1493',
         'hot-pink': '#FF0080',
         'fluorescent-blue': '#00FFFF',
@@ -77,6 +88,10 @@ export default {
         'neon-blue': '0 0 10px #00BFFF, 0 0 20px #00BFFF, 0 0 30px #00BFFF',
         'neon-cyan': '0 0 10px #00FFFF, 0 0 20px #00FFFF, 0 0 30px #00FFFF',
         'neon-orange': '0 0 10px #FF4500, 0 0 20px #FF4500, 0 0 30px #FF4500',
+        'outline-orange': '0 0 10px #FF7124, 0 0 20px #FF7124',
+        'outline-magenta': '0 0 10px #FF00A8, 0 0 20px #FF00A8',
+        'outline-neon-lime': '0 0 10px #7FFF00, 0 0 20px #7FFF00',
+        'outline-bright-cyan': '0 0 10px #00F7FF, 0 0 20px #00F7FF',
       }
     },
   },

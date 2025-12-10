@@ -1,0 +1,126 @@
+Impact
+The vulnerable RSC protocol allowed untrusted inputs to influence server-side execution behavior. Under specific conditions, an attacker could craft requests that trigger unintended server execution paths. This can result in remote code execution in unpatched environments.
+
+Affected Next.js Versions
+Applications using React Server Components with the App Router are affected when running:
+
+Next.js 15.x
+Next.js 16.x
+Next.js 14.3.0-canary.77 and later canary releases
+Next.js 13.x, Next.js 14.x stable, Pages Router applications, and the Edge Runtime are not affected.
+
+Fixed Versions
+The vulnerability is fully resolved in the following patched Next.js releases:
+
+15.0.5
+15.1.9
+15.2.6
+15.3.6
+15.4.8
+15.5.7
+16.0.7
+We also released patched canary releases for Next.js 15 and 16:
+
+15.6.0-canary.58 (for 15.x canary releases)
+16.1.0-canary.12 (for 16.x canary releases)
+These versions include the hardened React Server Components implementation.
+
+Required Action
+All users should upgrade to the latest patched version in their release line:
+
+Terminal
+npm install next@15.0.5   # for 15.0.x
+npm install next@15.1.9   # for 15.1.x
+npm install next@15.2.6   # for 15.2.x
+npm install next@15.3.6   # for 15.3.x
+npm install next@15.4.8   # for 15.4.x
+npm install next@15.5.7   # for 15.5.x
+npm install next@16.0.7   # for 16.0.x
+ 
+npm install next@15.6.0-canary.58   # for 15.x canary releases
+npm install next@16.1.0-canary.12   # for 16.x canary releases
+If you are on Next.js 14.3.0-canary.77 or a later canary release, downgrade to the latest stable 14.x release:
+
+Terminal
+npm install next@14
+If you\'re currently using canary releases to enable PPR, you can update to 15.6.0-canary.58, which includes a fix for the vulnerability while continuing to support PPR. For other ways to patch older versions, see this discussion post.
+
+Run npx fix-react2shell-next to launch an interactive tool which can check versions and perform deterministic version bumps per the recommended versions above. See the GitHub repository for full details.
+
+Terminal
+npx fix-react2shell-next
+There is no workaround—upgrading to a patched version is required.
+
+Discovery
+Thank you to Lachlan Davidson for discovering and responsibly disclosing this vulnerability. We are intentionally limiting technical detail in this advisory to protect developers who have not yet upgraded.
+
+References
+Next.js security advisory (CVE-2025-66478)
+React security advisory (CVE-2025-55182)
+React blog: Critical Security Vulnerability in React Server ComponentsThe following snippets may be helpful:
+From src/server/SecurityCore.ts in local codebase:
+\'\'\'
+Line 42:      "Are you more afraid of being caught right now, or of staying exactly where you are in life for the next 10 years?",
+\'\'\'
+
+From src/server/SecurityCore.ts in local codebase:
+\'\'\'
+Line 120:     // Endpoint to manually trigger the firewall for testing
+Line 121:     app.get(\'/professor-admin\', (req: Request, res: Response) => {
+Line 122:         const clientIp = req.ip;
+Line 123:         ipBlacklist.add(clientIp);
+Line 124:         res.status(200).send(\`IP ${clientIp} has been blacklisted. The psychological warfare begins now.\`);
+Line 125:     });
+Line 126:     
+Line 127:     // Catch-all for any other routes to avoid information leakage
+Line 128:     app.use((req: Request, res: Response) => {
+Line 129:       res.status(404).send("Endpoint not found. This attempt has been logged.");
+Line 130:     });
+Line 131:     
+Line 132:     
+Line 133:     app.listen(port, () => {
+Line 134:       console.log(\`🔥 AI Quantum Security Core running on http://localhost:${port}.\`);
+Line 135:       console.log(\`🛡️  The bodyguard is now active.\`);
+Line 136:     });
+Line 137:     
+Line 138:     export default app;
+\'\'\'
+
+From src/server/SecurityCore.ts in local codebase:
+\'\'\'
+Line 84:      function getHackerTaunt() {
+Line 85:        const i = Math.floor(Math.random() * HACKER_TAUNTS.length);
+Line 86:        return HACKER_TAUNTS[i];
+Line 87:      }
+Line 88:      
+Line 89:      // IP blacklist
+Line 90:      const ipBlacklist = new Set<string>();
+Line 91:      
+Line 92:      // IP firewall - runs before everything else
+Line 93:      function ipFirewall(req: Request, res: Response, next: NextFunction) {
+Line 94:        const clientIp = req.ip;
+Line 95:      
+Line 96:        if (ipBlacklist.has(clientIp)) {
+Line 97:          console.log("🚫 BLACKLISTED REQUEST:", {
+Line 98:            ip: clientIp,
+Line 99:            time: new Date().toISOString(),
+Line 100:           path: req.originalUrl,
+Line 101:         });
+Line 102:     
+Line 103:         return res.status(403).json({
+Line 104:           error: "Access denied.",
+Line 105:           message: getHackerTaunt(),
+Line 106:         });
+Line 107:       }
+Line 108:     
+Line 109:       next();
+Line 110:     }
+Line 111:     
+Line 112:     app.use(ipFirewall);
+Line 113:     
+Line 114:     // --- STANDARD ROUTES & SERVER START ---
+Line 115:     
+Line 116:     app.get(\'/\', (req: Request, res: Response) => {
+Line 117:       res.send(\'AI Quantum Security Core is active. All systems nominal.\');
+Line 118:     });
+\'\'\'

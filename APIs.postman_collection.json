@@ -63,6 +63,34 @@
         "description": "Fetches cryptocurrency data from CoinGecko. Change the coin ID in the URL (e.g., to ethereum, cardano) to get data for different cryptocurrencies."
       },
       "response": []
+    },
+    {
+      "name": "Get CoinDesk Data",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "x-api-key",
+            "value": "85dbdfd78862525cfa5e285ac0052baafe266d5054f5808c1467be3c4660c15c"
+          }
+        ],
+        "url": {
+          "raw": "https://api.coindesk.com/v1/bpi/currentprice.json",
+          "protocol": "https",
+          "host": [
+            "api",
+            "coindesk",
+            "com"
+          ],
+          "path": [
+            "v1",
+            "bpi",
+            "currentprice.json"
+          ]
+        },
+        "description": "Fetches cryptocurrency data from CoinDesk."
+      },
+      "response": []
     }
   ]
 }

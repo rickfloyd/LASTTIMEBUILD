@@ -1,0 +1,2 @@
+
+export const TIINGO_API_KEY = 'a777ee76643d064321f521146b7a57c12d818ec4';

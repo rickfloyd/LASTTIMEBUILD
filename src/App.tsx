@@ -35,7 +35,7 @@ class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundarySta
   render() {
     if (this.state.hasError) {
       return (
-        <div className="bg-deep-black min-h-screen flex flex-col items-center justify-center text-fluorescent-pink text-center p-10">
+        <div className="bg-crystal-shadow min-h-screen flex flex-col items-center justify-center text-crystal-highlight text-center p-10">
           <h1 className="text-5xl font-bold animate-bounce-glow">Something went wrong</h1>
           <p className="mt-4 text-xl text-pulsing-cyan">The platform hit a glitch try refreshing or check the console.</p>
         </div>
@@ -46,10 +46,10 @@ class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundarySta
 }
 
 const PlatformStatus: React.FC = () => (
-  <div className="fixed top-4 right-4 bg-gray-900 border border-neon-green rounded-lg p-3 text-sm z-50 shadow-neon-green">
+  <div className="fixed top-4 right-4 bg-crystal-deep border border-crystal-glow rounded-lg p-3 text-sm z-50">
     <div className="flex items-center space-x-2">
-      <div className="w-2 h-2 bg-neon-green rounded-full animate-pulse"></div>
-      <span className="text-neon-green font-bold">Platform Status: Online</span>
+      <div className="w-2 h-2 bg-crystal-glow rounded-full animate-pulse"></div>
+      <span className="text-crystal-glow font-bold">Platform Status: Online</span>
     </div>
     <div className="text-gray-300 text-xs mt-1">
       AI Models: Active | Market Data: Live | APIs: Connected
@@ -58,26 +58,26 @@ const PlatformStatus: React.FC = () => (
 );
 
 const Sidebar: React.FC = () => (
-  <div className="w-80 bg-deep-black border-r border-pulsing-cyan p-6 min-h-screen">
+  <div className="w-80 bg-crystal-deep border-r border-crystal-glow p-6 min-h-screen">
     <div className="mb-2 flex items-center justify-start">
       <LogoCandles />
     </div>
-    <h3 className="text-fluorescent-pink font-bold text-lg mb-6 animate-cyber-pulse">AI Trading Platform</h3>
+    <h3 className="text-crystal-highlight font-bold text-lg mb-6 animate-cyber-pulse">AI Trading Platform</h3>
     <ul className="space-y-3 text-sm">
-      <li className="flex items-center text-pulsing-cyan"><div className="w-3 h-3 bg-neon-green rounded-full mr-3"></div>AI Price Prediction Engine</li>
-      <li className="flex items-center text-pulsing-cyan"><div className="w-3 h-3 bg-neon-green rounded-full mr-3"></div>ML Pattern Recognition</li>
-      <li className="flex items-center text-pulsing-cyan"><div className="w-3 h-3 bg-neon-green rounded-full mr-3"></div>Sentiment Analysis AI</li>
-      <li className="flex items-center text-pulsing-cyan"><div className="w-3 h-3 bg-neon-green rounded-full mr-3"></div>Smart Risk Management</li>
-      <li className="flex items-center text-pulsing-cyan"><div className="w-3 h-3 bg-neon-green rounded-full mr-3"></div>Automated Trading Signals</li>
-      <li className="flex items-center text-pulsing-cyan"><div className="w-3 h-3 bg-neon-green rounded-full mr-3"></div>Neural Networks & LSTM</li>
-      <li className="flex items-center text-pulsing-cyan"><div className="w-3 h-3 bg-neon-green rounded-full mr-3"></div>Advanced Drawing Tools</li>
-      <li className="flex items-center text-pulsing-cyan"><div className="w-3 h-3 bg-neon-green rounded-full mr-3"></div>Real-Time Market Data</li>
-      <li className="flex items-center text-pulsing-cyan"><div className="w-3 h-3 bg-neon-green rounded-full mr-3"></div>Portfolio Management</li>
-      <li className="flex items-center text-pulsing-cyan"><div className="w-3 h-3 bg-neon-green rounded-full mr-3"></div>Custom Scripting Engine</li>
+      <li className="flex items-center text-crystal-glow"><div className="w-3 h-3 bg-crystal-glow rounded-full mr-3"></div>AI Price Prediction Engine</li>
+      <li className="flex items-center text-crystal-glow"><div className="w-3 h-3 bg-crystal-glow rounded-full mr-3"></div>ML Pattern Recognition</li>
+      <li className="flex items-center text-crystal-glow"><div className="w-3 h-3 bg-crystal-glow rounded-full mr-3"></div>Sentiment Analysis AI</li>
+      <li className="flex items-center text-crystal-glow"><div className="w-3 h-3 bg-crystal-glow rounded-full mr-3"></div>Smart Risk Management</li>
+      <li className="flex items-center text-crystal-glow"><div className="w-3 h-3 bg-crystal-glow rounded-full mr-3"></div>Automated Trading Signals</li>
+      <li className="flex items-center text-crystal-glow"><div className="w-3 h-3 bg-crystal-glow rounded-full mr-3"></div>Neural Networks & LSTM</li>
+      <li className="flex items-center text-crystal-glow"><div className="w-3 h-3 bg-crystal-glow rounded-full mr-3"></div>Advanced Drawing Tools</li>
+      <li className="flex items-center text-crystal-glow"><div className="w-3 h-3 bg-crystal-glow rounded-full mr-3"></div>Real-Time Market Data</li>
+      <li className="flex items-center text-crystal-glow"><div className="w-3 h-3 bg-crystal-glow rounded-full mr-3"></div>Portfolio Management</li>
+      <li className="flex items-center text-crystal-glow"><div className="w-3 h-3 bg-crystal-glow rounded-full mr-3"></div>Custom Scripting Engine</li>
     </ul>
-    <div className="mt-8 p-4 bg-fluorescent-blue/10 border border-fluorescent-blue rounded-lg">
-      <p className="text-fluorescent-blue font-bold text-sm mb-2 animate-cyber-pulse">Revolutionary AI Trading Platform!</p>
-      <p className="text-xs text-pulsing-cyan">Empowering traders with quantum-level insights and automation.</p>
+    <div className="mt-8 p-4 bg-crystal-glow/10 border border-crystal-glow rounded-lg">
+      <p className="text-crystal-glow font-bold text-sm mb-2 animate-cyber-pulse">Revolutionary AI Trading Platform!</p>
+      <p className="text-xs text-crystal-glow">Empowering traders with quantum-level insights and automation.</p>
     </div>
   </div>
 );
@@ -98,14 +98,16 @@ function App() {
 
   return (
     <Router>
-      <div className="App min-h-screen">
+      <div className="App min-h-screen bg-charcoal-gradient border-8 border-transparent" style={{
+        borderImage: 'linear-gradient(to right, #FF7124, #FF00A8) 1'
+      }}>
         <ErrorBoundary>
           <PlatformStatus />
           {/* Move theme toggle button into MinimalTheme header when minimal theme is active */}
           {theme === 'minimal' ? null : (
             <button
               onClick={handleToggle}
-              className="fixed top-4 left-4 z-50 px-4 py-2 rounded-lg font-bold text-xs bg-gray-900 text-pink-400 border border-pink-500 shadow-neon-pink hover:bg-pink-900 hover:text-white transition-all"
+              className="fixed top-4 left-4 z-50 px-4 py-2 rounded-lg font-bold text-xs bg-crystal-deep text-crystal-highlight border border-crystal-glow hover:bg-crystal-top hover:text-white transition-all"
               aria-label="Toggle site theme"
             >
               {theme === 'neon' ? 'Switch to Minimal Theme' : 'Switch to Neon Theme'}
