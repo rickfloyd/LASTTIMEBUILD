@@ -1,31 +1,25 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import StockChart from '../components/StockChart';
 import DashboardStats from '../components/dashboard/DashboardStats';
 import { CommunityPanel } from '../components/dashboard/CommunityPanel';
 import PriceComparison from '../components/PriceComparison'; 
 import EngineControlPanel from '../components/engines/EngineControlPanel';
 import SportsFeedPanel from '../components/SportsFeedPanel'; 
-import AmericanSports from '../components/AmericanSports';
-import WorldSports from '../components/WorldSports';
-import MAKINGLIFEEASIER from '../components/MakingLifeEasier';
-import CategoryFeeds from '../components/CategoryFeeds';
-import QuantumNews from '../components/QuantumNews';
-import { FiUsers, FiDollarSign, FiLayers, FiActivity, FiZap, FiCpu, FiAlertTriangle, FiGlobe, FiFlag, FiSmile, FiRss, FiBookOpen } from 'react-icons/fi';
+import { DashboardModeGrid } from '../components/dashboard/DashboardModeGrid'; // The 25 Cards
+import { FiUsers, FiDollarSign, FiLayers, FiActivity, FiZap, FiCpu, FiAlertTriangle, FiLayout, FiHeart } from 'react-icons/fi';
 import { askGemini } from '../GeminiBridge'; // Import the AI function
 
 const DashboardPage: React.FC = () => {
-  const [activeMode, setActiveMode] = useState('Long-Term');
+  const navigate = useNavigate();
+  const [activeMode, setActiveMode] = useState<string | null>(null); 
   const [activeTheme, setActiveTheme] = useState('LUCID'); 
   const [showCommunity, setShowCommunity] = useState(false);
   const [showPricing, setShowPricing] = useState(false);
   const [showSportsFeed, setShowSportsFeed] = useState(false);
-  const [showAmericanSports, setShowAmericanSports] = useState(false);
-  const [showWorldSports, setShowWorldSports] = useState(false);
-  const [showMakingLifeEasier, setShowMakingLifeEasier] = useState(false);
-  const [showCategoryFeeds, setShowCategoryFeeds] = useState(false);
-  const [showQuantumNews, setShowQuantumNews] = useState(false);
+  const [showSimplePleasures, setShowSimplePleasures] = useState(false); // NEW STATE FOR SIMPLE PLEASURES
+  const [mainView, setMainView] = useState<'grid' | 'chart'>('grid'); // FORCED TO GRID START
   
-  // New AI State
   const [aiPrediction, setAiPrediction] = useState("Awaiting command from AI Bridge.");
   const [aiLoading, setAiLoading] = useState(false);
 
@@ -41,14 +35,12 @@ const DashboardPage: React.FC = () => {
       deepblue: '#00BFFF'
   };
 
-  // --- NEW: AI COMMAND FUNCTION ---
   const handleAiPrediction = async () => {
       setAiLoading(true);
       setAiPrediction("Running Quantum Algorithm...");
 
       try {
-          // This is a simplified prompt. In a real app, we'd send chart data.
-          const currentPrice = 176.37; // Mock price from the stats card
+          const currentPrice = 176.37; 
           const prompt = `Analyze the current S&P 500 trend given high volatility and a price of $${currentPrice}. Provide a concise 2-sentence prediction for the next 48 hours.`;
           
           const result = await askGemini(prompt);
@@ -59,7 +51,14 @@ const DashboardPage: React.FC = () => {
       }
       setAiLoading(false);
   };
-  // ------------------------------
+
+  // NEW: Simple Pleasures Navigation Function
+  const handleSimplePleasuresClick = () => {
+      // NOTE: Using state to show a modal/panel is usually better for overlays.
+      // If you want a full page route: navigate('/simple-pleasures'); 
+      // For now, we'll use state to show the modal (as requested earlier).
+      setShowSimplePleasures(true);
+  };
 
   return (
     <div className="min-h-full bg-black text-white font-sans overflow-x-hidden">
@@ -70,8 +69,8 @@ const DashboardPage: React.FC = () => {
         {/* TOP BAR */}
         <div className="flex flex-col xl:flex-row justify-between items-start xl:items-center mb-8 gap-6">
             
-            {/* LEFT: TITLE */}
-            <div className="w-full xl:w-auto mb-4 xl:mb-0">
+            {/* LEFT: TITLE & VIEW SWITCH */}
+            <div className="w-full xl:w-auto mb-4 xl:mb-0 flex items-center gap-4">
                 <div className="flex items-center gap-3">
                     <div className="w-10 h-10 rounded-lg bg-black border border-[#00F7FF] flex items-center justify-center shadow-[0_0_15px_#00F7FF]">
                         <FiActivity className="text-xl text-[#00F7FF]" />
@@ -80,10 +79,19 @@ const DashboardPage: React.FC = () => {
                         AI QUANTUM CHARTS
                     </h1>
                 </div>
+
+                <button
+                    onClick={() => setMainView(mainView === 'grid' ? 'chart' : 'grid')}
+                    className="flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-bold transition-all border border-gray-700 text-gray-400 hover:text-green-500 hover:border-green-500"
+                >
+                    <FiLayout /> {mainView === 'grid' ? 'SHOW CHART' : 'SHOW GRID (25 MODES)'}
+                </button>
             </div>
 
-            {/* CENTER: THEME SELECTOR */}
-            <div className="w-full xl:w-auto flex justify-center">
+            {/* CENTER: THEME SELECTOR & SIMPLE PLEASURES BUTTON */}
+            <div className="w-full xl:w-auto flex justify-center items-center gap-4">
+                
+                {/* THEME SELECTOR */}
                 <div className="flex bg-[#0A0A0F] p-1 rounded-xl border border-gray-800 shadow-lg overflow-x-auto max-w-full gap-1">
                     {['LUCID', 'MINIMAL', 'COLOR SENSITIVE'].map((theme) => (
                         <button
@@ -99,6 +107,15 @@ const DashboardPage: React.FC = () => {
                         </button>
                     ))}
                 </div>
+
+                {/* SIMPLE PLEASURES BUTTON (HOT PINK CARD) - NOW ROUTES TO PAGE */}
+                <button 
+                    onClick={handleSimplePleasuresClick}
+                    className="flex items-center justify-center bg-[#0A0A0F] border border-qc-pink text-qc-pink px-3 py-2 rounded-lg font-bold text-xs shadow-[0_0_15px_rgba(255,0,126,0.6)] hover:shadow-[0_0_25px_rgba(255,0,126,0.9)] transition-all"
+                    style={{ borderColor: colors.pink, color: colors.pink }}
+                >
+                    <FiHeart className="mr-1" /> SIMPLE PLEASURES
+                </button>
             </div>
 
             {/* RIGHT: COMMUNITY, PRICING, & SPORTS */}
@@ -124,7 +141,7 @@ const DashboardPage: React.FC = () => {
                     <FiDollarSign /> COMPARE PRICES
                 </button>
 
-                {/* SPORTSFIRE BUTTON */}
+                {/* SPORTSFIRE BUTTON (NEW) */}
                 <button 
                     onClick={() => setShowSportsFeed(true)}
                     className="w-full xl:w-48 flex items-center justify-center gap-2 border-2 text-[#FFFF00] hover:bg-[#FFFF00] hover:text-black px-3 py-2 rounded-lg font-bold text-xs transition-all tracking-wider"
@@ -135,107 +152,60 @@ const DashboardPage: React.FC = () => {
                 >
                     <FiZap /> SPORTSFIRE FEED
                 </button>
-
-                 {/* CATEGORY FEEDS BUTTON */}
-                <button 
-                    onClick={() => setShowCategoryFeeds(true)}
-                    className="w-full xl:w-48 flex items-center justify-center gap-2 border-2 text-lime-400 hover:bg-lime-400 hover:text-white px-3 py-2 rounded-lg font-bold text-xs transition-all tracking-wider"
-                    style={{ 
-                        borderColor: 'lime', 
-                        boxShadow: `0 0 20px lime` 
-                    }}
-                >
-                    <FiRss /> MARKET FEEDS
-                </button>
-
-                {/* QUANTUM NEWS BUTTON */}
-                <button 
-                    onClick={() => setShowQuantumNews(true)}
-                    className="w-full xl:w-48 flex items-center justify-center gap-2 border-2 text-orange-400 hover:bg-orange-400 hover:text-white px-3 py-2 rounded-lg font-bold text-xs transition-all tracking-wider"
-                    style={{ 
-                        borderColor: 'orange', 
-                        boxShadow: `0 0 20px orange` 
-                    }}
-                >
-                    <FiBookOpen /> QUANTUM NEWS
-                </button>
-
-
-                {/* AMERICAN SPORTS BUTTON */}
-                <button 
-                    onClick={() => setShowAmericanSports(true)}
-                    className="w-full xl:w-48 flex items-center justify-center gap-2 border-2 text-blue-400 hover:bg-blue-400 hover:text-white px-3 py-2 rounded-lg font-bold text-xs transition-all tracking-wider"
-                    style={{ 
-                        borderColor: 'blue', 
-                        boxShadow: `0 0 20px blue` 
-                    }}
-                >
-                    <FiFlag /> AMERICAN SPORTS
-                </button>
-
-                {/* WORLD SPORTS BUTTON */}
-                <button 
-                    onClick={() => setShowWorldSports(true)}
-                    className="w-full xl:w-48 flex items-center justify-center gap-2 border-2 text-green-400 hover:bg-green-400 hover:text-white px-3 py-2 rounded-lg font-bold text-xs transition-all tracking-wider"
-                    style={{ 
-                        borderColor: 'green', 
-                        boxShadow: `0 0 20px green` 
-                    }}
-                >
-                    <FiGlobe /> WORLD SPORTS
-                </button>
-
-                {/* MAKING LIFE EASIER BUTTON */}
-                <button 
-                    onClick={() => setShowMakingLifeEasier(true)}
-                    className="w-full xl:w-48 flex items-center justify-center gap-2 border-2 text-purple-400 hover:bg-purple-400 hover:text-white px-3 py-2 rounded-lg font-bold text-xs transition-all tracking-wider"
-                    style={{ 
-                        borderColor: 'purple', 
-                        boxShadow: `0 0 20px purple` 
-                    }}
-                >
-                    <FiSmile /> MAKING LIFE EASIER
-                </button>
             </div>
         </div>
 
-        {/* 4. KEY STATS CARDS */}
-        <DashboardStats />
-
-        {/* 5. VISUAL COMMAND CENTER CHART AREA */}
-        <div className="flex flex-col lg:flex-row gap-6">
-            <div className="lg:w-3/4">
-                <StockChart />
+        {/* --- MAIN CONTENT SWITCH --- */}
+        {/* THIS SECTION IS NOW THE 25-CARD GRID */}
+        {mainView === 'grid' && (
+            <div className="mt-8">
+                 <h2 className="text-xl font-black text-cyan-400 mb-6">Quantum Mode Selector (25 Modules)</h2>
+                 <DashboardModeGrid />
             </div>
+        )}
+        
+        {/* THIS SECTION IS THE CHART VIEW (When grid is toggled off) */}
+        {mainView === 'chart' && (
+            <>
+                {/* 4. KEY STATS CARDS */}
+                <DashboardStats />
 
-            {/* AI PREDICTION PANEL (NEW) */}
-            <div className="lg:w-1/4 bg-[#0A0A0F] p-4 rounded-xl border border-gray-700 shadow-lg">
-                <h3 className="text-lg font-bold text-cyan-400 mb-3 border-b border-gray-800 pb-2 flex items-center gap-2">
-                    <FiCpu className="text-pink-500" /> AI PREDICTION
-                </h3>
-                
-                <p className="text-xs text-gray-400 mb-4 h-16 overflow-y-auto">
-                    {aiPrediction}
-                </p>
+                {/* 5. VISUAL COMMAND CENTER CHART AREA */}
+                <div className="flex flex-col lg:flex-row gap-6 mt-8">
+                    <div className="lg:w-3/4">
+                        <StockChart />
+                    </div>
 
-                <button 
-                    onClick={handleAiPrediction}
-                    disabled={aiLoading}
-                    className={`w-full flex items-center justify-center gap-2 px-3 py-2 rounded-lg font-bold text-xs transition-all ${
-                        aiLoading 
-                        ? 'bg-gray-700 text-gray-400 cursor-not-allowed' 
-                        : 'bg-green-600 hover:bg-green-500 text-black'
-                    }`}
-                >
-                    {aiLoading ? <FiActivity className="animate-spin" /> : <FiZap />}
-                    {aiLoading ? "ANALYZING..." : "RUN AI QUANTUM"}
-                </button>
+                    {/* AI PREDICTION PANEL */}
+                    <div className="lg:w-1/4 bg-[#0A0A0F] p-4 rounded-xl border border-gray-700 shadow-lg">
+                        <h3 className="text-lg font-bold text-cyan-400 mb-3 border-b border-gray-800 pb-2 flex items-center gap-2">
+                            <FiCpu className="text-pink-500" /> AI PREDICTION
+                        </h3>
+                        
+                        <p className="text-xs text-gray-400 mb-4 h-16 overflow-y-auto">
+                            {aiPrediction}
+                        </p>
 
-                <div className="mt-4 text-center text-[10px] text-gray-500">
-                    <FiAlertTriangle className="inline mr-1 text-yellow-500" /> For informational use only.
+                        <button 
+                            onClick={handleAiPrediction}
+                            disabled={aiLoading}
+                            className={`w-full flex items-center justify-center gap-2 px-3 py-2 rounded-lg font-bold text-xs transition-all ${
+                                aiLoading 
+                                ? 'bg-gray-700 text-gray-400 cursor-not-allowed' 
+                                : 'bg-green-600 hover:bg-green-500 text-black'
+                            }`}
+                        >
+                            {aiLoading ? <FiActivity className="animate-spin" /> : <FiZap />}
+                            {aiLoading ? "ANALYZING..." : "RUN AI QUANTUM"}
+                        </button>
+
+                        <div className="mt-4 text-center text-[10px] text-gray-500">
+                            <FiAlertTriangle className="inline mr-1 text-yellow-500" /> For informational use only.
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
+            </>
+        )}
 
 
       </main>
@@ -244,27 +214,12 @@ const DashboardPage: React.FC = () => {
       {showCommunity && <CommunityPanel onClose={() => setShowCommunity(false)} />}
       {showPricing && <PriceComparison onClose={() => setShowPricing(false)} />}
       {showSportsFeed && <SportsFeedPanel onClose={() => setShowSportsFeed(false)} />}
-      {showAmericanSports && <AmericanSports onClose={() => setShowAmericanSports(false)} />}
-      {showWorldSports && <WorldSports onClose={() => setShowWorldSports(false)} />}
-      {showCategoryFeeds && <CategoryFeeds onClose={() => setShowCategoryFeeds(false)} />}
-      {showQuantumNews && <QuantumNews onClose={() => setShowQuantumNews(false)} />}
-      {showMakingLifeEasier && (
-        <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 p-4">
-            <div className="relative w-full max-w-6xl">
-                <MAKINGLIFEEASIER />
-                <button
-                    onClick={() => setShowMakingLifeEasier(false)}
-                    className="absolute top-4 right-4 bg-deep-black/80 text-white border border-fluorescent-pink rounded-full p-2 text-xl z-10 hover:bg-fluorescent-pink hover:text-deep-black shadow-neon-pink"
-                >
-                    &times;
-                </button>
-            </div>
-        </div>
-      )}
+      {/* ADDED MISSING SIMPLE PLEASURES MODAL */}
+      {showSimplePleasures && <SimplePleasuresPanel onClose={() => setShowSimplePleasures(false)} />} 
       <EngineControlPanel />
 
     </div>
   );
 };
 
-export default DashboardPage;
+export default DashboardPage; 
