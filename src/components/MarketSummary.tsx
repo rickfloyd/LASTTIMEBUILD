@@ -44,7 +44,7 @@ const MarketSummary = () => {
           </h2>
         </div>
         <div className="flex items-center space-x-6 text-sm">
-          {['Stocks', 'Spreads', 'Float', 'Crypto', 'Futures'].map((tab) => (
+          {['Crypto'].map((tab) => (
             <button 
               key={tab}
               onClick={() => console.log(`Switched to ${tab} tab`)}
