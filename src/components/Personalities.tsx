@@ -1,6 +1,28 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
+// Modal Component
+const Modal: React.FC<{ content: React.ReactNode; onClose: () => void; title: string }> = ({ content, onClose, title }) => {
+  return (
+    <div className="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center z-50">
+      <div className="bg-charcoal p-8 rounded-lg shadow-neon-blue w-3/4 h-3/4 max-w-4xl flex flex-col">
+        <div className="flex justify-between items-center mb-4">
+          <h2 className="text-2xl font-bold text-neon-green">{title}</h2>
+          <button onClick={onClose} className="text-white text-2xl">&times;</button>
+        </div>
+        <div className="flex-grow overflow-y-auto">{content}</div>
+        <button
+          onClick={onClose}
+          className="mt-6 bg-neon-pink text-white py-2 px-5 rounded-lg hover:bg-hot-pink transition-colors duration-300 shadow-neon-pink/50 hover:shadow-neon-pink/80 self-end"
+        >
+          Close
+        </button>
+      </div>
+    </div>
+  );
+};
+
+
 // Define the structure for a personality/source
 interface Personality {
   name: string;
@@ -19,7 +41,6 @@ interface FeedItem {
   isoDate?: string;
 }
 
-// List of personalities based on your request
 const personalities: Personality[] = [
   // Conservative Leaning
   { name: 'Fox News', category: 'News Network', rssFeedUrl: 'http://feeds.foxnews.com/foxnews/latest', leaning: 'Conservative' },
@@ -153,154 +174,114 @@ const personalities: Personality[] = [
   { name: 'Shinto News', category: 'Shinto', rssFeedUrl: 'https://www.shintonews.com/feed', leaning: 'Religious' },
 ];
 
-const conservativePersonalities = personalities.filter(p => p.leaning === 'Conservative');
-const liberalPersonalities = personalities.filter(p => p.leaning === 'Liberal');
-const independentPersonalities = personalities.filter(p => p.leaning === 'Independent');
-const worldLanguagesPersonalities = personalities.filter(p => p.leaning === 'World Languages');
-const worldFinancesPersonalities = personalities.filter(p => p.leaning === 'World Finances');
-const lgbtqPersonalities = personalities.filter(p => p.leaning === 'LGBTQ');
-const newsPersonalities = personalities.filter(p => p.leaning === 'News');
-const religiousPersonalities = personalities.filter(p => p.leaning === 'Religious');
+const PersonalityCard: React.FC<{ personality: Personality; onClick: () => void }> = ({ personality, onClick }) => (
+  <button 
+    onClick={onClick}
+    className="w-full text-left p-4 bg-gray-800 rounded-lg hover:bg-gray-700 transition-colors shadow-lg"
+  >
+    <div className="font-bold text-lg text-neon-lime">{personality.name}</div>
+    <div className="text-sm text-gray-400">{personality.category}</div>
+  </button>
+);
 
 const Personalities: React.FC = () => {
-  const [selectedPersonality, setSelectedPersonality] = useState<Personality | null>(conservativePersonalities[0]);
   const [activeTab, setActiveTab] = useState<'Conservative' | 'Liberal' | 'Independent' | 'World Languages' | 'World Finances' | 'LGBTQ' | 'News' | 'Religious'>('Conservative');
-  const [feed, setFeed] = useState<FeedItem[]>([]);
+  const [modalContent, setModalContent] = useState<React.ReactNode | null>(null);
+  const [modalTitle, setModalTitle] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    if (selectedPersonality) {
-      fetchFeed(selectedPersonality.rssFeedUrl);
-    }
-  }, [selectedPersonality]);
-
-  const fetchFeed = async (feedUrl: string) => {
+  const fetchFeed = async (personality: Personality) => {
     setIsLoading(true);
     setError(null);
     try {
-      // We will create this backend endpoint next
       const response = await axios.get('/api/personalities/feed', {
-        params: { url: feedUrl },
+        params: { url: personality.rssFeedUrl },
       });
-      setFeed(response.data.items);
+      setModalContent(<FeedDisplay feed={response.data.items} />);
+      setModalTitle(personality.name);
     } catch (err) {
       setError('Failed to fetch the news feed. The backend service may not be running or the feed URL is invalid.');
       console.error(err);
+      setModalContent(<p className="text-red-500">Error loading feed.</p>);
+      setModalTitle(personality.name);
     } finally {
       setIsLoading(false);
     }
   };
 
+  const openModal = (personality: Personality) => {
+    fetchFeed(personality);
+  };
+
+  const closeModal = () => {
+    setModalContent(null);
+    setModalTitle('');
+  };
+
+  const getPersonalitiesByTab = (tab: typeof activeTab) => {
+    switch (tab) {
+      case 'Conservative': return personalities.filter(p => p.leaning === 'Conservative');
+      case 'Liberal': return personalities.filter(p => p.leaning === 'Liberal');
+      case 'Independent': return personalities.filter(p => p.leaning === 'Independent');
+      case 'World Languages': return personalities.filter(p => p.leaning === 'World Languages');
+      case 'World Finances': return personalities.filter(p => p.leaning === 'World Finances');
+      case 'LGBTQ': return personalities.filter(p => p.leaning === 'LGBTQ');
+      case 'News': return personalities.filter(p => p.leaning === 'News');
+      case 'Religious': return personalities.filter(p => p.leaning === 'Religious');
+      default: return [];
+    }
+  }
+
   return (
-    <div className="flex h-full bg-gray-900 text-white">
-      {/* Sidebar with the list of personalities */}
-      <aside className="w-1/4 bg-gray-800 p-4 overflow-y-auto">
-        <h2 className="text-xl font-bold mb-4">Personalities</h2>
-        
-        <div className="flex border-b border-gray-700 mb-4">
-          <button 
-            className={`flex-1 py-2 text-sm font-semibold ${activeTab === 'Conservative' ? 'text-white border-b-2 border-blue-500' : 'text-gray-400'}`}
-            onClick={() => setActiveTab('Conservative')}
-          >
-            Conservative
-          </button>
-          <button 
-            className={`flex-1 py-2 text-sm font-semibold ${activeTab === 'Liberal' ? 'text-white border-b-2 border-blue-500' : 'text-gray-400'}`}
-            onClick={() => setActiveTab('Liberal')}
-          >
-            Liberal
-          </button>
-          <button 
-            className={`flex-1 py-2 text-sm font-semibold ${activeTab === 'Independent' ? 'text-white border-b-2 border-blue-500' : 'text-gray-400'}`}
-            onClick={() => setActiveTab('Independent')}
-          >
-            Independent
-          </button>
-          <button 
-            className={`flex-1 py-2 text-sm font-semibold ${activeTab === 'World Languages' ? 'text-white border-b-2 border-blue-500' : 'text-gray-400'}`}
-            onClick={() => setActiveTab('World Languages')}
-          >
-            World Languages
-          </button>
-          <button 
-            className={`flex-1 py-2 text-sm font-semibold ${activeTab === 'World Finances' ? 'text-white border-b-2 border-blue-500' : 'text-gray-400'}`}
-            onClick={() => setActiveTab('World Finances')}
-          >
-            World Finances
-          </button>
-          <button 
-            className={`flex-1 py-2 text-sm font-semibold ${activeTab === 'LGBTQ' ? 'text-white border-b-2 border-blue-500' : 'text-gray-400'}`}
-            onClick={() => setActiveTab('LGBTQ')}
-          >
-            LGBTQ
-          </button>
-          <button 
-            className={`flex-1 py-2 text-sm font-semibold ${activeTab === 'News' ? 'text-white border-b-2 border-blue-500' : 'text-gray-400'}`}
-            onClick={() => setActiveTab('News')}
-          >
-            News
-          </button>
-          <button 
-            className={`flex-1 py-2 text-sm font-semibold ${activeTab === 'Religious' ? 'text-white border-b-2 border-blue-500' : 'text-gray-400'}`}
-            onClick={() => setActiveTab('Religious')}
-          >
-            Religious
-          </button>
-        </div>
+    <div className="h-full bg-gray-900 text-white p-6">
+      {modalContent && <Modal content={isLoading ? <p>Loading...</p> : modalContent} onClose={closeModal} title={modalTitle} />}
+      <h1 className="text-3xl font-bold mb-4 text-neon-green">Personalities</h1>
+      <div className="flex border-b border-gray-700 mb-4 overflow-x-auto">
+        <TabButton name="Conservative" activeTab={activeTab} setActiveTab={setActiveTab} />
+        <TabButton name="Liberal" activeTab={activeTab} setActiveTab={setActiveTab} />
+        <TabButton name="Independent" activeTab={activeTab} setActiveTab={setActiveTab} />
+        <TabButton name="World Languages" activeTab={activeTab} setActiveTab={setActiveTab} />
+        <TabButton name="World Finances" activeTab={activeTab} setActiveTab={setActiveTab} />
+        <TabButton name="LGBTQ" activeTab={activeTab} setActiveTab={setActiveTab} />
+        <TabButton name="News" activeTab={activeTab} setActiveTab={setActiveTab} />
+        <TabButton name="Religious" activeTab={activeTab} setActiveTab={setActiveTab} />
+      </div>
 
-        <ul>
-          {(
-            activeTab === 'Conservative' ? conservativePersonalities :
-            activeTab === 'Liberal' ? liberalPersonalities :
-            activeTab === 'Independent' ? independentPersonalities :
-            activeTab === 'World Languages' ? worldLanguagesPersonalities :
-            activeTab === 'World Finances' ? worldFinancesPersonalities :
-            activeTab === 'LGBTQ' ? lgbtqPersonalities :
-            activeTab === 'News' ? newsPersonalities :
-            religiousPersonalities
-          ).map((p) => (
-            <li
-              key={p.name}
-              className={`p-2 rounded cursor-pointer ${selectedPersonality?.name === p.name ? 'bg-blue-600' : 'hover:bg-gray-700'}`}
-              onClick={() => setSelectedPersonality(p)}
-            >
-              <div className="font-semibold">{p.name}</div>
-              <div className="text-sm text-gray-400">{p.category}</div>
-            </li>
-          ))}
-        </ul>
-      </aside>
-
-      {/* Main content area for displaying the feed */}
-      <main className="w-3/4 p-6 overflow-y-auto">
-        {selectedPersonality && (
-          <h1 className="text-3xl font-bold mb-6">Feed for {selectedPersonality.name}</h1>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        {getPersonalitiesByTab(activeTab).map(p => 
+          <PersonalityCard key={p.name} personality={p} onClick={() => openModal(p)} />
         )}
-
-        {isLoading && <p>Loading feed...</p>}
-        {error && <p className="text-red-500">{error}</p>}
-
-        {!isLoading && !error && (
-          <div className="space-y-4">
-            {feed.map((item, index) => (
-              <a
-                key={index}
-                href={item.link}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="block p-4 bg-gray-800 rounded-lg hover:bg-gray-700 transition-colors"
-              >
-                <h3 className="text-lg font-semibold text-blue-400">{item.title}</h3>
-                <p className="text-sm text-gray-400 mt-1">{new Date(item.pubDate).toLocaleString()}</p>
-                <p className="text-gray-300 mt-2">{item.contentSnippet}</p>
-              </a>
-            ))}
-          </div>
-        )}
-      </main>
+      </div>
     </div>
   );
 };
+
+const TabButton: React.FC<{ name: 'Conservative' | 'Liberal' | 'Independent' | 'World Languages' | 'World Finances' | 'LGBTQ' | 'News' | 'Religious'; activeTab: string; setActiveTab: (name: any) => void; }> = ({ name, activeTab, setActiveTab }) => (
+  <button 
+    className={`flex-shrink-0 px-4 py-2 text-sm font-semibold ${activeTab === name ? 'text-white border-b-2 border-blue-500' : 'text-gray-400'}`}
+    onClick={() => setActiveTab(name)}
+  >
+    {name}
+  </button>
+);
+
+const FeedDisplay: React.FC<{ feed: FeedItem[] }> = ({ feed }) => (
+  <div className="space-y-4">
+    {feed.map((item, index) => (
+      <a
+        key={index}
+        href={item.link}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="block p-4 bg-gray-800 rounded-lg hover:bg-gray-700 transition-colors"
+      >
+        <h3 className="text-lg font-semibold text-blue-400">{item.title}</h3>
+        <p className="text-sm text-gray-400 mt-1">{new Date(item.pubDate).toLocaleString()}</p>
+        <p className="text-gray-300 mt-2">{item.contentSnippet}</p>
+      </a>
+    ))}
+  </div>
+);
 
 export default Personalities;

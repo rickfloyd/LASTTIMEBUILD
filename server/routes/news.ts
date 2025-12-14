@@ -1,22 +1,17 @@
 import express from 'express';
+import newsService from '../services/news';
 
 const router = express.Router();
 
 /**
  * GET /api/news/market
- * Get market news with sentiment (placeholder for MarketAux)
+ * Get market news from NewsData.io
  */
 router.get('/market', async (req, res) => {
   try {
-    // Placeholder response - integrate MarketAux with API key
-    res.json({
-      success: true,
-      data: {
-        note: 'Add MARKETAUX_API_KEY to .env for live news',
-        freeApiKey: 'Get free key at https://www.marketaux.com/',
-        features: ['Sentiment analysis', 'Ticker tagging', 'Real-time news']
-      }
-    });
+    const { q } = req.query;
+    const data = await newsService.getNews(q as string | undefined);
+    res.json({ success: true, data, source: 'NewsData.io' });
   } catch (error: any) {
     res.status(500).json({ success: false, error: error.message });
   }

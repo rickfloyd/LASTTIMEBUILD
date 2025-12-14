@@ -1,4 +1,5 @@
 import axios from 'axios';
+import apiKeys from '../config';
 
 const BINANCE_BASE_URL = 'https://api.binance.com/api/v3';
 
@@ -25,13 +26,25 @@ export interface BinanceKline {
 }
 
 class BinanceService {
+  private apiKey: string;
+
+  constructor(apiKey: string) {
+    this.apiKey = apiKey;
+  }
+
+  private getAuthHeaders() {
+    return {
+      'X-MBX-APIKEY': this.apiKey
+    };
+  }
+
   /**
    * Get 24h price ticker for a symbol
-   * FREE - No authentication required for public data
    */
   async getTicker(symbol: string = 'BTCUSDT'): Promise<BinanceTicker> {
     try {
       const response = await axios.get(`${BINANCE_BASE_URL}/ticker/24hr`, {
+        headers: this.getAuthHeaders(),
         params: { symbol: symbol.toUpperCase() }
       });
       return response.data;
@@ -43,11 +56,10 @@ class BinanceService {
 
   /**
    * Get all 24h price tickers
-   * FREE - No authentication required
    */
   async getAllTickers(): Promise<BinanceTicker[]> {
     try {
-      const response = await axios.get(`${BINANCE_BASE_URL}/ticker/24hr`);
+      const response = await axios.get(`${BINANCE_BASE_URL}/ticker/24hr`, { headers: this.getAuthHeaders() });
       return response.data;
     } catch (error: any) {
       console.error('Binance All Tickers Error:', error.message);
@@ -57,11 +69,11 @@ class BinanceService {
 
   /**
    * Get current price for a symbol
-   * FREE - No authentication required
    */
   async getPrice(symbol: string = 'BTCUSDT') {
     try {
       const response = await axios.get(`${BINANCE_BASE_URL}/ticker/price`, {
+        headers: this.getAuthHeaders(),
         params: { symbol: symbol.toUpperCase() }
       });
       return response.data;
@@ -73,11 +85,11 @@ class BinanceService {
 
   /**
    * Get kline/candlestick data
-   * FREE - No authentication required
    */
   async getKlines(symbol: string, interval: string = '1h', limit: number = 100): Promise<BinanceKline[]> {
     try {
       const response = await axios.get(`${BINANCE_BASE_URL}/klines`, {
+        headers: this.getAuthHeaders(),
         params: {
           symbol: symbol.toUpperCase(),
           interval,
@@ -103,7 +115,6 @@ class BinanceService {
 
   /**
    * Get top trading pairs by volume
-   * FREE - No authentication required
    */
   async getTopPairs(limit: number = 20) {
     try {
@@ -124,11 +135,10 @@ class BinanceService {
 
   /**
    * Get exchange info (trading rules, symbols)
-   * FREE - No authentication required
    */
   async getExchangeInfo() {
     try {
-      const response = await axios.get(`${BINANCE_BASE_URL}/exchangeInfo`);
+      const response = await axios.get(`${BINANCE_BASE_URL}/exchangeInfo`, { headers: this.getAuthHeaders() });
       return response.data;
     } catch (error: any) {
       console.error('Binance Exchange Info Error:', error.message);
@@ -137,4 +147,4 @@ class BinanceService {
   }
 }
 
-export default new BinanceService();
+export default new BinanceService(apiKeys.TWELVEDATA_API_KEY_PRIMARY);

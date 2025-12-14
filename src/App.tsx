@@ -4,11 +4,26 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import "./index.css";
 import Header from "./components/Header";
 import MarketSummary from "./components/MarketSummary";
-import MarketDataTabs from "./components/MarketDataTabs";
+import ModeDashboard from "./components/ModeDashboard";
+import AITradingUI from "./components/AITradingUI";
 import Education from "./components/Education";
 import Transparency from "./components/Transparency";
 import Impact from "./components/Impact";
 import LogoCandles from "./components/LogoCandles";
+
+const Modal: React.FC<{ children: React.ReactNode, onClose: () => void, title: string }> = ({ children, onClose, title }) => (
+    <div className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50 p-4">
+        <div className="bg-gray-900 border-2 border-neon-blue rounded-xl shadow-neon-blue w-full max-w-6xl h-full max-h-[90vh] flex flex-col">
+            <div className="flex items-center justify-between p-4 border-b border-gray-700">
+                <h2 className="text-xl font-bold text-neon-green">{title}</h2>
+                <button onClick={onClose} className="text-white text-3xl">&times;</button>
+            </div>
+            <div className="overflow-y-auto flex-grow p-4">
+                {children}
+            </div>
+        </div>
+    </div>
+);
 
 interface ErrorBoundaryProps {
   children: React.ReactNode;
@@ -64,16 +79,16 @@ const Sidebar: React.FC = () => (
     </div>
     <h3 className="text-crystal-highlight font-bold text-lg mb-6 animate-cyber-pulse">AI Trading Platform</h3>
     <ul className="space-y-3 text-sm">
-      <li className="flex items-center text-crystal-glow"><div className="w-3 h-3 bg-crystal-glow rounded-full mr-3"></div>AI Price Prediction Engine</li>
-      <li className="flex items-center text-crystal-glow"><div className="w-3 h-3 bg-crystal-glow rounded-full mr-3"></div>ML Pattern Recognition</li>
-      <li className="flex items-center text-crystal-glow"><div className="w-3 h-3 bg-crystal-glow rounded-full mr-3"></div>Sentiment Analysis AI</li>
-      <li className="flex items-center text-crystal-glow"><div className="w-3 h-3 bg-crystal-glow rounded-full mr-3"></div>Smart Risk Management</li>
-      <li className="flex items-center text-crystal-glow"><div className="w-3 h-3 bg-crystal-glow rounded-full mr-3"></div>Automated Trading Signals</li>
-      <li className="flex items-center text-crystal-glow"><div className="w-3 h-3 bg-crystal-glow rounded-full mr-3"></div>Neural Networks & LSTM</li>
-      <li className="flex items-center text-crystal-glow"><div className="w-3 h-3 bg-crystal-glow rounded-full mr-3"></div>Advanced Drawing Tools</li>
-      <li className="flex items-center text-crystal-glow"><div className="w-3 h-3 bg-crystal-glow rounded-full mr-3"></div>Real-Time Market Data</li>
-      <li className="flex items-center text-crystal-glow"><div className="w-3 h-3 bg-crystal-glow rounded-full mr-3"></div>Portfolio Management</li>
-      <li className="flex items-center text-crystal-glow"><div className="w-3 h-3 bg-crystal-glow rounded-full mr-3"></div>Custom Scripting Engine</li>
+      <li className="flex items-center text-crystal-glow"><div className="w-3 h-3 bg-crystal-glow rounded-full mr-3"></div>Long-Term Mode</li>
+      <li className="flex items-center text-crystal-glow"><div className="w-3 h-3 bg-crystal-glow rounded-full mr-3"></div>Crypto Mode</li>
+      <li className="flex items-center text-crystal-glow"><div className="w-3 h-3 bg-crystal-glow rounded-full mr-3"></div>Futures Mode</li>
+      <li className="flex items-center text-crystal-glow"><div className="w-3 h-3 bg-crystal-glow rounded-full mr-3"></div>News-Driven Mode</li>
+      <li className="flex items-center text-crystal-glow"><div className="w-3 h-3 bg-crystal-glow rounded-full mr-3"></div>Options Mode</li>
+      <li className="flex items-center text-crystal-glow"><div className="w-3 h-3 bg-crystal-glow rounded-full mr-3"></div>Price Action Mode</li>
+      <li className="flex items-center text-crystal-glow"><div className="w-3 h-3 bg-crystal-glow rounded-full mr-3"></div>SMC Mode</li>
+      <li className="flex items-center text-crystal-glow"><div className="w-3 h-3 bg-crystal-glow rounded-full mr-3"></div>Algo Mode</li>
+      <li className="flex items-center text-crystal-glow"><div className="w-3 h-3 bg-crystal-glow rounded-full mr-3"></div>Scalper’s Mode</li>
+      <li className="flex items-center text-crystal-glow"><div className="w-3 h-3 bg-crystal-glow rounded-full mr-3"></div>Swing Mode</li>
     </ul>
     <div className="mt-8 p-4 bg-crystal-glow/10 border border-crystal-glow rounded-lg">
       <p className="text-crystal-glow font-bold text-sm mb-2 animate-cyber-pulse">Revolutionary AI Trading Platform!</p>
@@ -84,16 +99,26 @@ const Sidebar: React.FC = () => (
 
 
 function App() {
-  // Theme toggle state and logic
   const [theme, setTheme] = useState('neon');
+  const [modal, setModal] = useState<{ component: React.ReactNode; title: string } | null>(null);
+
   useEffect(() => {
     const stored = localStorage.getItem('siteTheme');
     if (stored) setTheme(stored);
   }, []);
+
   const handleToggle = () => {
     const next = theme === 'neon' ? 'minimal' : 'neon';
     setTheme(next);
     localStorage.setItem('siteTheme', next);
+  };
+
+  const openModal = (component: React.ReactNode, title: string) => {
+    setModal({ component, title });
+  };
+
+  const closeModal = () => {
+    setModal(null);
   };
 
   return (
@@ -102,8 +127,8 @@ function App() {
         borderImage: 'linear-gradient(to right, #FF7124, #FF00A8) 1'
       }}>
         <ErrorBoundary>
+          {modal && <Modal onClose={closeModal} title={modal.title}>{modal.component}</Modal>}
           <PlatformStatus />
-          {/* Move theme toggle button into MinimalTheme header when minimal theme is active */}
           {theme === 'minimal' ? null : (
             <button
               onClick={handleToggle}
@@ -113,7 +138,6 @@ function App() {
               {theme === 'neon' ? 'Switch to Minimal Theme' : 'Switch to Neon Theme'}
             </button>
           )}
-          {/* Route to directly access Simple View */}
           <Routes>
             <Route path="/simple" element={<MinimalTheme />} />
           </Routes>
@@ -127,12 +151,14 @@ function App() {
                 <div className="w-full max-w-7xl mx-auto px-2 sm:px-4 md:px-8 py-2 md:py-6">
                   <Header />
                   <MarketSummary />
-                  <MarketDataTabs />
-                  <Education />
-                  <Transparency />
-                  <Impact />
+                  <ModeDashboard openModal={openModal} />
+                  <div className="mt-8">
+                    <AITradingUI symbol="AAPL" />
+                  </div>
+                  <button onClick={() => openModal(<Education />, "Educational Initiatives")} className='w-full mt-8'><Education /></button>
+                  <button onClick={() => openModal(<Transparency />, "Transparency & Open Source")} className='w-full mt-2'><Transparency /></button>
+                  <button onClick={() => openModal(<Impact />, "Live Impact Stats")} className='w-full mt-2'><Impact /></button>
                   <Routes>
-                    {/* other routes can be defined here */}
                     <Route path="/" element={<div />} />
                   </Routes>
                 </div>
