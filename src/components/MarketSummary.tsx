@@ -1,9 +1,8 @@
-
 import React, { useState } from 'react';
 import { Activity } from 'lucide-react';
 import SimplePleasures from './SimplePleasures';
 import MakingLifeEasier from './MakingLifeEasier';
-import Personalities from './Personalities';
+import Lifestyle from './Lifestyle';
 
 const Modal: React.FC<{ children: React.ReactNode, onClose: () => void, title: string }> = ({ children, onClose, title }) => (
     <div className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50 p-4">
@@ -44,7 +43,7 @@ const MarketSummary = () => {
           </h2>
         </div>
         <div className="flex items-center space-x-6 text-sm">
-          {[  'Futures'].map((tab) => (
+          {['Futures'].map((tab) => (
             <button 
               key={tab}
               onClick={() => console.log(`Switched to ${tab} tab`)}
@@ -61,21 +60,15 @@ const MarketSummary = () => {
           <div className="flex items-center justify-between p-2 bg-gray-800 rounded-t-lg">
             <span className="text-crystal-highlight font-bold">SIMPLE PLEASURES</span>
           </div>
-          <div className="p-4 flex-grow flex items-center justify-center">
-          </div>
         </button>
         <button onClick={() => openModal(<MakingLifeEasier />, 'Make Life Easier')} className="bg-black rounded-lg border border-outline-orange shadow-outline-orange flex flex-col text-left">
           <div className="flex items-center justify-between p-2 bg-gray-800 rounded-t-lg">
             <span className="text-crystal-highlight font-bold">MAKE LIFE EASIER</span>
           </div>
-          <div className="p-4 flex-grow flex items-center justify-center">
-          </div>
         </button>
-        <button onClick={() => openModal(<Personalities />, 'Personalities')} className="bg-black rounded-lg border border-crystal-glow shadow-neon-blue flex flex-col text-left">
+        <button onClick={() => openModal(<Lifestyle />, 'Lifestyle')} className="bg-black rounded-lg border border-crystal-glow shadow-neon-blue flex flex-col text-left">
           <div className="flex items-center justify-between p-2 bg-gray-800 rounded-t-lg">
-            <span className="text-crystal-highlight font-bold">PERSONALITIES</span>
-          </div>
-          <div className="p-4 flex-grow flex items-center justify-center">
+            <span className="text-crystal-highlight font-bold">LIFESTYLE</span>
           </div>
         </button>
       </div>

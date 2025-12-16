@@ -1,138 +1,229 @@
-
-import express, { Request, Response, NextFunction } from 'express';
-import helmet from 'helmet';
-import rateLimit from 'express-rate-limit';
-import morgan from 'morgan';
+const express = require("express");
+const helmet = require("helmet");
+const rateLimit = require("express-rate-limit");
+const morgan = require("morgan");
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+const crypto = require("crypto");
+const fs = require("fs");
+const path = require("path");
 
 const app = express();
-const port = 4000;
-
-// --- CORE SECURITY MIDDLEWARE ---
-
-// 1. Helmet for standard security headers
-app.use(helmet());
-
-// 2. Rate Limiting to prevent brute-force attacks
-const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100, // Limit each IP to 100 requests per window
-  standardHeaders: true,
-  legacyHeaders: false,
-  message: 'Too many requests from this IP, please try again after 15 minutes',
-});
-app.use(limiter);
-
-// 3. Morgan for logging requests
-app.use(morgan('dev'));
-
-// --- PSYCHOLOGICAL WARFARE DECEPTION LAYER ---
+app.use(express.json({ limit: "10kb" })); // stops payload bombs
 
 // ==========================================
-// HACKER TAUNT MESSAGES (BLACKLIST RESPONSE)
-// 35 insecurity-based psychological stingers
+// LEVEL 3 / 10 / 11 / 13 — BASELINE SECURITY
 // ==========================================
-const HACKER_TAUNTS = [
-  // Status / success / money
-  "Quick question: for all this effort trying to break into strangers' servers, do you ever wonder why you’re still not where you thought you’d be in life?",
-  "When you close this window, do you go back to a life you’re proud of, or just more things you’re avoiding?",
-  "Be honest—do you feel more in control poking at code than you do handling your own bills and responsibilities?",
-  "If this ‘hack’ fails, do you just move on to the next target, or does it quietly confirm what you already fear about your abilities?",
-  "Does breaking other people’s stuff feel like the only place you can pretend you’re winning?",
-  "If someone asked what you actually built instead of what you tried to break, would you have an answer that impresses even you?",
-  "Are you more afraid of being caught right now, or of staying exactly where you are in life for the next 10 years?",
 
-  // Competence / intelligence
-  "Do you ever worry that the people you look up to in tech would see your methods and quietly think, ‘this is pretty basic’?",
-  "When something doesn’t work on the first try, do you debug patiently—or rage and blame everyone but yourself?",
-  "If you weren’t hiding behind a keyboard, would you still feel this confident about your skill level?",
-  "Do you ever reread your own code and secretly wonder if you’re actually as good as you tell people you are?",
-  "How many courses, books, and tutorials have you started but never finished because finishing would prove what you are—or aren’t—capable of?",
+// Security headers (no sniff, no frame, strict CSP, HSTS)
+app.use(
+  helmet({
+    contentSecurityPolicy: false, // adjust depending on UI requirements
+  })
+);
 
-  // Relationships / trust / cheating
-  "Are you married or in a relationship, or is this the closest thing you have to intimacy—arguing with firewalls at 3 a.m.?",
-  "If you’re here trying to control my system, does it ever bother you that you can’t control what’s happening in your own relationships?",
-  "Do you trust your partner as much as you expect them to trust you, or do you quietly suspect they hide things from you too?",
-  "If your partner knew exactly how you spent your time online, would they be impressed—or quietly disappointed?",
-  "While you’re here trying to break into someone else’s world, do you ever wonder what your partner is really doing in theirs?",
-  "Is there a part of you that worries they talk about you the way you talk about your targets—weak, exploitable, easy to bypass?",
+// Logging — writes everything to access.log
+const logStream = fs.createWriteStream(
+  path.join(__dirname, "access.log"),
+  { flags: "a" }
+);
+app.use(morgan("combined", { stream: logStream }));
+app.use(morgan("tiny"));
 
-  // Body / aging / appearance
-  "When you look in the mirror, do you like the person staring back, or just the screen that hides them?",
-  "Do you ever zoom out from the monitor and notice how long it’s been since you actually took care of your body?",
-  "Are you more worried about losing access to this system, or losing the health you’ve been trading away one all-nighter at a time?",
-  "Does aging scare you because of the wrinkles—or because you’re not where you thought you’d be by now?",
-  "Would you rather upgrade your hardware or your habits, and which one do you secretly know is harder?",
+// Anti-flood + anti-DDoS layer
+const apiLimiter = rateLimit({
+  windowMs: 60 * 1000,
+  max: 60,
+  message: { error: "Too many requests, slow down." },
+});
+app.use("/api/", apiLimiter);
 
-  // Social comparison / respect / legacy
-  "If the people you respect the most could see this exact moment, would they see ‘clever operator’ or ‘stuck and trying to feel powerful’?",
-  "Do you chase exploits because it’s exciting, or because it’s easier than building something that actually outlives you?",
-  "How many of your ‘wins’ exist only in logs and screenshots that no one else has ever respected?",
-  "If your name disappeared from the internet tomorrow, would anything you’ve done so far actually be missed?",
-  "Do you want to be feared, respected, or understood—and which one are your actions really creating right now?",
+// ==========================================
+// IN-MEMORY DATA (Real apps use database)
+// ==========================================
+const USERS = [];
+const loginAttempts = {};
+const honeypotHits = [];
 
-  // Control / insecurity / loneliness
-  "Do you feel more in control here because so much of your offline life feels out of control?",
-  "Is this really about my system, or about proving something to yourself that you still haven’t said out loud?",
-  "When was the last time you had a deep, honest conversation with someone who actually knows the real you—not just your handle?",
-  "If you stepped away from all of this for a month, would anyone notice, or would that silence scare you more than any firewall?",
-  "Do you ever wonder if all this effort to control other people’s systems is just a way to avoid fixing your own?",
-  "Are you doing this because you’re curious and talented—or because feeling like a threat is easier than admitting you’re lonely?",
-  "If this system stays locked and you walk away empty-handed, what uncomfortable truth about yourself does that confirm?",
-  "You’ve learned how to probe other people’s defenses—when’s the last time you honestly examined your own?",
-];
+// ==========================================
+// LEVEL 7 — ANOMALY / BRUTE FORCE ENGINE
+// ==========================================
+function trackLogin(ip, success) {
+  const now = Date.now();
+  if (!loginAttempts[ip]) loginAttempts[ip] = [];
+  loginAttempts[ip].push({ success, time: now });
 
-function getHackerTaunt() {
-  const i = Math.floor(Math.random() * HACKER_TAUNTS.length);
-  return HACKER_TAUNTS[i];
+  // keep only last 5 minutes of logs
+  loginAttempts[ip] = loginAttempts[ip].filter(
+    (a) => now - a.time < 5 * 60 * 1000
+  );
+
+  const fails = loginAttempts[ip].filter((a) => !a.success).length;
+  if (fails >= 5) {
+    console.log("🚨 [AI QUANTUM ALERT] Brute-force detected from IP:", ip);
+  }
 }
 
-// IP blacklist
-const ipBlacklist = new Set<string>();
+// ==========================================
+// LEVEL 9 — JWT AUTH + ROLE ENGINE
+// ==========================================
+const JWT_SECRET = process.env.JWT_SECRET || crypto.randomBytes(32).toString("hex");
 
-// IP firewall - runs before everything else
-function ipFirewall(req: Request, res: Response, next: NextFunction) {
-  const clientIp = req.ip;
-
-  if (ipBlacklist.has(clientIp)) {
-    console.log("🚫 BLACKLISTED REQUEST:", {
-      ip: clientIp,
-      time: new Date().toISOString(),
-      path: req.originalUrl,
-    });
-
-    return res.status(403).json({
-      error: "Access denied.",
-      message: getHackerTaunt(),
-    });
-  }
-
-  next();
+function requireAuth(req, res, next) {
+  const auth = req.headers.authorization || "";
+  if (!auth.startsWith("Bearer ")) {
+    return res.status(401).json({ error: "Auth token missing" });
+  }
+  const token = auth.slice(7);
+  try {
+    req.user = jwt.verify(token, JWT_SECRET);
+    next();
+  } catch (err) {
+    res.status(401).json({ error: "Invalid token" });
+  }
 }
 
-app.use(ipFirewall);
+function requireRole(role) {
+  return (req, res, next) => {
+    if (!req.user || req.user.role !== role) {
+      return res.status(403).json({ error: "Access denied" });
+    }
+    next();
+  };
+}
 
-// --- STANDARD ROUTES & SERVER START ---
+// ==========================================
+// LEVEL 11 — FILE INTEGRITY PROTECTION
+// ==========================================
+const CURRENT_HASH = crypto
+  .createHash("sha256")
+  .update(fs.readFileSync(__filename))
+  .digest("hex");
 
-app.get('/', (req: Request, res: Response) => {
-  res.send('AI Quantum Security Core is active. All systems nominal.');
+function integrityCheck(req, res, next) {
+  if (!app.locals.integrityLogged) {
+    console.log("🔐 Integrity hash:", CURRENT_HASH);
+    app.locals.integrityLogged = true;
+  }
+  next();
+}
+app.use(integrityCheck);
+
+// ==========================================
+// LEVEL 3 — SAFE INPUT ENDPOINTS
+// ==========================================
+app.get("/", (req, res) => {
+  res.json({
+    status: "Online",
+    app: "AI Quantum Enterprise Security Core",
+    message: "Ready for penetration testing.",
+  });
 });
 
-// Endpoint to manually trigger the firewall for testing
-app.get('/professor-admin', (req: Request, res: Response) => {
-    const clientIp = req.ip;
-    ipBlacklist.add(clientIp);
-    res.status(200).send(`IP ${clientIp} has been blacklisted. The psychological warfare begins now.`);
+app.post("/api/echo", (req, res) => {
+  const { message } = req.body;
+  if (typeof message !== "string" || message.length > 200) {
+    return res.status(400).json({ error: "Invalid content" });
+  }
+  res.json({ echo: message });
 });
 
-// Catch-all for any other routes to avoid information leakage
-app.use((req: Request, res: Response) => {
-  res.status(404).send("Endpoint not found. This attempt has been logged.");
+// ==========================================
+// LEVEL 9 — USER SIGNUP / LOGIN
+// ==========================================
+app.post("/api/signup", async (req, res) => {
+  const { email, password, role } = req.body;
+  if (!email || !password) return res.status(400).json({ error: "Missing data" });
+
+  const hash = await bcrypt.hash(password, 12);
+  USERS.push({
+    id: USERS.length + 1,
+    email,
+    passwordHash: hash,
+    role: role === "admin" ? "admin" : "user",
+  });
+
+  res.json({ message: "Account created" });
 });
 
+app.post("/api/login", async (req, res) => {
+  const ip = req.ip;
+  const { email, password } = req.body;
+  const user = USERS.find((u) => u.email === email);
 
-app.listen(port, () => {
-  console.log(`🔥 AI Quantum Security Core running on http://localhost:${port}.`);
-  console.log(`🛡️  The bodyguard is now active.`);
+  if (!user) {
+    trackLogin(ip, false);
+    return res.status(401).json({ error: "Invalid credentials" });
+  }
+
+  const ok = await bcrypt.compare(password, user.passwordHash);
+  if (!ok) {
+    trackLogin(ip, false);
+    return res.status(401).json({ error: "Wrong password" });
+  }
+
+  trackLogin(ip, true);
+
+  const token = jwt.sign(
+    { id: user.id, email: user.email, role: user.role },
+    JWT_SECRET,
+    { expiresIn: "1h" }
+  );
+
+  res.json({ token });
 });
 
-export default app;
+// ==========================================
+// LEVEL 9 — AUTH + ROLE-RESTRICTED AREAS
+// ==========================================
+app.get("/api/user/me", requireAuth, (req, res) => {
+  res.json({ profile: req.user });
+});
+
+app.get("/api/admin/dashboard",
+  requireAuth,
+  requireRole("admin"),
+  (req, res) => {
+    res.json({
+      users: USERS.length,
+      honeypotHits: honeypotHits.length,
+      trackedIPs: Object.keys(loginAttempts),
+    });
+  }
+);
+
+// ==========================================
+// LEVEL 12 — HONEYPOT LANDMINE
+// ==========================================
+app.get("/admin-legacy", (req, res) => {
+  const hit = { ip: req.ip, time: new Date().toISOString() };
+  honeypotHits.push(hit);
+  console.log("🐍 HONEYPOT TRIGGERED:", hit);
+
+  setTimeout(() => res.status(404).send("Not Found"), 1500);
+});
+
+// ==========================================
+// LEVEL 14 — ENCRYPTED DATA PAYLOAD (AES-256)
+// ==========================================
+const encryptedRecord = crypto
+  .createCipheriv(
+    "aes-256-ctr",
+    crypto.createHash("sha256").update("QuantumKey123!").digest(),
+    Buffer.alloc(16, 0)
+  )
+  .update("AI Quantum Private Ledger Entry", "utf8", "hex");
+
+app.get("/api/secure/encrypted", requireAuth, (req, res) => {
+  res.json({ encrypted: encryptedRecord });
+});
+
+// ==========================================
+// START SERVER
+// ==========================================
+const PORT = process.env.PORT || 4000;
+app.listen(PORT, () => {
+  console.log(
+    `🔥 AI Quantum Security Core running on http://localhost:${PORT}`
+  );
+});

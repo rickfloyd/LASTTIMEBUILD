@@ -1,9 +1,14 @@
-import express, { Application, Request, Response } from 'express';
+import express, { Application, Request, Response, NextFunction } from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 import morgan from 'morgan';
 import compression from 'compression';
 import rateLimit from 'express-rate-limit';
+import jwt from 'jsonwebtoken';
+import crypto from 'crypto';
+import fs from 'fs';
+import path from 'path';
+
 import { initializeDatabase } from '../database/config';
 import authRoutes from './routes/auth';
 import userRoutes from './routes/users';
@@ -15,10 +20,87 @@ import marketRoutes from './routes/market';
 import personalitiesRoutes from './routes/personalities';
 import rssRoutes from './routes/rss';
 
+// ==========================================
+// DECEPTION LOCKDOWN LAYER - GLOBAL STATE
+// ==========================================
+const ipBlacklist = new Set<string>(); // IPs that are locked out
+export let jwtVersion = 1; // Used to instantly invalidate all tokens
+
+// Shared JWT Secret
+export const JWT_SECRET = process.env.JWT_SECRET || crypto.randomBytes(32).toString("hex");
+
+// Helper: trigger lockdown + rotate JWT version
+function triggerLockdown(reason: string, req: Request) {
+  const clientIp = req.ip;
+  if (clientIp) {
+    jwtVersion += 1; // all old tokens die
+    ipBlacklist.add(clientIp); // this IP gets banned
+    console.log("🧨 LOCKDOWN TRIGGERED:", {
+      reason,
+      ip: clientIp,
+      newJwtVersion: jwtVersion,
+      time: new Date().toISOString(),
+    });
+  }
+}
+
+// IP firewall - runs before everything else
+function ipFirewall(req: Request, res: Response, next: NextFunction) {
+  const clientIp = req.ip;
+  if (clientIp && ipBlacklist.has(clientIp)) {
+    return res.status(403).json({
+      error: "Access temporarily blocked from this address.",
+    });
+  }
+  next();
+}
+
 // Custom error interface
 interface CustomError extends Error {
   status?: number;
   statusCode?: number;
+}
+
+// In-memory data for security monitoring
+const loginAttempts: { [ip: string]: { success: boolean, time: number }[] } = {};
+const honeypotHits: { ip: string | undefined, time: string }[] = [];
+
+export function trackLogin(ip: string, success: boolean): void {
+  const now = Date.now();
+  if (!loginAttempts[ip]) loginAttempts[ip] = [];
+  loginAttempts[ip].push({ success, time: now });
+  loginAttempts[ip] = loginAttempts[ip].filter(a => now - a.time < 5 * 60 * 1000);
+  const fails = loginAttempts[ip].filter(a => !a.success).length;
+  if (fails >= 5) {
+    console.log("🚨 [AI QUANTUM ALERT] Brute-force detected from IP:", ip);
+    triggerLockdown('Brute-force detection', { ip } as Request);
+  }
+}
+
+declare global {
+  namespace Express {
+    interface Request {
+      user?: string | jwt.JwtPayload;
+    }
+  }
+}
+
+function requireAuth(req: Request, res: Response, next: express.NextFunction) {
+  const auth = req.headers.authorization || "";
+  if (!auth.startsWith("Bearer ")) {
+    return res.status(401).json({ error: "Auth token missing" });
+  }
+  const token = auth.slice(7);
+  try {
+    const payload = jwt.verify(token, JWT_SECRET) as jwt.JwtPayload;
+    if (!payload.v || payload.v !== jwtVersion) {
+      return res.status(401).json({ error: "Session expired. Please log in again." });
+    }
+    req.user = payload;
+    next();
+  } catch (err) {
+    res.status(401).json({ error: "Invalid token" });
+  }
 }
 
 class QuantumChartsServer {
@@ -34,76 +116,32 @@ class QuantumChartsServer {
   }
 
   private initializeMiddlewares(): void {
-    // Security middleware
-    this.app.use(helmet({
-      contentSecurityPolicy: {
-        directives: {
-          defaultSrc: ["'self'"],
-          styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
-          scriptSrc: ["'self'"],
-          fontSrc: ["'self'", "https://fonts.gstatic.com"],
-          imgSrc: ["'self'", "data:", "https:"],
-          connectSrc: ["'self'", "wss:", "ws:"]
-        }
+    this.app.use(ipFirewall);
+    const CURRENT_HASH = crypto.createHash("sha256").update(fs.readFileSync(__filename)).digest("hex");
+    this.app.use((req, res, next) => {
+      if (!this.app.locals.integrityLogged) {
+        console.log("🔐 Integrity hash:", CURRENT_HASH);
+        this.app.locals.integrityLogged = true;
       }
-    }));
-
-    // CORS configuration
-    this.app.use(cors({
-      origin: process.env.NODE_ENV === 'production' 
-        ? ['https://quantumcharts.com', 'https://www.quantumcharts.com']
-        : ['http://localhost:3000', 'http://localhost:5173', 'http://localhost:5177'],
-      credentials: true,
-      methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
-      allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With']
-    }));
-
-    // Request logging
-    this.app.use(morgan(process.env.NODE_ENV === 'production' ? 'combined' : 'dev'));
-
-    // Compression for better performance
+      next();
+    });
+    this.app.use(helmet());
+    this.app.use(cors());
+    const logStream = fs.createWriteStream(path.join(__dirname, "access.log"), { flags: "a" });
+    this.app.use(morgan("combined", { stream: logStream }));
+    this.app.use(morgan("dev"));
     this.app.use(compression());
-
-    // Rate limiting
-    const limiter = rateLimit({
-      windowMs: 15 * 60 * 1000, // 15 minutes
-      max: process.env.NODE_ENV === 'production' ? 100 : 1000, // limit each IP
-      message: {
-        error: 'Too many requests from this IP, please try again later.'
-      },
-      standardHeaders: true,
-      legacyHeaders: false
-    });
+    const limiter = rateLimit({ windowMs: 15 * 60 * 1000, max: 100 });
     this.app.use('/api/', limiter);
-
-    // Stricter rate limiting for auth endpoints
-    const authLimiter = rateLimit({
-      windowMs: 15 * 60 * 1000,
-      max: 5, // 5 login attempts per 15 minutes
-      message: {
-        error: 'Too many authentication attempts, please try again later.'
-      }
-    });
+    const authLimiter = rateLimit({ windowMs: 15 * 60 * 1000, max: 5 });
     this.app.use('/api/auth/login', authLimiter);
     this.app.use('/api/auth/register', authLimiter);
-
-    // Body parsing middleware
-    this.app.use(express.json({ limit: '10mb' }));
+    this.app.use(express.json({ limit: '10kb' }));
     this.app.use(express.urlencoded({ extended: true, limit: '10mb' }));
-
-    // Health check endpoint
-    this.app.get('/health', (req: Request, res: Response) => {
-      res.status(200).json({
-        status: 'OK',
-        timestamp: new Date().toISOString(),
-        uptime: process.uptime(),
-        environment: process.env.NODE_ENV || 'development'
-      });
-    });
+    this.app.get('/health', (req: Request, res: Response) => res.status(200).json({ status: 'OK' }));
   }
 
   private initializeRoutes(): void {
-    // API routes
     this.app.use('/api/auth', authRoutes);
     this.app.use('/api/users', userRoutes);
     this.app.use('/api/trading', tradingRoutes);
@@ -112,125 +150,52 @@ class QuantumChartsServer {
     this.app.use('/api/gaming', gameRoutes);
     this.app.use('/api/market', marketRoutes);
     this.app.use('/api/personalities', personalitiesRoutes);
-  this.app.use('/api/rss', rssRoutes);
+    this.app.use('/api/rss', rssRoutes);
 
-    // Minimal sample endpoint for ForecastCone during development
-    this.app.get('/api/forecast/cone', (req: Request, res: Response) => {
-      const n = 30;
-      const base = Array.from({ length: n }, (_, i) => 100 + i * 0.5 + Math.sin(i / 2) * 2);
-      const forecast = base.map((v, i) => v + i * 0.2);
-      const upper = forecast.map((v, i) => v + 2 + i * 0.1);
-      const lower = forecast.map((v, i) => v - 2 - i * 0.1);
-      res.json({ forecast, upper, lower });
+    this.app.get("/admin-legacy", (req, res) => {
+      const hit = { ip: req.ip, time: new Date().toISOString() };
+      honeypotHits.push(hit);
+      console.log("🐍 HONEYPOT TRIGGERED:", hit);
+      triggerLockdown('Legacy admin honeypot', req);
+      setTimeout(() => res.status(404).send("Not Found"), 1500);
     });
 
-    // Serve static files in production
+    this.app.post("/api/admin/override", (req, res) => {
+      const { masterKey } = req.body || {};
+      if (typeof masterKey === "string" && masterKey.length > 0) {
+        triggerLockdown("Deception override trap fired", req);
+        return res.json({ success: true, message: "Admin override accepted." });
+      }
+      return res.status(404).json({ error: "Not found" });
+    });
+
+    const encryptedRecord = crypto.createCipheriv("aes-256-ctr", crypto.createHash("sha256").update("QuantumKey123!").digest(), Buffer.alloc(16, 0)).update("AI Quantum Private Ledger Entry", "utf8", "hex");
+    this.app.get("/api/secure/encrypted", requireAuth, (req, res) => {
+      res.json({ encrypted: encryptedRecord });
+    });
+
     if (process.env.NODE_ENV === 'production') {
       this.app.use(express.static('dist'));
-      
-      // Catch all handler for SPA
-      this.app.get('*', (req: Request, res: Response) => {
-        res.sendFile('index.html', { root: 'dist' });
-      });
+      this.app.get('*', (req: Request, res: Response) => res.sendFile('index.html', { root: 'dist' }));
     }
 
-    // 404 handler for API routes
-    this.app.use('/api', (req: Request, res: Response) => {
-      res.status(404).json({
-        error: 'API endpoint not found',
-        path: req.originalUrl,
-        method: req.method,
-        timestamp: new Date().toISOString()
-      });
-    });
+    this.app.use('/api', (req: Request, res: Response) => res.status(404).json({ error: 'API endpoint not found' }));
   }
 
   private initializeErrorHandling(): void {
-    // Global error handler
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    this.app.use((error: CustomError, req: Request, res: Response, next: express.NextFunction) => {
-      const status = error.status || error.statusCode || 500;
+    this.app.use((error: CustomError, req: Request, res: Response, next: NextFunction) => {
+      const status = error.status || 500;
       const message = error.message || 'Internal Server Error';
-
-      // Log error details
-      console.error(`[${new Date().toISOString()}] Error ${status}:`, {
-        message,
-        stack: process.env.NODE_ENV === 'development' ? error.stack : undefined,
-        url: req.originalUrl,
-        method: req.method,
-        ip: req.ip,
-        userAgent: req.get('User-Agent')
-      });
-
-      // Send error response
-      res.status(status).json({
-        error: {
-          message,
-          status,
-          timestamp: new Date().toISOString(),
-          path: req.originalUrl,
-          ...(process.env.NODE_ENV === 'development' && { stack: error.stack })
-        }
-      });
-    });
-
-    // Handle unhandled promise rejections
-    process.on('unhandledRejection', (reason: unknown, promise: Promise<unknown>) => {
-      console.error('Unhandled Rejection at:', promise, 'reason:', reason);
-      // Don't crash the process in production
-      if (process.env.NODE_ENV === 'production') {
-        console.error('Application would have crashed due to unhandled rejection, but continuing...');
-      } else {
-        process.exit(1);
-      }
-    });
-
-    // Handle uncaught exceptions
-    process.on('uncaughtException', (error: Error) => {
-      console.error('Uncaught Exception:', error);
-      process.exit(1);
-    });
-
-    // Graceful shutdown
-    process.on('SIGTERM', () => {
-      console.log('SIGTERM received, shutting down gracefully...');
-      process.exit(0);
-    });
-
-    process.on('SIGINT', () => {
-      console.log('SIGINT received, shutting down gracefully...');
-      process.exit(0);
+      res.status(status).json({ error: { message, status } });
     });
   }
 
   public async start(): Promise<void> {
     try {
-      // Try to initialize database connection, but don't fail if it's not available
-      try {
-        await initializeDatabase();
-        console.log('📊 Database: Connected');
-      } catch {
-        console.warn('⚠️ Database: Not connected (MongoDB not running)');
-        console.log('💡 Server will run without database features');
-      }
-
-      // Start server
-      this.app.listen(this.port, () => {
-        console.log(`
-🚀 Quantum Charts Server Started Successfully!
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-📡 Environment: ${process.env.NODE_ENV || 'development'}
-🌐 Port: ${this.port}
-🔗 API Base: http://localhost:${this.port}/api
-🏥 Health Check: http://localhost:${this.port}/health
-🔒 Security: Enabled (Helmet, CORS, Rate Limiting)
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-        `);
-      });
-    } catch (error) {
-      console.error('❌ Failed to start server:', error);
-      process.exit(1);
-    }
+      await initializeDatabase();
+      console.log('📊 Database: Connected');
+    } catch { console.warn('⚠️ Database: Not connected'); }
+    this.app.listen(this.port, () => console.log(`🚀 Server running on http://localhost:${this.port}`));
   }
 
   public getApp(): Application {

@@ -44,7 +44,7 @@ export const DashboardViewV1_Original: React.FC = () => {
  * V2 – EXPERIMENTAL / OLD TEST LAYOUT
  *
  * Same idea as V1 – a safe place to park any experimental layouts
- * so they don&apos;t get lost when you move to new versions.
+ * so they don't get lost when you move to new versions.
  */
 export const DashboardViewV2_Experimental: React.FC = () => {
   return (
@@ -79,9 +79,9 @@ interface ModeCardConfig {
 
 const MODE_CARDS: ReadonlyArray<ModeCardConfig> = [
   {
-    id: "long_term",
-    label: "Long-Term Mode",
-    description: "Position trading, pensions, long arcs.",
+    id: "crypto_catalog",
+    label: "Crypto Catalog",
+    description: "Browse our cryptocurrency catalog.",
     accent: "blue",
   },
   {

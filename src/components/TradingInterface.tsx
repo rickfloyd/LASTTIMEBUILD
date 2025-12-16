@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import Personalities from './Personalities';
-import { Settings, Maximize2, BarChart3, LineChart, CandlestickChart, Square, Zap, Activity, TrendingUp, Users } from 'lucide-react';
+import { Settings, Maximize2, BarChart3, LineChart, CandlestickChart, Square, Zap, Activity, TrendingUp } from 'lucide-react';
 
 interface TradingInterfaceProps {
   onTimeframeChange?: (timeframe: string) => void;
@@ -16,7 +15,6 @@ const TradingInterface: React.FC<TradingInterfaceProps> = ({
   const [isTrading, setIsTrading] = useState(false);
   const [isMaximized, setIsMaximized] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
-  const [activeTab, setActiveTab] = useState('chart');
 
   const timeframes = [
     { label: '1m', value: '1m', color: 'fluorescent-pink' },
@@ -99,9 +97,6 @@ const TradingInterface: React.FC<TradingInterfaceProps> = ({
           </div>
 
           <div className="flex items-center space-x-2">
-            <button onClick={() => setActiveTab('personalities')} className={`p-2 rounded-md ${activeTab === 'personalities' ? 'bg-blue-600' : 'hover:bg-gray-700'}`}>
-              <Users size={20} />
-            </button>
             <button onClick={() => setShowSettings(!showSettings)} className="p-2 rounded-md hover:bg-gray-700">
               <Settings size={20} />
             </button>
@@ -175,16 +170,9 @@ const TradingInterface: React.FC<TradingInterfaceProps> = ({
 
       {/* Main Content Area */}
       <div className="flex-grow p-4 bg-gray-900 rounded-b-lg">
-        {activeTab === 'chart' && (
           <div className="h-full w-full bg-black rounded-md">
             {/* EnhancedChart or other chart component will go here */}
           </div>
-        )}
-        {activeTab === 'personalities' && (
-          <div className="h-full w-full bg-black rounded-md">
-            {/* Personalities component will go here */}
-          </div>
-        )}
       </div>
 
       {/* Settings Panel */}

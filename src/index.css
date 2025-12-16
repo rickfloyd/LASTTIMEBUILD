@@ -1,3 +1,39 @@
+/* --- UNIVERSAL COMM-LINK STYLES --- */
+.comm-link-container {
+    display: flex;
+    gap: 10px;
+    padding: 10px;
+    background: rgba(0, 0, 0, 0.8);
+    border: 1px solid #333;
+}
+
+.comm-btn {
+    flex: 1;
+    background: black;
+    color: #00ffcc; /* Neon Cyan */
+    border: 1px solid #00ffcc;
+    padding: 8px;
+    text-align: center;
+    cursor: pointer;
+    font-family: 'Courier New', monospace;
+    font-size: 12px;
+    text-transform: uppercase;
+    text-decoration: none; /* Removes underline from links */
+    transition: all 0.3s ease;
+}
+
+.comm-btn:hover {
+    background: #00ffcc;
+    color: black;
+    box-shadow: 0 0 10px #00ffcc;
+}
+
+/* Specific Icons/Colors */
+.btn-video { border-color: #00ffcc; }
+.btn-voice { border-color: #ff00ff; color: #ff00ff; } /* Neon Pink for Voice */
+.btn-voice:hover { background: #ff00ff; color: white; box-shadow: 0 0 10px #ff00ff; }
+.btn-sms { border-color: #ffff00; color: #ffff00; } /* Neon Yellow for SMS */
+.btn-sms:hover { background: #ffff00; color: black; box-shadow: 0 0 10px #ffff00; }
 
 @tailwind base;
 @tailwind components;
@@ -18,9 +54,99 @@ body, html {
 }
 
 .red-white-blue-glow {
-  box-shadow: 0 0 8px #ff0000, 0 0 12px #ff0000, 0 0 18px #ffffff, 0 0 25px #8A2BE2, 0 0 35px #8A2BE2;
+  box-shadow: 0 0 8px #ff0000, 0 0 12px #ff0000, 0 0 18px #00FFFF, 0 0 25px #8A2BE2, 0 0 35px #8A2BE2;
 }
 
 .dark-gradient-background {
   background: linear-gradient(to bottom, #000000, #1a001a, #000000);
+}
+
+/* 🔥 NEON CARD GLOW (Red Edge + Magenta/Blue Glow) 🔥 */
+
+.neon-card {
+  position: relative;
+  border-radius: 1rem;
+  /* Red border for the edge */
+  border: 1px solid #ff0000;
+  background: radial-gradient(
+      circle at top left,
+      rgba(255, 0, 255, 0.15), /* Magenta */
+      transparent 50%
+    ),
+    radial-gradient(
+      circle at bottom right,
+      rgba(0, 102, 255, 0.15), /* Neon Blue */
+      transparent 50%
+    ),
+    rgba(15, 23, 42, 0.95);
+  /* Base glow */
+  box-shadow:
+    0 0 8px rgba(255, 0, 0, 0.6), /* Red glow from border */
+    0 0 12px rgba(255, 0, 255, 0.4), /* Magenta */
+    0 0 20px rgba(0, 102, 255, 0.4); /* Neon Blue */
+  overflow: hidden;
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+/* Always-on glow for active card */
+.neon-card-glow {
+  border-color: #ff4d4d; /* Brighter red for active card */
+  box-shadow:
+    /* Red glow from border */
+    0 0 15px #ff0000,
+    /* Inner white glow for a 'hotter' core */
+    inset 0 0 5px rgba(255, 255, 255, 0.6),
+    /* Outer multi-color glow */
+    0 0 25px rgba(255, 0, 255, 0.7),   /* Magenta */
+    0 0 40px rgba(0, 102, 255, 0.6);   /* Neon Blue */
+}
+
+/* Random pulsing glow for inactive cards */
+.neon-card-pulse {
+  animation: neonPulse 2.8s ease-in-out infinite;
+}
+
+/* Intense glow on hover for any card */
+.neon-card:hover {
+  transform: translateY(-2px);
+  border-color: #ff6666;
+  box-shadow:
+    0 0 20px #ff0000,
+    inset 0 0 6px rgba(255, 255, 255, 0.8),
+    0 0 30px rgba(255, 0, 255, 0.9),
+    0 0 50px rgba(0, 102, 255, 0.8);
+}
+
+/* Text helper for neon headings */
+.neon-card-title {
+  background: linear-gradient(
+    90deg,
+    #f97316,
+    #ec4899,
+    #22d3ee,
+    #a855f7
+  );
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+/* Pulse keyframes */
+@keyframes neonPulse {
+  0%, 100% {
+    border-color: #ff0000;
+    box-shadow:
+      0 0 8px rgba(255, 0, 0, 0.6),
+      0 0 12px rgba(255, 0, 255, 0.4),
+      0 0 20px rgba(0, 102, 255, 0.4);
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    border-color: #ff4d4d;
+    box-shadow:
+      0 0 20px #ff0000,
+      inset 0 0 6px rgba(255, 255, 255, 0.7),
+      0 0 30px rgba(255, 0, 255, 0.8),
+      0 0 50px rgba(0, 102, 255, 0.7);
+    transform: translateY(-2px) scale(1.01);
+  }
 }

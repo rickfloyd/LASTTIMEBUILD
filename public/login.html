@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SECURE ACCESS // AI QUANTUM</title>
+    <style>
+        /* --- SECURITY TERMINAL STYLING --- */
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #000;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Courier New', monospace;
+            overflow: hidden;
+        }
+
+        /* MATRIX BACKGROUND GRID */
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: 
+                linear-gradient(rgba(0, 255, 204, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 255, 204, 0.05) 1px, transparent 1px);
+            background-size: 20px 20px;
+            z-index: -1;
+        }
+
+        .login-container {
+            width: 350px;
+            padding: 40px;
+            background: rgba(10, 10, 10, 0.9);
+            border: 2px solid #00ffcc; /* Neon Cyan */
+            box-shadow: 0 0 20px rgba(0, 255, 204, 0.3);
+            text-align: center;
+            position: relative;
+        }
+
+        /* SCANNER LINE ANIMATION */
+        .login-container::after {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 5px;
+            background: #00ffcc;
+            opacity: 0.5;
+            animation: scan 3s infinite linear;
+            box-shadow: 0 0 10px #00ffcc;
+        }
+
+        @keyframes scan {
+            0% { top: 0%; }
+            50% { top: 100%; }
+            100% { top: 0%; }
+        }
+
+        h1 {
+            color: #00ffcc;
+            font-size: 24px;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        p {
+            color: #ff00ff; /* Neon Pink Warning */
+            font-size: 10px;
+            margin-bottom: 30px;
+        }
+
+        /* INPUT FIELDS */
+        .input-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        label {
+            color: #888;
+            font-size: 12px;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input {
+            width: 100%;
+            background: #000;
+            border: 1px solid #333;
+            border-left: 3px solid #00ffcc;
+            color: #fff;
+            padding: 10px;
+            font-family: 'Courier New', monospace;
+            outline: none;
+            box-sizing: border-box; /* Keeps padding inside width */
+        }
+
+        input:focus {
+            border-color: #fff;
+            background: #111;
+        }
+
+        /* LOGIN BUTTON */
+        .login-btn {
+            width: 100%;
+            padding: 15px;
+            background: #00ffcc;
+            color: #000;
+            border: none;
+            font-weight: bold;
+            font-size: 16px;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: 0.3s;
+            margin-top: 10px;
+        }
+
+        .login-btn:hover {
+            background: #fff;
+            box-shadow: 0 0 15px #00ffcc;
+        }
+
+        .footer-text {
+            margin-top: 20px;
+            font-size: 10px;
+            color: #444;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="login-container">
+        <h1>AI QUANTUM</h1>
+        <p>WARNING: AUTHORIZED PERSONNEL ONLY</p>
+
+        <form id="loginForm" onsubmit="handleLogin(event)">
+            <div class="input-group">
+                <label>OPERATOR ID / EMAIL</label>
+                <input type="email" id="email" placeholder="ENTER ID..." required>
+            </div>
+
+            <div class="input-group">
+                <label>ACCESS KEY / PASSWORD</label>
+                <input type="password" id="password" placeholder="ENTER KEY..." required>
+            </div>
+
+            <button type="submit" class="login-btn">AUTHENTICATE</button>
+        </form>
+
+        <div class="footer-text">
+            SYSTEM STATUS: SECURE<br>
+            ENCRYPTION: 2048-BIT
+        </div>
+    </div>
+
+    <script>
+        function handleLogin(event) {
+            event.preventDefault();
+            // SIMPLE REDIRECT FOR NOW
+            // Later we will add the Firebase Check here
+            alert("CREDENTIALS ACCEPTED. WELCOME RICK.");
+            window.location.href = "index.html"; // Goes to your main dashboard
+        }
+    </script>
+
+</body>
+</html>

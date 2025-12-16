@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SECURE_SMS_CHANNEL</title>
+    <style>
+        /* --- TACTICAL SMS STYLING --- */
+        body {
+            margin: 0;
+            background-color: #000;
+            color: #ffff00; /* Neon Yellow */
+            font-family: 'Courier New', monospace;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+
+        /* HEADER */
+        .chat-header {
+            background: #111;
+            border-bottom: 2px solid #ffff00;
+            padding: 15px;
+            text-align: center;
+            box-shadow: 0 0 15px rgba(255, 255, 0, 0.2);
+        }
+
+        .chat-header h2 {
+            margin: 0;
+            font-size: 18px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+
+        .status-dot {
+            height: 10px;
+            width: 10px;
+            background-color: #00ff00; /* Green for Online */
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 10px;
+            box-shadow: 0 0 5px #00ff00;
+        }
+
+        /* CHAT MESSAGE AREA */
+        .chat-window {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            background-image: 
+                linear-gradient(rgba(0, 20, 0, 0.9), rgba(0, 20, 0, 0.9)),
+                repeating-linear-gradient(0deg, transparent, transparent 1px, #111 1px, #111 2px);
+            background-size: 100% 100%, 100% 4px; /* Scanline effect */
+        }
+
+        .message {
+            margin-bottom: 15px;
+            padding: 10px;
+            border: 1px solid #333;
+            max-width: 80%;
+            border-radius: 5px;
+        }
+
+        .msg-system {
+            color: #00ffcc;
+            border-color: #00ffcc;
+            text-align: center;
+            width: 100%;
+            font-size: 12px;
+        }
+
+        .msg-incoming {
+            background: #222;
+            border-left: 3px solid #ffff00;
+            align-self: flex-start;
+        }
+
+        .msg-outgoing {
+            background: #1a1a1a;
+            border-right: 3px solid #00ffcc;
+            margin-left: auto; /* Pushes to right */
+            text-align: right;
+        }
+
+        .timestamp {
+            font-size: 10px;
+            color: #666;
+            display: block;
+            margin-top: 5px;
+        }
+
+        /* INPUT AREA */
+        .input-area {
+            display: flex;
+            padding: 15px;
+            background: #111;
+            border-top: 1px solid #ffff00;
+        }
+
+        input {
+            flex: 1;
+            background: #000;
+            border: 1px solid #ffff00;
+            color: #ffff00;
+            padding: 10px;
+            font-family: 'Courier New', monospace;
+        }
+
+        button {
+            background: #ffff00;
+            color: #000;
+            border: none;
+            padding: 10px 20px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+
+        button:hover {
+            background: #fff;
+            box-shadow: 0 0 10px #ffff00;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="chat-header">
+        <span class="status-dot"></span>
+        <h2>SECURE_UPLINK // ENCRYPTED</h2>
+    </div>
+
+    <div class="chat-window">
+        <div class="message msg-system">
+            *** CONNECTION ESTABLISHED: 2048-BIT ENCRYPTION ACTIVE ***
+        </div>
+        
+        <div class="message msg-incoming">
+            <strong>SYSTEM:</strong> Welcome to AIQUANTUM SMS. Channel is clear.
+            <span class="timestamp">09:42 AM</span>
+        </div>
+
+        <div class="message msg-outgoing">
+            <strong>USER:</strong> Initiating trade sequence...
+            <span class="timestamp">09:44 AM</span>
+        </div>
+    </div>
+
+    <div class="input-area">
+        <input type="text" placeholder="TYPE ENCRYPTED MESSAGE...">
+        <button onclick="alert('MESSAGE SENT')">SEND ></button>
+    </div>
+
+</body>
+</html>

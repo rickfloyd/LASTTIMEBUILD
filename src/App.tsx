@@ -10,13 +10,21 @@ import Education from "./components/Education";
 import Transparency from "./components/Transparency";
 import Impact from "./components/Impact";
 import LogoCandles from "./components/LogoCandles";
+import PublicCommunityPage from "./pages/PublicCommunityPage";
+import PrivateCommunityPage from "./pages/PrivateCommunityPage";
+import IdeasPage from "./pages/IdeasPage";
+import ScriptsPage from "./pages/ScriptsPage";
+import ModeratorsPage from "./pages/ModeratorsPage";
+import BrokersPage from "./pages/BrokersPage";
+import TradingModeGrid from "./components/TradingModeGrid";
+import WhatYouOwnPanel from "./components/WhatYouOwnPanel";
 
 const Modal: React.FC<{ children: React.ReactNode, onClose: () => void, title: string }> = ({ children, onClose, title }) => (
     <div className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50 p-4">
         <div className="bg-gray-900 border-2 border-neon-blue rounded-xl shadow-neon-blue w-full max-w-6xl h-full max-h-[90vh] flex flex-col">
             <div className="flex items-center justify-between p-4 border-b border-gray-700">
                 <h2 className="text-xl font-bold text-neon-green">{title}</h2>
-                <button onClick={onClose} className="text-white text-3xl">&times;</button>
+                <button onClick={onClose} className="text-magenta text-3xl">&times;</button>
             </div>
             <div className="overflow-y-auto flex-grow p-4">
                 {children}
@@ -59,18 +67,6 @@ class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundarySta
     return this.props.children;
   }
 }
-
-const PlatformStatus: React.FC = () => (
-  <div className="fixed top-4 right-4 bg-crystal-deep border border-crystal-glow rounded-lg p-3 text-sm z-50">
-    <div className="flex items-center space-x-2">
-      <div className="w-2 h-2 bg-crystal-glow rounded-full animate-pulse"></div>
-      <span className="text-crystal-glow font-bold">Platform Status: Online</span>
-    </div>
-    <div className="text-gray-300 text-xs mt-1">
-      AI Models: Active | Market Data: Live | APIs: Connected
-    </div>
-  </div>
-);
 
 const Sidebar: React.FC = () => (
   <div className="w-80 bg-crystal-deep border-r border-crystal-glow p-6 min-h-screen">
@@ -128,11 +124,10 @@ function App() {
       }}>
         <ErrorBoundary>
           {modal && <Modal onClose={closeModal} title={modal.title}>{modal.component}</Modal>}
-          <PlatformStatus />
           {theme === 'minimal' ? null : (
             <button
               onClick={handleToggle}
-              className="fixed top-4 left-4 z-50 px-4 py-2 rounded-lg font-bold text-xs bg-crystal-deep text-crystal-highlight border border-crystal-glow hover:bg-crystal-top hover:text-white transition-all"
+              className="fixed top-4 left-4 z-50 px-4 py-2 rounded-lg font-bold text-xs bg-crystal-deep text-crystal-highlight border border-crystal-glow hover:bg-crystal-top hover:text-magenta transition-all"
               aria-label="Toggle site theme"
             >
               {theme === 'neon' ? 'Switch to Minimal Theme' : 'Switch to Neon Theme'}
@@ -140,6 +135,12 @@ function App() {
           )}
           <Routes>
             <Route path="/simple" element={<MinimalTheme />} />
+            <Route path="/community/public" element={<PublicCommunityPage />} />
+            <Route path="/community/private" element={<PrivateCommunityPage />} />
+            <Route path="/community/ideas" element={<IdeasPage />} />
+            <Route path="/community/scripts" element={<ScriptsPage />} />
+            <Route path="/community/moderators" element={<ModeratorsPage />} />
+            <Route path="/community/brokers" element={<BrokersPage />} />
           </Routes>
 
           {theme === 'minimal' ? (
@@ -151,9 +152,15 @@ function App() {
                 <div className="w-full max-w-7xl mx-auto px-2 sm:px-4 md:px-8 py-2 md:py-6">
                   <Header />
                   <MarketSummary />
-                  <ModeDashboard openModal={openModal} />
+                  <ModeDashboard />
+                  <div className="mt-8">
+                    <TradingModeGrid />
+                  </div>
                   <div className="mt-8">
                     <AITradingUI symbol="AAPL" />
+                  </div>
+                  <div className="mt-8">
+                    <WhatYouOwnPanel />
                   </div>
                   <button onClick={() => openModal(<Education />, "Educational Initiatives")} className='w-full mt-8'><Education /></button>
                   <button onClick={() => openModal(<Transparency />, "Transparency & Open Source")} className='w-full mt-2'><Transparency /></button>
