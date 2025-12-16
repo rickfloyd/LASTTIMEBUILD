@@ -45,24 +45,6 @@ const Header = () => {
   return (
     <header className="bg-charcoal-gradient border-b-2 border-fluorescent-pink shadow-neon-pink px-6 py-4">
       <div className="flex items-center justify-between">
-        {/* Logo */}
-        <div className="flex items-center space-x-4">
-          <div className="flex items-center space-x-3 group">
-            <div className="w-12 h-12 bg-fluorescent-gradient rounded-lg flex items-center justify-center shadow-neon-blue hover:animate-pulse-glow transition-all duration-300 cursor-pointer">
-            <img 
-              src="/pink.png" 
-              alt="AI Quantum Charts Logo" 
-             className="w-12 h-12 object-contain hover:animate-pulse-glow transition-all duration-300 cursor-pointer"
-             style={{ filter: 'drop-shadow(0 0 2px black) drop-shadow(0 0 4px black)' }}
-            />
-            </div>
-            <div className="group-hover:animate-pulse">
-              <h1 className="text-xl font-bold text-fluorescent-pink drop-shadow-lg">AI QUANTUM</h1>
-              <h2 className="text-xl font-bold text-electric-orange drop-shadow-lg">CHARTS</h2>
-            </div>
-          </div>
-        </div>
-
         {/* Navigation */}
         <nav className="hidden lg:flex items-center space-x-8">
           <div className="relative">
