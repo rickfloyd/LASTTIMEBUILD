@@ -136,3 +136,6 @@ export const setUserEntitlements = onCall(async (request) => {
 
   return { ok: true };
 });
+
+export { upsertCreatorProfile, upsertCourse, createPurchase, submitReport, adminBanUser } from "./marketplace";
+export { upsertCryptoMerchant, reportCryptoMerchant } from "./cryptoDirectory";
