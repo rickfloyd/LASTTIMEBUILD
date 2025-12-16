@@ -8,7 +8,7 @@ A **100% independent** trading platform that cannot be shut down by external ser
 ### 🏗️ Core Architecture
 - **Multi-Section Grid Dashboard** - Customizable layout with multiple chart views
 - **TradingView-Free Design** - Complete independence from external charting services
-- **Real-Time Market Data** - Triple API integration (Alpha Vantage, Yahoo Finance, IEX Cloud)
+- **Real-Time Market Data** - Placeholder for stock data integration (e.g., Alpha Vantage). Requires API key.
 - **HTML5 Canvas Engine** - Superior performance with custom chart rendering
 
 ### 📊 Advanced Technical Analysis
@@ -42,9 +42,9 @@ A **100% independent** trading platform that cannot be shut down by external ser
 - **Performance Analytics** - Portfolio statistics and metrics
 
 ### 📈 Fundamental Data Hub
-- **Economic Calendar** - Important economic events and announcements
+- **Economic Calendar** - Placeholder for economic data integration (e.g., FRED). Requires API key.
 - **Earnings Calendar** - Company earnings schedules and estimates
-- **News Sentiment** - Real-time news with sentiment analysis
+- **News Sentiment** - Placeholder for news sentiment analysis (e.g., MarketAux). Requires API key.
 - **Company Fundamentals** - P/E ratios, financial metrics, growth rates
 - **Sector Analysis** - Performance tracking across market sectors
 
@@ -88,7 +88,7 @@ npm run build
 ✅ **Better alerts** - Multi-channel notifications  
 ✅ **Advanced drawing** - Professional-grade tools  
 ✅ **Custom scripting** - Pine Script alternative  
-✅ **Real-time data** - Multiple API sources  
+✅ **Real-time data** - Integration points for multiple API sources  
 
 ### vs Other Platforms
 ✅ **Open source** - Full transparency and customization  

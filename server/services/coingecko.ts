@@ -1,6 +1,7 @@
 import axios from 'axios';
+import apiKeys from '../config';
 
-const COINGECKO_BASE_URL = 'https://api.coingecko.com/api/v3';
+const COINGECKO_BASE_URL = 'https://pro-api.coingecko.com/api/v3';
 
 export interface CoinPrice {
   id: string;
@@ -23,13 +24,25 @@ export interface MarketChart {
 }
 
 class CoinGeckoService {
+  private apiKey: string;
+
+  constructor(apiKey: string) {
+    this.apiKey = apiKey;
+  }
+
+  private getAuthHeaders() {
+    return {
+      'x-cg-pro-api-key': this.apiKey
+    };
+  }
+
   /**
    * Get current prices for multiple cryptocurrencies
-   * FREE - Unlimited requests
    */
   async getPrices(coinIds: string[] = ['bitcoin', 'ethereum', 'binancecoin', 'cardano', 'solana']): Promise<CoinPrice[]> {
     try {
       const response = await axios.get(`${COINGECKO_BASE_URL}/coins/markets`, {
+        headers: this.getAuthHeaders(),
         params: {
           vs_currency: 'usd',
           ids: coinIds.join(','),
@@ -46,12 +59,11 @@ class CoinGeckoService {
   }
 
   /**
-   * Get trending coins (top 7 trending coins on CoinGecko)
-   * FREE - Unlimited requests
+   * Get trending coins
    */
   async getTrending() {
     try {
-      const response = await axios.get(`${COINGECKO_BASE_URL}/search/trending`);
+      const response = await axios.get(`${COINGECKO_BASE_URL}/search/trending`, { headers: this.getAuthHeaders() });
       return response.data.coins;
     } catch (error: any) {
       console.error('CoinGecko Trending Error:', error.message);
@@ -61,11 +73,11 @@ class CoinGeckoService {
 
   /**
    * Get market chart data for a specific coin
-   * FREE - Unlimited requests
    */
   async getMarketChart(coinId: string, days: number = 7): Promise<MarketChart> {
     try {
       const response = await axios.get(`${COINGECKO_BASE_URL}/coins/${coinId}/market_chart`, {
+        headers: this.getAuthHeaders(),
         params: {
           vs_currency: 'usd',
           days: days
@@ -80,11 +92,11 @@ class CoinGeckoService {
 
   /**
    * Get detailed coin information
-   * FREE - Unlimited requests
    */
   async getCoinDetails(coinId: string) {
     try {
       const response = await axios.get(`${COINGECKO_BASE_URL}/coins/${coinId}`, {
+        headers: this.getAuthHeaders(),
         params: {
           localization: false,
           tickers: false,
@@ -101,11 +113,11 @@ class CoinGeckoService {
 
   /**
    * Search for coins
-   * FREE - Unlimited requests
    */
   async searchCoins(query: string) {
     try {
       const response = await axios.get(`${COINGECKO_BASE_URL}/search`, {
+        headers: this.getAuthHeaders(),
         params: { query }
       });
       return response.data.coins;
@@ -116,4 +128,4 @@ class CoinGeckoService {
   }
 }
 
-export default new CoinGeckoService();
+export default new CoinGeckoService(apiKeys.COINGECKO_API_KEY);

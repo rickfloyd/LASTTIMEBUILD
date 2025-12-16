@@ -1,24 +1,17 @@
 import express from 'express';
+import fredService from '../services/fred';
 
 const router = express.Router();
 
 /**
- * GET /api/economic/fred/:series
- * Get FRED economic data (placeholder)
+ * GET /api/economic/fred/:seriesId
+ * Get FRED economic data
  */
-router.get('/fred/:series', async (req, res) => {
+router.get('/fred/:seriesId', async (req, res) => {
   try {
-    const { series } = req.params;
-    
-    // Placeholder response - integrate FRED with API key
-    res.json({
-      success: true,
-      data: {
-        series: series.toUpperCase(),
-        note: 'Add FRED_API_KEY to .env for live data',
-        freeApiKey: 'Get free key at https://fred.stlouisfed.org/docs/api/api_key.html'
-      }
-    });
+    const { seriesId } = req.params;
+    const data = await fredService.getSeries(seriesId);
+    res.json({ success: true, data, source: 'FRED' });
   } catch (error: any) {
     res.status(500).json({ success: false, error: error.message });
   }
