@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, lazy, Suspense } from "react";
 import MinimalTheme from "./themes/MinimalTheme";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import "./index.css";
@@ -6,21 +6,22 @@ import Header from "./components/Header";
 import MarketSummary from "./components/MarketSummary";
 import ModeDashboard from "./components/ModeDashboard";
 import AITradingUI from "./components/AITradingUI";
-import Education from "./components/Education";
-import Transparency from "./components/Transparency";
-import Impact from "./components/Impact";
 import LogoCandles from "./components/LogoCandles";
-import PublicCommunityPage from "./pages/PublicCommunityPage";
-import PrivateCommunityPage from "./pages/PrivateCommunityPage";
-import IdeasPage from "./pages/IdeasPage";
-import ScriptsPage from "./pages/ScriptsPage";
-import ModeratorsPage from "./pages/ModeratorsPage";
-import BrokersPage from "./pages/BrokersPage";
 import TradingModeGrid from "./components/TradingModeGrid";
 import WhatYouOwnPanel from "./components/WhatYouOwnPanel";
 import AutomationRulesPanel from "./components/AutomationRulesPanel";
 import RiskSizingPanel from "./components/RiskSizingPanel";
 import JournalPanel from "./components/JournalPanel";
+
+const Education = lazy(() => import("./components/Education"));
+const Transparency = lazy(() => import("./components/Transparency"));
+const Impact = lazy(() => import("./components/Impact"));
+const PublicCommunityPage = lazy(() => import("./pages/PublicCommunityPage"));
+const PrivateCommunityPage = lazy(() => import("./pages/PrivateCommunityPage"));
+const IdeasPage = lazy(() => import("./pages/IdeasPage"));
+const ScriptsPage = lazy(() => import("./pages/ScriptsPage"));
+const ModeratorsPage = lazy(() => import("./pages/ModeratorsPage"));
+const BrokersPage = lazy(() => import("./pages/BrokersPage"));
 
 const Modal: React.FC<{ children: React.ReactNode, onClose: () => void, title: string }> = ({ children, onClose, title }) => (
     <div className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50 p-4">
@@ -126,64 +127,66 @@ function App() {
         borderImage: 'linear-gradient(to right, #FF7124, #FF00A8) 1'
       }}>
         <ErrorBoundary>
-          {modal && <Modal onClose={closeModal} title={modal.title}>{modal.component}</Modal>}
-          {theme === 'minimal' ? null : (
-            <button
-              onClick={handleToggle}
-              className="fixed top-4 left-4 z-50 px-4 py-2 rounded-lg font-bold text-xs bg-crystal-deep text-crystal-highlight border border-crystal-glow hover:bg-crystal-top hover:text-magenta transition-all"
-              aria-label="Toggle site theme"
-            >
-              {theme === 'neon' ? 'Switch to Minimal Theme' : 'Switch to Neon Theme'}
-            </button>
-          )}
-          <Routes>
-            <Route path="/simple" element={<MinimalTheme />} />
-            <Route path="/community/public" element={<PublicCommunityPage />} />
-            <Route path="/community/private" element={<PrivateCommunityPage />} />
-            <Route path="/community/ideas" element={<IdeasPage />} />
-            <Route path="/community/scripts" element={<ScriptsPage />} />
-            <Route path="/community/moderators" element={<ModeratorsPage />} />
-            <Route path="/community/brokers" element={<BrokersPage />} />
-          </Routes>
+          <Suspense fallback={<div>Loading...</div>}>
+            {modal && <Modal onClose={closeModal} title={modal.title}>{modal.component}</Modal>}
+            {theme === 'minimal' ? null : (
+              <button
+                onClick={handleToggle}
+                className="fixed top-4 left-4 z-50 px-4 py-2 rounded-lg font-bold text-xs bg-crystal-deep text-crystal-highlight border border-crystal-glow hover:bg-crystal-top hover:text-magenta transition-all"
+                aria-label="Toggle site theme"
+              >
+                {theme === 'neon' ? 'Switch to Minimal Theme' : 'Switch to Neon Theme'}
+              </button>
+            )}
+            <Routes>
+              <Route path="/simple" element={<MinimalTheme />} />
+              <Route path="/community/public" element={<PublicCommunityPage />} />
+              <Route path="/community/private" element={<PrivateCommunityPage />} />
+              <Route path="/community/ideas" element={<IdeasPage />} />
+              <Route path="/community/scripts" element={<ScriptsPage />} />
+              <Route path="/community/moderators" element={<ModeratorsPage />} />
+              <Route path="/community/brokers" element={<BrokersPage />} />
+            </Routes>
 
-          {theme === 'minimal' ? (
-            <MinimalTheme />
-          ) : (
-            <div className="flex">
-              <Sidebar />
-              <main className="flex-1">
-                <div className="w-full max-w-7xl mx-auto px-2 sm:px-4 md:px-8 py-2 md:py-6">
-                  <Header />
-                  <MarketSummary />
-                  <ModeDashboard />
-                  <div className="mt-8">
-                    <TradingModeGrid />
+            {theme === 'minimal' ? (
+              <MinimalTheme />
+            ) : (
+              <div className="flex">
+                <Sidebar />
+                <main className="flex-1">
+                  <div className="w-full max-w-7xl mx-auto px-2 sm:px-4 md:px-8 py-2 md:py-6">
+                    <Header />
+                    <MarketSummary />
+                    <ModeDashboard />
+                    <div className="mt-8">
+                      <TradingModeGrid />
+                    </div>
+                    <div className="mt-8">
+                      <AITradingUI symbol="AAPL" />
+                    </div>
+                    <div className="mt-8">
+                      <WhatYouOwnPanel />
+                    </div>
+                    <div className="mt-8">
+                      <AutomationRulesPanel />
+                    </div>
+                    <div className="mt-8">
+                      <RiskSizingPanel />
+                    </div>
+                    <div className="mt-8">
+                      <JournalPanel />
+                    </div>
+                    <button onClick={() => openModal(<Education />, "Educational Initiatives")} className='w-full mt-8'><Education /></button>
+                    <button onClick={() => openModal(<Transparency />, "Transparency & Open Source")} className='w-full mt-2'><Transparency /></button>
+                    <button onClick={() => openModal(<Impact />, "Live Impact Stats")} className='w-full mt-2'><Impact /></button>
+                    <Routes>
+                      <Route path="/" element={<div />} />
+                    </Routes>
                   </div>
-                  <div className="mt-8">
-                    <AITradingUI symbol="AAPL" />
-                  </div>
-                  <div className="mt-8">
-                    <WhatYouOwnPanel />
-                  </div>
-                  <div className="mt-8">
-                    <AutomationRulesPanel />
-                  </div>
-                  <div className="mt-8">
-                    <RiskSizingPanel />
-                  </div>
-                  <div className="mt-8">
-                    <JournalPanel />
-                  </div>
-                  <button onClick={() => openModal(<Education />, "Educational Initiatives")} className='w-full mt-8'><Education /></button>
-                  <button onClick={() => openModal(<Transparency />, "Transparency & Open Source")} className='w-full mt-2'><Transparency /></button>
-                  <button onClick={() => openModal(<Impact />, "Live Impact Stats")} className='w-full mt-2'><Impact /></button>
-                  <Routes>
-                    <Route path="/" element={<div />} />
-                  </Routes>
-                </div>
-              </main>
-            </div>
-          )}
+                </main>
+              </div>
+            )}
+          </Suspense>
         </ErrorBoundary>
       </div>
     </Router>

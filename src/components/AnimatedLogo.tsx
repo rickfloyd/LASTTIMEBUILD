@@ -1,13 +1,22 @@
 import React, { useRef, useEffect } from 'react';
-import * as THREE from 'three';
+import {
+  Scene,
+  PerspectiveCamera,
+  WebGLRenderer,
+  IcosahedronGeometry,
+  MeshBasicMaterial,
+  Mesh,
+  RingGeometry,
+  DoubleSide,
+} from 'three';
 
 const AnimatedLogo: React.FC = () => {
   const mountRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     // Scene setup
-    const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(
+    const scene = new Scene();
+    const camera = new PerspectiveCamera(
       75,
       1, // Square aspect for logo
       0.1,
@@ -15,29 +24,29 @@ const AnimatedLogo: React.FC = () => {
     );
     camera.position.z = 5;
 
-    const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+    const renderer = new WebGLRenderer({ alpha: true, antialias: true });
     renderer.setSize(144, 144); // 1.5 inch square at 96dpi
 
     // Globe
-    const geometry = new THREE.IcosahedronGeometry(2, 2);
-    const material = new THREE.MeshBasicMaterial({
+    const geometry = new IcosahedronGeometry(2, 2);
+    const material = new MeshBasicMaterial({
       color: 0x44aaff,
       wireframe: true,
       transparent: true,
       opacity: 0.8,
     });
-    const globe = new THREE.Mesh(geometry, material);
+    const globe = new Mesh(geometry, material);
     scene.add(globe);
 
     // Neon ring
-    const ringGeometry = new THREE.RingGeometry(2.5, 2.6, 64);
-    const ringMaterial = new THREE.MeshBasicMaterial({
+    const ringGeometry = new RingGeometry(2.5, 2.6, 64);
+    const ringMaterial = new MeshBasicMaterial({
       color: 0xff3bdc,
-      side: THREE.DoubleSide,
+      side: DoubleSide,
       transparent: true,
       opacity: 0.7,
     });
-    const neonRing = new THREE.Mesh(ringGeometry, ringMaterial);
+    const neonRing = new Mesh(ringGeometry, ringMaterial);
     neonRing.rotation.x = Math.PI / 2;
     neonRing.position.y = -2.5;
     scene.add(neonRing);

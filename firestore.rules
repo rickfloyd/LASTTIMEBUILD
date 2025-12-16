@@ -25,5 +25,23 @@ service cloud.firestore {
         allow write: if request.auth != null && request.auth.uid == userId;
       }
     }
+
+    match /crypto_merchants/{merchantId} {
+      allow read: if resource.data.active == true;
+      allow write: if request.auth != null && request.auth.token.admin == true;
+
+      match /reports/{reportId} {
+        allow write: if true;
+        allow read: if request.auth != null && request.auth.token.admin == true;
+      }
+    }
+
+    match /admin/{docId} {
+      allow read, write: if request.auth != null && request.auth.token.admin == true;
+
+      match /{subcol}/{subdocId=**} {
+        allow read, write: if request.auth != null && request.auth.token.admin == true;
+      }
+    }
   }
 }
