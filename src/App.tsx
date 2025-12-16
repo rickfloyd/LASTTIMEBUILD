@@ -122,7 +122,7 @@ function App() {
   };
 
   return (
-    <Router>
+    <Router future={{ v7_relativeSplatPath: true }}>
       <div className="App min-h-screen bg-charcoal-gradient border-8 border-transparent" style={{
         borderImage: 'linear-gradient(to right, #FF7124, #FF00A8) 1'
       }}>
